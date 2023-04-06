@@ -7,9 +7,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return <Component {...pageProps} jwt={jwt}/>
 }
-
-App.getInitialProps = async ({ ctx }) => {
-  const { jwt } = parseCookies(ctx);
-
-  return { pageProps: { jwt } }
-}
+//
+// App.getInitialProps = async ({ ctx }) => {
+//   const { jwt } = parseCookies(ctx);
+//
+//   return { pageProps: { jwt } }
+// }

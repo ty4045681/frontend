@@ -53,39 +53,55 @@ function ConferenceDetails(): JSX.Element {
 
     return (
         <div>
-            <h1>{conference.title}</h1>
-            <p>Start Date: {conference.startDate}</p>
-            <p>End Date: {conference.endDate}</p>
-            <p>Location: {conference.location}</p>
-            <p>Theme: {conference.theme}</p>
-            <p>Focus: {conference.focus}</p>
-            <p>Keynotes and Speakers: </p>
-            <ul>
-                {Object.keys(conference.keynotesAndSpeakers).map((key, index) => (
-                    <li key={index}>
-                        {key}: {conference.keynotesAndSpeakers[key]}
-                    </li>
-                ))}
-            </ul>
-            <p>Agenda: </p>
-            <ul>
-                {Object.keys(conference.agenda).map((key, index) => (
-                    <li key={index}>
-                        {key}: {conference.agenda[key]}
-                    </li>
-                ))}
-            </ul>
-            <p>Registration Info: {conference.registrationInfo}</p>
-            <p>Accommodations: {conference.accommodations}</p>
-            <p>Start Calling Date For Papers: {conference.startCallingDateForPapers}</p>
-            <p>End Calling Date For Papers: {conference.endCallingDateForPapers}</p>
-            <p>Start Calling Date For Presentations: {conference.startCallingDateForPresentations}</p>
-            <p>End Calling Date For Presentations: {conference.endCallingDateForPresentations}</p>
-            <p>Guideline For Paper Submission: {conference.guidelineForPaperSubmission}</p>
-            <p>Guideline For Presentation Submission: {conference.guidelineForPresentationSubmission}</p>
-            <p>Sponsors: {conference.sponsors}</p>
-            <p>Exhibitors: {conference.exhibitors}</p>
-            <p>Phone Number: {conference.phoneNumber}</p>
+            <div>
+                <h1>{conference.title}</h1>
+                <p>Start Date: {conference.startDate}</p>
+                <p>End Date: {conference.endDate}</p>
+                <p>Location: {conference.location}</p>
+                <p>Theme: {conference.theme}</p>
+                <p>Focus: {conference.focus}</p>
+                <p>Keynotes and Speakers: </p>
+                <ul>
+                    {Object.keys(conference.keynotesAndSpeakers).map((key, index) => (
+                        <li key={index}>
+                            {key}: {conference.keynotesAndSpeakers[key]}
+                        </li>
+                    ))}
+                </ul>
+                <p>Agenda: </p>
+                <ul>
+                    {Object.keys(conference.agenda).map((key, index) => (
+                        <li key={index}>
+                            {key}: {conference.agenda[key]}
+                        </li>
+                    ))}
+                </ul>
+                <p>Registration Info: {conference.registrationInfo}</p>
+                <p>Accommodations: {conference.accommodations}</p>
+                <p>Start Calling Date For Papers: {conference.startCallingDateForPapers}</p>
+                <p>End Calling Date For Papers: {conference.endCallingDateForPapers}</p>
+                <p>Start Calling Date For Presentations: {conference.startCallingDateForPresentations}</p>
+                <p>End Calling Date For Presentations: {conference.endCallingDateForPresentations}</p>
+                <p>Guideline For Paper Submission: {conference.guidelineForPaperSubmission}</p>
+                <p>Guideline For Presentation Submission: {conference.guidelineForPresentationSubmission}</p>
+                <p>Sponsors: {conference.sponsors}</p>
+                <p>Exhibitors: {conference.exhibitors}</p>
+                <p>Phone Number: {conference.phoneNumber}</p>
+            </div>
+            <div>
+                <button type="button" onClick={() => router.push(`/conference/submit/paper?defaultConferenceId=${router.query.id}`)}>
+                    Submit Paper
+                </button>
+                <button type={"button"} onClick={() => router.push(`/conference/download/paper?conferenceId=${router.query.id}`)}>
+                    Download Paper
+                </button>
+                <button type="button" onClick={() => router.push(`/conference/submit/presentation?defaultConferenceId=${router.query.id}`)}>
+                    Submit Presentation
+                </button>
+                <button type={"button"} onClick={() => router.push(`/conference/download/presentation?conferenceId=${router.query.id}`)}>
+                    Download Presentation
+                </button>
+            </div>
         </div>
     )
 }
