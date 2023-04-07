@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import withAuth from "@/hoc/withAuth";
 import Cookies from "js-cookie";
 import {useRouter} from "next/router";
 import {GetServerSideProps} from "next";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import {API_BASE_URL} from "@/config";
 
 interface Conference {
     // List of conference ids
@@ -12,11 +13,13 @@ interface Conference {
     title: string[]
 }
 
-interface PaperSubmitProps {
-    defaultConferenceId: string;
+interface PaperSubmitProps extends AuthenticationProps{
+    defaultConferenceId: string
 }
 
-const PaperSubmit: React.FC<PaperSubmitProps> = ( {defaultConferenceId} ) => {
+const PaperSubmit = ( { isAuthenticated, userData, defaultConferenceId}: PaperSubmitProps ) => {
+    const router = useRouter()
+
     const [conferenceId, setConferenceId] = useState<string>(defaultConferenceId);
     const [title, setTitle] = useState("");
     const [authors, setAuthors] = useState<string>("");
@@ -27,8 +30,16 @@ const PaperSubmit: React.FC<PaperSubmitProps> = ( {defaultConferenceId} ) => {
 
     const [conference, setConference] = useState<Conference>()
 
-    const API_BASE_URL = "http://localhost:8081/api"
     const token = Cookies.get("jwt");
+
+    if (!isAuthenticated) {
+        router.replace("/login")
+        return null
+    }
+
+    if (!userData) {
+        return <div>Loading...</div>;
+    }
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setConferenceId(event.target.value);
@@ -144,14 +155,24 @@ const PaperSubmit: React.FC<PaperSubmitProps> = ( {defaultConferenceId} ) => {
     );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const defaultConferenceId = context.query.defaultConferenceId || ""
+    const authenticatedProps = await getServerSideAuthProps(context).then((props) => {
+        if ("props" in props) {
+            return props.props
+        } else if ("redirect" in props) {
+            return props
+        } else if ("notFound" in props) {
+            return props
+        }
+    })
 
     return {
         props: {
+            ...authenticatedProps,
             defaultConferenceId
         }
     }
 }
 
-export default withAuth(PaperSubmit);
+export default PaperSubmit;

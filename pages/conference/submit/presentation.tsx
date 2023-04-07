@@ -2,7 +2,9 @@ import {GetServerSideProps} from "next";
 import React, {useEffect} from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import withAuth from "@/hoc/withAuth";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import {useRouter} from "next/router";
+import {API_BASE_URL} from "@/config";
 
 interface ConferenceFromServer {
     id: string[]
@@ -20,11 +22,13 @@ interface Paper {
     conferenceId: string;
 }
 
-interface PresentationSubmitProps {
+interface PresentationSubmitProps extends AuthenticationProps {
     defaultConferenceId: string
 }
 
-const PresentationSubmit: React.FC<PresentationSubmitProps> = ( {defaultConferenceId} ) => {
+const PresentationSubmit: React.FC<PresentationSubmitProps> = ( { isAuthenticated, userData, defaultConferenceId} ) => {
+    const router = useRouter()
+
     const [conferences, setConferences] = React.useState<Conference[]>([])
     const [papers, setPapers] = React.useState<Paper[]>([])
     const [selectedConferenceId, setSelectedConferenceId] = React.useState<string | null>(defaultConferenceId)
@@ -33,8 +37,16 @@ const PresentationSubmit: React.FC<PresentationSubmitProps> = ( {defaultConferen
     const [file, setFile] = React.useState<File | null>(null)
     const [formStatus, setFormStatus] = React.useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
-    const API_BASE_URL = "http://localhost:8081/api"
     const token = Cookies.get("jwt");
+
+    if (!isAuthenticated) {
+        router.replace("/login")
+        return null
+    }
+
+    if (!userData) {
+        return <div>Loading...</div>;
+    }
 
     useEffect(() => {
         const requestConferenceData = async () => {
@@ -174,14 +186,24 @@ const PresentationSubmit: React.FC<PresentationSubmitProps> = ( {defaultConferen
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const defaultConferenceId = context.query.defaultConferenceId || ""
+    const authenticatedProps = await getServerSideAuthProps(context).then((props) => {
+        if ("props" in props) {
+            return props.props
+        } else if ("redirect" in props) {
+            return props
+        } else if ("notFound" in props) {
+            return props
+        }
+    })
 
     return {
         props: {
-            defaultConferenceId
-        }
+            ...authenticatedProps,
+            defaultConferenceId,
+        },
     }
 }
 
-export default withAuth(PresentationSubmit)
+export default PresentationSubmit

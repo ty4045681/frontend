@@ -1,55 +1,19 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import withAuth from "@/hoc/withAuth";
-import Cookies from "js-cookie";
-import axios from "axios";
+import {useRouter} from 'next/router';
+import {GetServerSideProps} from "next";
+import {getServerSideAuthProps, UserData} from "@/services/auth";
 
-interface UserData {
-    id: string;
-    username: string;
+interface UserPageProps {
+    userData: UserData
+    isAuthenticated: boolean
 }
 
-function UserPage() {
+function UserPage({ userData, isAuthenticated }: UserPageProps) {
     const router = useRouter();
-    const [userData, setUserData] = useState<UserData>();
-    const token = Cookies.get("jwt");
-    const API_BASE_URL = "http://localhost:8081/api/user"
 
-    // useEffect(() => {
-    //
-    //     if (typeof userId === 'string') {
-    //         fetch('http://localhost:8081/api/user?id=' + userId)
-    //             .then(response => {
-    //                 if (response.ok) {
-    //                     return response.json() as Promise<UserData>;
-    //                 }
-    //                 throw new Error('Network response was not ok');
-    //             })
-    //             .then(data => {
-    //                 setUserData(data);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching user data: ', error);
-    //             });
-    //     }
-    // }, [router.query.id]);
-
-    const requestUserData = async () => {
-        const response = await axios.get(`${API_BASE_URL}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        });
-        if (response.status !== 200) {
-            throw new Error('Network response was not ok');
-        } else {
-            setUserData(response.data);
-        }
+    if (!isAuthenticated) {
+        router.replace('/login')
+        return null
     }
-
-    useEffect(() => {
-        requestUserData();
-    }, []);
 
     if (!userData) {
         return <div>Loading...</div>;
@@ -63,4 +27,8 @@ function UserPage() {
     );
 }
 
-export default withAuth(UserPage);
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await getServerSideAuthProps(context)
+}
+
+export default UserPage;
