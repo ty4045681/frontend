@@ -4,6 +4,11 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import withAuth from "@/hoc/withAuth";
 
+interface ConferenceFromServer {
+    id: string[]
+    title: string[]
+}
+
 interface Conference {
     id: string;
     title: string;
@@ -38,13 +43,13 @@ const PresentationSubmit: React.FC<PresentationSubmitProps> = ( {defaultConferen
                 throw new Error('Network response was not ok')
             } else {
                 // data will be an array of id and an array of title
-                const data = await response.data
+                const data: ConferenceFromServer = response.data
 
                 // Convert the array of id and array of title into an array of Conference
                 const conferences: Conference[] = data.id.map((id: string, index: number) => {
                     return {
                         id,
-                        title: data.titles[index]
+                        title: data.title[index]
                     }
                 })
 
@@ -60,17 +65,9 @@ const PresentationSubmit: React.FC<PresentationSubmitProps> = ( {defaultConferen
             if (response.status !== 200) {
                 throw new Error('Network response was not ok')
             } else {
-                const data = await response.data
+                const data: Paper[] = response.data
 
-                // only store the id, title and conferenceId of the paper
-                const papers: Paper[] = data.id.map((id: string, index: number) => {
-                    return {
-                        id,
-                        title: data.titles[index],
-                        conferenceId: data.conferenceIds[index]
-                    }
-                })
-                setPapers(papers)
+                setPapers(data)
             }
         }
         requestPaperData()
