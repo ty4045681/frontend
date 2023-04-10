@@ -1,27 +1,21 @@
 import {GetServerSideProps} from "next";
-import exp from "constants";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-
-interface Presentation {
-    id: string
-    conferenceId: string
-    paperId: string
-    title: string
-}
+import DownloadTable, {PresentationData} from "@/components/DownloadTable";
+import {API_BASE_URL} from "@/config";
 
 interface PresentationDownloadProps {
     conferenceId: string
 }
 
 const PresentationDownload: React.FC<PresentationDownloadProps> = ( {conferenceId } ) => {
-    const [presentations, setPresentations] = useState<Presentation[]>([])
+    const [presentations, setPresentations] = useState<PresentationData[]>([])
 
-    const API_BASE_URL = "http://localhost:8081/api/presentation"
+    const API_URL = `${API_BASE_URL}/presentation`
 
     useEffect(() => {
         const requestPresentationData = async () => {
-            const response = await axios.get(`${API_BASE_URL}`, {params: {conferenceId: conferenceId}})
+            const response = await axios.get(`${API_URL}`, {params: {conferenceId: conferenceId}})
             if (response.status !== 200) {
                 throw new Error('Network response was not ok')
             }
@@ -34,17 +28,8 @@ const PresentationDownload: React.FC<PresentationDownloadProps> = ( {conferenceI
 
     return (
         <div>
-            <h1>Presentations</h1>
-            <ul>
-                {presentations.map((presentation) => (
-                    <li key={presentation.id}>
-                        {presentation.title}{" "}
-                        <a href={`${API_BASE_URL}/${presentation.id}/download`} download>
-                            Download
-                        </a>
-                    </li>
-                ))}
-            </ul>
+            <h1>Presentation Download</h1>
+            <DownloadTable presentations={presentations} dataType="presentations" />
         </div>
     )
 }

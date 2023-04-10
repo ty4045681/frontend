@@ -1,39 +1,23 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import {useRouter} from 'next/router'
+import {useEffect, useState} from 'react'
 import axios from 'axios'
+import {Conference} from "@/interfaces/conference";
+import {API_BASE_URL} from "@/config";
+import Link from "next/link";
 
-interface Conference {
-    id: string;
-    title: string;
-    startDate: string;
-    endDate: string;
-    location: string;
-    theme: string;
-    focus: string;
-    keynotesAndSpeakers: Record<string, string>;
-    agenda: Record<string, string>;
-    registrationInfo: string;
-    accommodations: string[];
-    startCallingDateForPapers: string;
-    endCallingDateForPapers: string;
-    startCallingDateForPresentations: string;
-    endCallingDateForPresentations: string;
-    guidelineForPaperSubmission: string;
-    guidelineForPresentationSubmission: string;
-    sponsors: string[];
-    exhibitors: string[];
-    phoneNumber: string;
+interface ConferenceInfoProps {
+    conference: Conference
 }
 
 
 function ConferenceDetails(): JSX.Element {
     const router = useRouter()
     const [conference, setConference] = useState<Conference>()
-    const API_BASE_URL = "http://localhost:8081/api/conference"
+    const API_URL = `${API_BASE_URL}/conference`
 
     const requestConferenceData = async () => {
         const { id } = router.query
-        const response = await axios.get(`${API_BASE_URL}/id=${id}`)
+        const response = await axios.get(`${API_URL}/id=${id}`)
         if (response.status !== 200) {
             throw new Error('Network response was not ok')
         } else {
@@ -52,42 +36,127 @@ function ConferenceDetails(): JSX.Element {
     }
 
     return (
-        <div>
-            <div>
-                <h1>{conference.title}</h1>
-                <p>Start Date: {conference.startDate}</p>
-                <p>End Date: {conference.endDate}</p>
-                <p>Location: {conference.location}</p>
-                <p>Theme: {conference.theme}</p>
-                <p>Focus: {conference.focus}</p>
-                <p>Keynotes and Speakers: </p>
-                <ul>
-                    {Object.keys(conference.keynotesAndSpeakers).map((key, index) => (
-                        <li key={index}>
-                            {key}: {conference.keynotesAndSpeakers[key]}
-                        </li>
-                    ))}
-                </ul>
-                <p>Agenda: </p>
-                <ul>
-                    {Object.keys(conference.agenda).map((key, index) => (
-                        <li key={index}>
-                            {key}: {conference.agenda[key]}
-                        </li>
-                    ))}
-                </ul>
-                <p>Registration Info: {conference.registrationInfo}</p>
-                <p>Accommodations: {conference.accommodations}</p>
-                <p>Start Calling Date For Papers: {conference.startCallingDateForPapers}</p>
-                <p>End Calling Date For Papers: {conference.endCallingDateForPapers}</p>
-                <p>Start Calling Date For Presentations: {conference.startCallingDateForPresentations}</p>
-                <p>End Calling Date For Presentations: {conference.endCallingDateForPresentations}</p>
-                <p>Guideline For Paper Submission: {conference.guidelineForPaperSubmission}</p>
-                <p>Guideline For Presentation Submission: {conference.guidelineForPresentationSubmission}</p>
-                <p>Sponsors: {conference.sponsors}</p>
-                <p>Exhibitors: {conference.exhibitors}</p>
-                <p>Phone Number: {conference.phoneNumber}</p>
-            </div>
+        <div className="min-h-screen bg-gray-100">
+            {/* Header */}
+            <header className="bg-white shadow">
+                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <h1 className="text-3xl font-bold text-gray-900">Conference Info</h1>
+                </div>
+            </header>
+
+            {/* Main content */}
+            <main>
+                {/* Conference Details */}
+                <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
+                    <h2 className="text-4xl font-bold mb-6">{conference.title}</h2>
+                    <h3 className="text-xl mb-2">Date: {conference.startDate} - {conference.endDate}</h3>
+                    <h3 className="text-xl mb-6">Location: {conference.location}</h3>
+                    <h3 className="text-xl mb-6">Theme: {conference.theme}</h3>
+                    <h3 className="text-xl mb-6">Focus: {conference.focus}</h3>
+                    <h3 className="text-xl mb-6">Phone: {conference.phoneNumber}</h3>
+                </div>
+
+                {/* Keynotes and Speakers */}
+                <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
+                    <h2 className="text-3xl font-bold mb-6">Keynotes and Speakers</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {Object.entries(conference.keynotesAndSpeakers).map(([key, value]) => (
+                            <div key={key} className="bg-gray-100 p-4 rounded shadow">
+                                <h4 className="text-lg font-semibold mb-2">{key}</h4>
+                                <p className="text-gray-700">{value}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Agenda */}
+                <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
+                    <h2 className="text-3xl font-bold mb-6">Agenda</h2>
+                    <div className="space-y-6">
+                        {Object.entries(conference.agenda).map(([key, value]) => (
+                            <div key={key} className="border-b border-gray-300 pb-4">
+                                <h3 className="text-xl font-bold mb-2">{key}</h3>
+                                <p className="text-gray-700">{value}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Accommodations */}
+                <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
+                    <h2 className="text-3xl font-bold mb-6">Accommodations</h2>
+                    <ul className="list-disc list-inside">
+                        {conference.accommodations.map((accommodation, index) => (
+                            <li key={index} className="text-gray-700 mb-2">
+                                {accommodation}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Sponsors and Exhibitors */}
+                <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
+                    <h2 className="text-3xl font-bold mb-6">Sponsors and Exhibitors</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Sponsors */}
+                        <div className="bg-gray-100 p-4 rounded shadow">
+                            <h3 className="text-xl font-bold mb-4">Sponsors</h3>
+                            <ul className="list-disc list-inside">
+                                {conference.sponsors.map((sponsor, index) => (
+                                    <li key={index} className="text-gray-700 mb-2">
+                                        {sponsor}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Exhibitors */}
+                        <div className="bg-gray-100 p-4 rounded shadow">
+                            <h3 className="text-xl font-bold mb-4">Exhibitors</h3>
+                            <ul className="list-disc list-inside">
+                                {conference.exhibitors.map((exhibitor, index) => (
+                                    <li key={index} className="text-gray-700 mb-2">
+                                        {exhibitor}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Registration */}
+                <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
+                    <h2 className="text-3xl font-bold mb-6">Registration</h2>
+                    <p className="text-gray-700 mb-4">{conference.registrationInfo}</p>
+                    <Link href="/register">
+                        <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500">
+                            Register Now
+                        </button>
+                    </Link>
+                </div>
+
+                {/* Submission Deadlines */}
+                <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
+                    <h2 className="text-3xl font-bold mb-6">Submission Deadlines</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-gray-100 p-4 rounded shadow">
+                            <h3 className="text-xl font-bold mb-4">Paper Submission</h3>
+                            <p className="text-gray-700">
+                                {conference.startCallingDateForPapers} - {conference.endCallingDateForPapers}
+                            </p>
+                            <p className="text-gray-700 mt-4">{conference.guidelineForPaperSubmission}</p>
+                        </div>
+                        <div className="bg-gray-100 p-4 rounded shadow">
+                            <h3 className="text-xl font-bold mb-4">Presentation Submission</h3>
+                            <p className="text-gray-700">
+                                {conference.startCallingDateForPresentations} - {conference.endCallingDateForPresentations}
+                            </p>
+                            <p className="text-gray-700 mt-4">{conference.guidelineForPresentationSubmission}</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
             <div>
                 <button type="button" onClick={() => router.push(`/conference/submit/paper?defaultConferenceId=${router.query.id}`)}>
                     Submit Paper

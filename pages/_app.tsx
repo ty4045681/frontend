@@ -1,11 +1,8 @@
 import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import { parseCookies } from "nookies";
+import type {AppProps} from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { jwt } = pageProps
-
-  return <Component {...pageProps} jwt={jwt}/>
+  return <Component {...pageProps}/>
 }
 //
 // App.getInitialProps = async ({ ctx }) => {

@@ -1,28 +1,23 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {GetServerSideProps} from "next";
+import {API_BASE_URL} from "@/config";
 
-interface Paper {
-    id: string
-    conferenceId: string
-    title: string
-    authors: string[]
-    abstract: string
-    keywords: string[]
-}
+import DownloadTable, {PaperData} from "@/components/DownloadTable";
+
 
 interface PaperDownloadProps {
     conferenceId: string
 }
 
 const PaperDownload: React.FC<PaperDownloadProps> = ( {conferenceId} ) => {
-    const [papers, setPapers] = useState<Paper[]>([])
+    const [papers, setPapers] = useState<PaperData[]>([])
 
-    const API_BASE_URL = "http://localhost:8081/api/paper"
+    const API_URL = `${API_BASE_URL}/paper`
 
     useEffect(() => {
         const requestPaperData = async () => {
-            const response = await axios.get(`${API_BASE_URL}`, {params: {conferenceId: conferenceId}})
+            const response = await axios.get(`${API_URL}`, {params: {conferenceId: conferenceId}})
             if (response.status !== 200) {
                 throw new Error('Network response was not ok')
             }
@@ -34,19 +29,10 @@ const PaperDownload: React.FC<PaperDownloadProps> = ( {conferenceId} ) => {
     }, [])
 
     return (
-        <div>
+        <>
             <h1>Papers</h1>
-            <ul>
-                {papers.map((paper) => (
-                    <li key={paper.id}>
-                        {paper.title}{" "}
-                        <a href={`${API_BASE_URL}/${paper.id}/download`} download>
-                            Download
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        </div>
+            <DownloadTable dataType="papers" papers={papers} />
+        </>
     )
 }
 
