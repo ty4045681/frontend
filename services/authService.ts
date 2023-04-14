@@ -1,10 +1,11 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import {API_BASE_URL} from "@/config";
 
-const API_BASE_URL = "http://localhost:8081/api/auth";
+const API_URL = `${API_BASE_URL}/auth`;
 
 const register = async (username: string, password: string, email: string) => {
-    const response = await axios.post(`${API_BASE_URL}/register`, {
+    const response = await axios.post(`${API_URL}/register`, {
         username: username,
         password: password,
         email: email,
@@ -18,7 +19,7 @@ const register = async (username: string, password: string, email: string) => {
 };
 
 const login = async (username: string, password: string) => {
-    const response = await axios.post(`${API_BASE_URL}/login`, {
+    const response = await axios.post(`${API_URL}/login`, {
         username: username,
         password: password,
     },

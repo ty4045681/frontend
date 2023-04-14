@@ -1,40 +1,92 @@
 import Link from 'next/link';
+import {
+    Button,
+    Card,
+    CardContent,
+    CircularProgress,
+    Grid,
+    LinearProgress,
+    Paper,
+    TextField,
+    Typography
+} from "@mui/material";
+import {Description, Edit, People, Event} from "@mui/icons-material";
+import React from "react";
+import {Box} from "@mui/system";
+import AdminSideBar from "@/components/AdminSideBar";
+
+interface SummaryCardProps {
+    Icon: React.ElementType;
+    title: string;
+    value: number | string;
+}
+
 
 const AdminPage = () => {
     return (
         <div className="min-h-screen flex">
-            <div className="bg-gray-800 w-1/4 p-8">
-                <h1 className="text-white text-3xl mb-8">Admin Dashboard</h1>
-                <nav>
-                    <ul>
-                        <li className="my-2">
-                            <Link href="/admin/users">
-                                <span className="text-gray-300 hover:text-white">User Management</span>
-                            </Link>
-                        </li>
-                        <li className="my-2">
-                            <Link href="/admin/conferences">
-                                <span className="text-gray-300 hover:text-white">Conference Management</span>
-                            </Link>
-                        </li>
-                        <li className="my-2">
-                            <Link href="/admin/papers">
-                                <span className="text-gray-300 hover:text-white">Paper Submission Management</span>
-                            </Link>
-                        </li>
-                        <li className="my-2">
-                            <Link href="/admin/content">
-                                <span className="text-gray-300 hover:text-white">Content Management</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <AdminSideBar />
             <div className="bg-gray-100 w-3/4 p-8">
                 <h2 className="text-xl mb-4">Dashboard</h2>
-                <div className="grid grid-cols-2 gap-4">
-                    {/* Add dashboard content such as summary cards, charts, etc. */}
-                </div>
+                <Grid container spacing={4}>
+                    {/* Summary Cards */}
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Card>
+                            <CardContent>
+                                <Typography variant="h5">Total Users</Typography>
+                                <Typography variant="h3">1,253</Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Card>
+                            <CardContent>
+                                <Typography variant="h5">Total Conferences</Typography>
+                                <Typography variant="h3">47</Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <Card>
+                            <CardContent>
+                                <Typography variant="h5">Total Submissions</Typography>
+                                <Typography variant="h3">3,122</Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+
+                    {/* Example Button */}
+                    <Grid item xs={12}>
+                        <Box mb={2}>
+                            <Typography variant="h6">Example Button:</Typography>
+                        </Box>
+                        <Button variant="contained">Click me!</Button>
+                    </Grid>
+
+                    {/* Example Text Field */}
+                    <Grid item xs={12} sm={6}>
+                        <Box mb={2}>
+                            <Typography variant="h6">Example Text Field:</Typography>
+                        </Box>
+                        <TextField label="Name" variant="outlined" fullWidth />
+                    </Grid>
+
+                    {/* Example CircularProgress */}
+                    <Grid item xs={12} sm={6}>
+                        <Box mb={2}>
+                            <Typography variant="h6">Example CircularProgress:</Typography>
+                        </Box>
+                        <CircularProgress />
+                    </Grid>
+
+                    {/* Example LinearProgress */}
+                    <Grid item xs={12}>
+                        <Box mb={2}>
+                            <Typography variant="h6">Example LinearProgress:</Typography>
+                        </Box>
+                        <LinearProgress variant="determinate" value={75} />
+                    </Grid>
+                </Grid>
             </div>
         </div>
     );

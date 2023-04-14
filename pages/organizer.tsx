@@ -1,20 +1,24 @@
-import {useRouter} from 'next/router';
-import {GetServerSideProps} from "next";
 import {getServerSideAuthProps, UserData} from "@/services/auth";
-import { Avatar, Box, Typography } from '@mui/material'
-import UserProfileSideBar from "@/components/UserProfileSideBar";
+import {GetServerSideProps} from "next";
+import {useRouter} from "next/router";
 import React, {useState} from "react";
+import {HeaderNav} from "@/components/HeaderNav";
+import UserProfileSideBar from "@/components/UserProfileSideBar";
+import {Box} from "@mui/material";
 import UserInfo from "@/components/UserInfo";
 import UserConferences from "@/components/UserConferences";
 import UserSubmittedPapers from "@/components/UserSubmittedPapers";
-import {HeaderNav} from "@/components/HeaderNav";
+import OrganizerProfileSideBar from "@/components/OrganizerProfileSideBar";
+import OrganizerInfo from "@/components/OrganizerInfo";
+import OrganizerConference from "@/components/OrganizerConference";
+import OrganizerPaper from "@/components/OrganizerPaper";
 
-interface UserPageProps {
+interface OrganizerPageProps {
     userData: UserData
     isAuthenticated: boolean
 }
 
-function UserPage({ userData, isAuthenticated }: UserPageProps) {
+function OrganizerPage({ userData, isAuthenticated }: OrganizerPageProps) {
     const router = useRouter();
 
     const [selectedPage, setSelectedPage] = useState(0)
@@ -39,11 +43,11 @@ function UserPage({ userData, isAuthenticated }: UserPageProps) {
             </header>
 
             <div className="min-h-screen flex">
-                <UserProfileSideBar setSelectedPage={setSelectedPage} />
+                <OrganizerProfileSideBar setSelectedPage={setSelectedPage} />
                 <Box className="bg-gray-100 w-3/4 p-8">
-                    {selectedPage === 0 && <UserInfo />}
-                    {selectedPage === 1 && <UserConferences />}
-                    {selectedPage === 2 && <UserSubmittedPapers />}
+                    {selectedPage === 0 && <OrganizerInfo />}
+                    {selectedPage === 1 && <OrganizerConference />}
+                    {selectedPage === 2 && <OrganizerPaper />}
                 </Box>
             </div>
         </>
@@ -54,4 +58,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return await getServerSideAuthProps(context)
 }
 
-export default UserPage;
+export default OrganizerPage

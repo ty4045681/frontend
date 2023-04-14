@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import authService from "@/services/authService";
+import SignIn from "@/components/SignIn";
 
 interface UserData {
     // id: string;
@@ -25,18 +26,7 @@ function LoginPage() {
     };
 
     return (
-        <div>
-            <h1>Login Page</h1>
-            <form onSubmit={handleLogin}>
-                <label htmlFor="username">Username:</label>
-                <input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} />
-
-                <label htmlFor="password">Password:</label>
-                <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} />
-
-                <button type="submit">Log In</button>
-            </form>
-        </div>
+        <SignIn />
     );
 }
 

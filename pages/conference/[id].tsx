@@ -157,17 +157,41 @@ function ConferenceDetails(): JSX.Element {
                 </div>
             </main>
 
-            <div>
-                <button type="button" onClick={() => router.push(`/conference/submit/paper?defaultConferenceId=${router.query.id}`)}>
+            <div className="grid grid-cols-2 gap-4 mt-8">
+                <button
+                    type="button"
+                    onClick={() =>
+                        router.push(`/conference/submit/paper?defaultConferenceId=${router.query.id}`)
+                    }
+                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"
+                >
                     Submit Paper
                 </button>
-                <button type={"button"} onClick={() => router.push(`/conference/download/paper?conferenceId=${router.query.id}`)}>
+                <button
+                    type="button"
+                    onClick={() =>
+                        router.push(`/conference/download/paper?conferenceId=${router.query.id}`)
+                    }
+                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"
+                >
                     Download Paper
                 </button>
-                <button type="button" onClick={() => router.push(`/conference/submit/presentation?defaultConferenceId=${router.query.id}`)}>
+                <button
+                    type="button"
+                    onClick={() =>
+                        router.push(`/conference/submit/presentation?defaultConferenceId=${router.query.id}`)
+                    }
+                    className="bg-purple-500 text-white font-bold py-2 px-4 rounded hover:bg-purple-400"
+                >
                     Submit Presentation
                 </button>
-                <button type={"button"} onClick={() => router.push(`/conference/download/presentation?conferenceId=${router.query.id}`)}>
+                <button
+                    type="button"
+                    onClick={() =>
+                        router.push(`/conference/download/presentation?conferenceId=${router.query.id}`)
+                    }
+                    className="bg-purple-400 text-white font-bold py-2 px-4 rounded hover:bg-purple-300"
+                >
                     Download Presentation
                 </button>
             </div>

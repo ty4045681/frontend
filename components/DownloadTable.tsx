@@ -11,22 +11,8 @@ import {
     TableRow,
 } from '@mui/material';
 import {API_BASE_URL} from "@/config";
-
-export interface PaperData {
-    id: string;
-    conferenceId: string;
-    title: string;
-    authors: string[];
-    abstract: string;
-    keywords: string[];
-}
-
-export interface PresentationData {
-    id: string;
-    conferenceId: string;
-    paperId: string;
-    title: string;
-}
+import {PaperData} from "@/interfaces/Paper";
+import {PresentationData} from "@/interfaces/Presentation";
 
 interface DownloadTableProps {
     papers?: PaperData[];
