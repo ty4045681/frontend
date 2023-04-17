@@ -56,36 +56,36 @@ const AdminPage = () => {
                     </Grid>
 
                     {/* Example Button */}
-                    <Grid item xs={12}>
-                        <Box mb={2}>
-                            <Typography variant="h6">Example Button:</Typography>
-                        </Box>
-                        <Button variant="contained">Click me!</Button>
-                    </Grid>
+                    {/*<Grid item xs={12}>*/}
+                    {/*    <Box mb={2}>*/}
+                    {/*        <Typography variant="h6">Example Button:</Typography>*/}
+                    {/*    </Box>*/}
+                    {/*    <Button variant="contained">Click me!</Button>*/}
+                    {/*</Grid>*/}
 
-                    {/* Example Text Field */}
-                    <Grid item xs={12} sm={6}>
-                        <Box mb={2}>
-                            <Typography variant="h6">Example Text Field:</Typography>
-                        </Box>
-                        <TextField label="Name" variant="outlined" fullWidth />
-                    </Grid>
+                    {/*/!* Example Text Field *!/*/}
+                    {/*<Grid item xs={12} sm={6}>*/}
+                    {/*    <Box mb={2}>*/}
+                    {/*        <Typography variant="h6">Example Text Field:</Typography>*/}
+                    {/*    </Box>*/}
+                    {/*    <TextField label="Name" variant="outlined" fullWidth />*/}
+                    {/*</Grid>*/}
 
-                    {/* Example CircularProgress */}
-                    <Grid item xs={12} sm={6}>
-                        <Box mb={2}>
-                            <Typography variant="h6">Example CircularProgress:</Typography>
-                        </Box>
-                        <CircularProgress />
-                    </Grid>
+                    {/*/!* Example CircularProgress *!/*/}
+                    {/*<Grid item xs={12} sm={6}>*/}
+                    {/*    <Box mb={2}>*/}
+                    {/*        <Typography variant="h6">Example CircularProgress:</Typography>*/}
+                    {/*    </Box>*/}
+                    {/*    <CircularProgress />*/}
+                    {/*</Grid>*/}
 
-                    {/* Example LinearProgress */}
-                    <Grid item xs={12}>
-                        <Box mb={2}>
-                            <Typography variant="h6">Example LinearProgress:</Typography>
-                        </Box>
-                        <LinearProgress variant="determinate" value={75} />
-                    </Grid>
+                    {/*/!* Example LinearProgress *!/*/}
+                    {/*<Grid item xs={12}>*/}
+                    {/*    <Box mb={2}>*/}
+                    {/*        <Typography variant="h6">Example LinearProgress:</Typography>*/}
+                    {/*    </Box>*/}
+                    {/*    <LinearProgress variant="determinate" value={75} />*/}
+                    {/*</Grid>*/}
                 </Grid>
             </div>
         </div>

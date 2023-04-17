@@ -10,6 +10,8 @@ interface ConferenceInfoProps {
 }
 
 
+
+
 function ConferenceDetails(): JSX.Element {
     const router = useRouter()
     const [conference, setConference] = useState<Conference>()
