@@ -66,7 +66,7 @@ export const HeaderNav: React.FC<AuthenticationProps> = ({isAuthenticated, userD
                     ) : (
                         <ul className="flex items-center space-x-4">
                             <li>
-                                <Link href="/register">
+                                <Link href="/RegisterPage">
                                     <span className="cursor-pointer hover:text-gray-300">Sign up</span>
                                 </Link>
                             </li>

@@ -130,7 +130,7 @@ function ConferenceDetails(): JSX.Element {
                 <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
                     <h2 className="text-3xl font-bold mb-6">Registration</h2>
                     <p className="text-gray-700 mb-4">{conference.registrationInfo}</p>
-                    <Link href="/register">
+                    <Link href="/RegisterPage">
                         <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500">
                             Register Now
                         </button>

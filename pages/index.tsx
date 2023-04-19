@@ -5,6 +5,8 @@ import React from "react";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {GetServerSideProps} from "next";
 import ConferenceService, {AllUpcomingConferences} from "@/services/ConferenceService";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const Home: React.FC<AuthenticationProps> = ( {isAuthenticated, userData }) => {
     const [conferences, setConferences] = React.useState<AllUpcomingConferences[]>([]);
@@ -26,12 +28,7 @@ const Home: React.FC<AuthenticationProps> = ( {isAuthenticated, userData }) => {
         </Head>
 
         {/* Header */}
-        <header className="bg-blue-600 text-white py-6">
-          <div className="container mx-auto px-4 flex items-center justify-between">
-            <div className="text-2xl font-bold">Conference Management System</div>
-            <HeaderNav isAuthenticated={isAuthenticated} userData={userData} />
-          </div>
-        </header>
+        <Navbar isAuthenticated={isAuthenticated} userData={userData} />
 
         {/* Hero section */}
         <section className="container mx-auto px-4 py-20">
@@ -45,7 +42,7 @@ const Home: React.FC<AuthenticationProps> = ( {isAuthenticated, userData }) => {
             <p className="text-lg mb-10">
               Discover, register, and manage your favorite conferences all in one place.
             </p>
-            <Link href="/register">
+            <Link href="/RegisterPage">
               <span className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Get Started
               </span>
@@ -104,11 +101,7 @@ const Home: React.FC<AuthenticationProps> = ( {isAuthenticated, userData }) => {
         </section>
 
         {/* Footer */}
-        <footer className="bg-blue-600 text-white py-6">
-          <div className="container mx-auto px-4 text-center">
-            <p>&copy; {new Date().getFullYear()} Conference Management System. All rights reserved.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
   );
 }
