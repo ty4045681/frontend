@@ -32,7 +32,7 @@ const login = async (username: string, password: string) => {
     if (token) {
         Cookies.set("jwt", token);
     }
-    return token;
+    return response;
 };
 
 const logout = () => {
