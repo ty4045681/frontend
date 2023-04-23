@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {GetServerSideProps} from "next";
-import {getServerSideAuthProps, UserData} from "@/services/auth";
+import {AuthenticationProps, getServerSideAuthProps, UserData} from "@/services/auth";
 import { Avatar, Box, Typography } from '@mui/material'
 import UserProfileSideBar from "@/components/UserProfileSideBar";
 import React, {useState} from "react";
@@ -8,13 +8,11 @@ import UserInfo from "@/components/UserInfo";
 import UserConferences from "@/components/UserConferences";
 import UserSubmittedPapers from "@/components/UserSubmittedPapers";
 import {HeaderNav} from "@/components/HeaderNav";
+import Header from "@/components/dashboard/Header";
+import Sidebar from "@/components/dashboard/Sidebar";
 
-interface UserPageProps {
-    userData: UserData
-    isAuthenticated: boolean
-}
 
-function UserPage({ userData, isAuthenticated }: UserPageProps) {
+function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter();
 
     const [selectedPage, setSelectedPage] = useState(0)
@@ -31,20 +29,50 @@ function UserPage({ userData, isAuthenticated }: UserPageProps) {
     return (
         <>
             {/* Header */}
-            <header className="bg-blue-600 text-white py-6">
-                <div className="container mx-auto px-4 flex items-center justify-between">
-                    <div className="text-2xl font-bold">Conference Management System</div>
-                    <HeaderNav isAuthenticated={isAuthenticated} userData={userData} />
-                </div>
-            </header>
+            <Header userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
 
-            <div className="min-h-screen flex">
-                <UserProfileSideBar setSelectedPage={setSelectedPage} />
-                <Box className="bg-gray-100 w-3/4 p-8">
-                    {selectedPage === 0 && <UserInfo />}
-                    {selectedPage === 1 && <UserConferences />}
-                    {selectedPage === 2 && <UserSubmittedPapers />}
-                </Box>
+            <div className="flex min-h-screen">
+                {/* Sidebar */}
+                <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col">
+
+                </div>
+                <div className="flex justify-between">
+                    <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <h3 className="text-xl font-semibold mb-4">Attended Conferences</h3>
+                        <p className="text-4xl">10</p>
+                    </div>
+
+                    <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <h3 className="text-xl font-semibold mb-4">Upcoming Conferences</h3>
+                        <p className="text-4xl">5</p>
+                    </div>
+
+                    <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
+                        <p className="text-4xl">2</p>
+                    </div>
+                </div>
+                <div className="flex justify-between">
+                    <div className="flex justify-between">
+                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                            <h3 className="text-xl font-semibold mb-4">Submitted Papers</h3>
+                            <p className="text-4xl">15</p>
+                        </div>
+
+                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                            <h3 className="text-xl font-semibold mb-4">Passed Papers in Upcoming Conferences</h3>
+                            <p className="text-4xl">8</p>
+                        </div>
+
+                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                            <h3 className="text-xl font-semibold mb-4">Pending Review Papers</h3>
+                            <p className="text-4xl">3</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );

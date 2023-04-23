@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import {HeaderNav} from "@/components/HeaderNav";
 import React from "react";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {GetServerSideProps} from "next";
@@ -42,7 +41,7 @@ const Home: React.FC<AuthenticationProps> = ( {isAuthenticated, userData }) => {
             <p className="text-lg mb-10">
               Discover, register, and manage your favorite conferences all in one place.
             </p>
-            <Link href="/RegisterPage">
+            <Link href="/register">
               <span className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Get Started
               </span>
