@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import axios from "axios/index";
+import axios from "axios";
 import React from "react";
 import {AuthenticationProps} from "@/services/auth";
 import {useRouter} from "next/router";
@@ -63,7 +63,7 @@ interface InfoProps extends AuthenticationProps {
     userType: UserType
 }
 
-const Info: React.FC<InfoProps> = ({userType, isAuthenticated, userData }) => {
+const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
     const router = useRouter()
     const user: FormValues = {
         name: 'Tom Smith',
@@ -80,34 +80,67 @@ const Info: React.FC<InfoProps> = ({userType, isAuthenticated, userData }) => {
         mode: "onBlur",
     })
 
+    const [isEditing, setIsEditing] = React.useState(false)
+    const toggleEditing = () => setIsEditing(!isEditing)
+
+    const UserInfoDisplay = () => {
+        return (
+            <div className={"container mx-auto px-4"}>
+                <h2 className={"text-2xl font-semibold mb-6"}>User Information</h2>
+                <div className={"bg-white shadow-md rounded p-6"}>
+                    {fields.map((field) => (
+                        <div key={field.name}>
+                            <label className="block text-xl font-semibold mb-2" htmlFor={field.name}>
+                                {field.label}
+                            </label>
+                            <p className="border rounded p-2 w-full mb-4">{user[field.name]}</p>
+                        </div>
+                    ))}
+                    <button onClick={toggleEditing} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
+    const UserInfoForm = () => {
+        return (
+            <div className={"container mx-auto px-4"}>
+                <h2 className={"text-2xl font-semibold mb-6"}>User Information</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className={"bg-white shadow-md rounded p-6"}>
+                    {fields.map((field) => (
+                        <div key={field.name}>
+                            <label className="block text-xl font-semibold mb-2" htmlFor={field.name}>
+                                {field.label}
+                            </label>
+                            <Controller
+                                name={field.name}
+                                control={control}
+                                render={({ field: inputField }) => (
+                                    <input {...inputField} type={field.type} className="border rounded p-2 w-full mb-4" />
+                                )}
+                            />
+                            {errors[field.name] && <p className="text-red-600">{errors[field.name]?.message}</p>}
+                        </div>
+                    ))}
+                    <button type="submit" disabled={!isValid || isSubmitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+        )
+    }
+
 
     const onSubmit = async (data: FormValues) => {
         console.log("Updated data: ", data)
+        toggleEditing()
     }
 
     return (
-        <div className={"container mx-auto px-4"}>
-            <h2 className={"text-2xl font-semibold mb-6"}>User Information</h2>
-            <form onSubmit={handleSubmit(onSubmit)} className={"bg-white shadow-md rounded p-6"}>
-                {fields.map((field) => (
-                    <div key={field.name}>
-                        <label className="block text-xl font-semibold mb-2" htmlFor={field.name}>
-                            {field.label}
-                        </label>
-                        <Controller
-                            name={field.name}
-                            control={control}
-                            render={({ field: inputField }) => (
-                                <input {...inputField} type={field.type} className="border rounded p-2 w-full mb-4" />
-                            )}
-                        />
-                        {errors[field.name] && <p className="text-red-600">{errors[field.name]?.message}</p>}
-                    </div>
-                ))}
-                <button type="submit" disabled={!isValid || isSubmitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Save Changes
-                </button>
-            </form>
+        <div>
+            {isEditing ? <UserInfoForm /> : <UserInfoDisplay />}
         </div>
     )
 }

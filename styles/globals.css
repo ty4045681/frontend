@@ -143,3 +143,26 @@ a {
   visibility: visible;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 4px solid #ccc;
+}
+
+.divider::before {
+  margin-right: 0em;
+}
+
+.divider::after {
+  margin-left: 0em;
+}
+
+

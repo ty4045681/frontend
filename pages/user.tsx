@@ -36,27 +36,24 @@ function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col">
-
-                </div>
-                <div className="flex justify-between">
-                    <div className="bg-white shadow-md rounded p-6 w-1/3">
-                        <h3 className="text-xl font-semibold mb-4">Attended Conferences</h3>
-                        <p className="text-4xl">10</p>
-                    </div>
-
-                    <div className="bg-white shadow-md rounded p-6 w-1/3">
-                        <h3 className="text-xl font-semibold mb-4">Upcoming Conferences</h3>
-                        <p className="text-4xl">5</p>
-                    </div>
-
-                    <div className="bg-white shadow-md rounded p-6 w-1/3">
-                        <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
-                        <p className="text-4xl">2</p>
-                    </div>
-                </div>
-                <div className="flex justify-between">
+                <div className="flex-1 flex flex-col m-10">
                     <div className="flex justify-between">
+                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                            <h3 className="text-xl font-semibold mb-4">Attended Conferences</h3>
+                            <p className="text-4xl">10</p>
+                        </div>
+
+                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                            <h3 className="text-xl font-semibold mb-4">Upcoming Conferences</h3>
+                            <p className="text-4xl">5</p>
+                        </div>
+
+                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                            <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
+                            <p className="text-4xl">2</p>
+                        </div>
+                    </div>
+                    <div className="flex justify-between mt-5">
                         <div className="bg-white shadow-md rounded p-6 w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Submitted Papers</h3>
                             <p className="text-4xl">15</p>

@@ -1,5 +1,9 @@
 import {ConferenceCardInfo} from "@/interfaces/DashboardTypes";
 import Card from "@/components/dashboard/Card";
+import Header from "@/components/dashboard/Header";
+import { GetServerSideProps } from "next";
+import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
+import Sidebar from "@/components/dashboard/Sidebar";
 
 const conferences: ConferenceCardInfo[] = [
     {
@@ -22,14 +26,28 @@ const conferences: ConferenceCardInfo[] = [
     },
 ]
 
-const ConferencesPage = () => {
+const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {conferences.map((conference, index) => (
-                <Card key={index} conference={conference} />
-            ))}
-        </div>
+        <>
+            <Header userType="user" isAuthenticated={isAuthenticated} userData={userData} />
+
+            <div className="flex min-h-screen">
+                {/* Sidebar */}
+                <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
+
+                {/* Content */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-10">
+                    {conferences.map((conference, index) => (
+                        <Card key={index} conference={conference} />
+                    ))}
+                </div>
+            </div>
+        </>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await getServerSideAuthProps(context)
 }
 
 export default ConferencesPage
