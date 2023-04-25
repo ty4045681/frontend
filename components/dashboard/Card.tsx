@@ -1,8 +1,8 @@
-import {ConferenceCardInfo} from "@/interfaces/DashboardTypes";
+import {ConferenceInfo} from "@/interfaces/DashboardTypes";
 import React from "react";
 
 interface ConferenceCardProps {
-    conference: ConferenceCardInfo
+    conference: ConferenceInfo
 }
 
 const Card: React.FC<ConferenceCardProps> = ({ conference }) => {

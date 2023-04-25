@@ -1,32 +1,65 @@
-import {ConferenceCardInfo} from "@/interfaces/DashboardTypes";
+import {ConferenceInfo} from "@/interfaces/DashboardTypes";
 import Card from "@/components/dashboard/Card";
 import Header from "@/components/dashboard/Header";
 import { GetServerSideProps } from "next";
 import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
 import Sidebar from "@/components/dashboard/Sidebar";
+import Table from "@/components/dashboard/Table";
+import { ColumnDef } from "@tanstack/react-table";
 
-const conferences: ConferenceCardInfo[] = [
+const conferences: ConferenceInfo[] = [
     {
         title: "Conference 1",
         location: "Location 1",
         startDate: "2021-01-01",
-        endDate: "2021-01-02"
+        endDate: "2021-01-02",
+        status: "accepted"
     },
     {
         title: "Conference 2",
         location: "Location 2",
         startDate: "2021-01-01",
-        endDate: "2021-01-02"
+        endDate: "2021-01-02",
+        status: "pending"
     },
     {
         title: "Conference 3",
         location: "Location 3",
         startDate: "2021-01-01",
-        endDate: "2021-01-02"
+        endDate: "2021-01-02",
+        status: "rejected"
     },
 ]
 
 const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const columns: ColumnDef<ConferenceInfo>[] = [
+        {
+            id: 'conference',
+            columns: [
+                {
+                    id: 'title',
+                    accessorKey: 'title',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'location',
+                    accessorKey: 'location',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'startDate',
+                    accessorKey: 'startDate',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'endDate',
+                    accessorKey: 'endDate',
+                    cell: info => info.getValue(),
+                },
+            ]
+        }
+    ]
+
     return (
         <>
             <Header userType="user" isAuthenticated={isAuthenticated} userData={userData} />
@@ -36,11 +69,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-10">
-                    {conferences.map((conference, index) => (
-                        <Card key={index} conference={conference} />
-                    ))}
-                </div>
+                <Table<ConferenceInfo> data={conferences} columns={columns} />
             </div>
         </>
     )
