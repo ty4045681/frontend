@@ -1,12 +1,12 @@
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Table from "@/components/dashboard/Table";
-import { PaperInfo } from "@/interfaces/DashboardTypes";
+import { UserPaperInfo } from "@/interfaces/DashboardTypes";
 import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
 import { ColumnDef } from "@tanstack/react-table";
 import { GetServerSideProps } from "next";
 
-const papers: PaperInfo[] = [
+const papers: UserPaperInfo[] = [
     {
         title: "Paper 1",
         conferenceTitle: "Conference 1",
@@ -34,9 +34,9 @@ const papers: PaperInfo[] = [
 ]
 
 const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
-    const columns: ColumnDef<PaperInfo>[] = [
+    const columns: ColumnDef<UserPaperInfo>[] = [
         {
-            id: 'paper',
+            id: 'userPaper',
             columns: [
                 {
                     id: 'title',
@@ -76,7 +76,7 @@ const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<PaperInfo> data={papers} columns={columns} />
+                <Table<UserPaperInfo> data={papers} columns={columns} />
             </div>
         </>
     )

@@ -1,21 +1,13 @@
 import {useRouter} from 'next/router';
 import {GetServerSideProps} from "next";
-import {AuthenticationProps, getServerSideAuthProps, UserData} from "@/services/auth";
-import { Avatar, Box, Typography } from '@mui/material'
-import UserProfileSideBar from "@/components/UserProfileSideBar";
-import React, {useState} from "react";
-import UserInfo from "@/components/UserInfo";
-import UserConferences from "@/components/UserConferences";
-import UserSubmittedPapers from "@/components/UserSubmittedPapers";
-import {HeaderNav} from "@/components/HeaderNav";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import React from "react";
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 
 
 function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter();
-
-    const [selectedPage, setSelectedPage] = useState(0)
 
     if (!isAuthenticated) {
         router.replace('/login')

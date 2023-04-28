@@ -1,5 +1,4 @@
-import {ConferenceInfo} from "@/interfaces/DashboardTypes";
-import Card from "@/components/dashboard/Card";
+import {UserConferenceInfo} from "@/interfaces/DashboardTypes";
 import Header from "@/components/dashboard/Header";
 import { GetServerSideProps } from "next";
 import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
@@ -7,7 +6,7 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import Table from "@/components/dashboard/Table";
 import { ColumnDef } from "@tanstack/react-table";
 
-const conferences: ConferenceInfo[] = [
+const conferences: UserConferenceInfo[] = [
     {
         title: "Conference 1",
         location: "Location 1",
@@ -32,9 +31,9 @@ const conferences: ConferenceInfo[] = [
 ]
 
 const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
-    const columns: ColumnDef<ConferenceInfo>[] = [
+    const columns: ColumnDef<UserConferenceInfo>[] = [
         {
-            id: 'conference',
+            id: 'userConference',
             columns: [
                 {
                     id: 'title',
@@ -69,7 +68,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<ConferenceInfo> data={conferences} columns={columns} />
+                <Table<UserConferenceInfo> data={conferences} columns={columns} />
             </div>
         </>
     )

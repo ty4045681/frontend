@@ -1,27 +1,19 @@
-import {getServerSideAuthProps, UserData} from "@/services/auth";
+import {AuthenticationProps, getServerSideAuthProps, UserData} from "@/services/auth";
 import {GetServerSideProps} from "next";
 import {useRouter} from "next/router";
 import React, {useState} from "react";
 import {HeaderNav} from "@/components/HeaderNav";
-import UserProfileSideBar from "@/components/UserProfileSideBar";
 import {Box} from "@mui/material";
-import UserInfo from "@/components/UserInfo";
-import UserConferences from "@/components/UserConferences";
-import UserSubmittedPapers from "@/components/UserSubmittedPapers";
 import OrganizerProfileSideBar from "@/components/OrganizerProfileSideBar";
 import OrganizerInfo from "@/components/OrganizerInfo";
 import OrganizerConference from "@/components/OrganizerConference";
 import OrganizerPaper from "@/components/OrganizerPaper";
+import Header from "@/components/dashboard/Header";
+import Sidebar from "@/components/dashboard/Sidebar";
 
-interface OrganizerPageProps {
-    userData: UserData
-    isAuthenticated: boolean
-}
 
-function OrganizerPage({ userData, isAuthenticated }: OrganizerPageProps) {
+function OrganizerPage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter();
-
-    const [selectedPage, setSelectedPage] = useState(0)
 
     if (!isAuthenticated) {
         router.replace('/login')
@@ -35,20 +27,37 @@ function OrganizerPage({ userData, isAuthenticated }: OrganizerPageProps) {
     return (
         <>
             {/* Header */}
-            <header className="bg-blue-600 text-white py-6">
-                <div className="container mx-auto px-4 flex items-center justify-between">
-                    <div className="text-2xl font-bold">Conference Management System</div>
-                    <HeaderNav isAuthenticated={isAuthenticated} userData={userData} />
-                </div>
-            </header>
+            <Header userType={"organizer"} isAuthenticated={isAuthenticated} userData={userData} />
 
             <div className="min-h-screen flex">
-                <OrganizerProfileSideBar setSelectedPage={setSelectedPage} />
-                <Box className="bg-gray-100 w-3/4 p-8">
-                    {selectedPage === 0 && <OrganizerInfo />}
-                    {selectedPage === 1 && <OrganizerConference />}
-                    {selectedPage === 2 && <OrganizerPaper />}
-                </Box>
+                {/* Sidebar */}
+                <Sidebar userType={"organizer"} isAuthenticated={isAuthenticated} userData={userData} />
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col m-10">
+                    <div className="flex justify-between">
+                        <div className="bg-white shadow-md rounded p-6 w-1/2">
+                            <h3 className="text-xl font-semibold mb-4">Conferences</h3>
+                            <p className="text-4xl">10</p>
+                        </div>
+
+                        <div className="bg-white shadow-md rounded p-6 w-1/2">
+                            <h3 className="text-xl font-semibold mb-4">Papers</h3>
+                            <p className="text-4xl">5</p>
+                        </div>
+                    </div>
+                    <div className="flex justify-between mt-5">
+                        <div className="bg-white shadow-md rounded p-6 w-1/2">
+                            <h3 className="text-xl font-semibold mb-4">Attendees</h3>
+                            <p className="text-4xl">15</p>
+                        </div>
+
+                        <div className="bg-white shadow-md rounded p-6 w-1/2">
+                            <h3 className="text-xl font-semibold mb-4">Reviewers</h3>
+                            <p className="text-4xl">8</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );
