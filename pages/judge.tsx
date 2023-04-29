@@ -4,7 +4,7 @@ import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {GetServerSideProps} from "next";
 import {useRouter} from "next/router";
 
-function AdminPage({ isAuthenticated, userData }: AuthenticationProps) {
+function JudgePage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter()
 
     if (!isAuthenticated) {
@@ -19,11 +19,11 @@ function AdminPage({ isAuthenticated, userData }: AuthenticationProps) {
     return (
         <>
             {/* Header */}
-            <Header userType='admin' userData={userData} isAuthenticated={isAuthenticated} />
+            <Header userType='judge' isAuthenticated={isAuthenticated} userData={userData} />
 
-            <div className='flex min-h-screen'>
+            <div className="flex min-h-screen">
                 {/* Sidebar */}
-                <Sidebar userType='admin' isAuthenticated={isAuthenticated} userData={userData} />
+                <Sidebar userType={'judge'} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col m-10">
@@ -69,4 +69,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return await getServerSideAuthProps(context)
 }
 
-export default AdminPage
+export default JudgePage

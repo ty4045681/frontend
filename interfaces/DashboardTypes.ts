@@ -1,3 +1,5 @@
+import {UserType} from "./UserType"
+
 type status = 'accepted' | 'rejected' | 'pending'
 
 export type UserInfo = {
@@ -48,4 +50,16 @@ export interface OrganizerAttendeesInfo extends UserInfo {
 
 export interface OrganizerJudgesInfo extends UserInfo {
     conferenceTitle: string
+}
+
+export interface JudgePapersInfo extends PaperInfo {
+    status: status
+}
+
+export interface AdminPapersInfo extends PaperInfo {
+    status: status
+}
+
+export interface AdminUsersInfo extends UserInfo {
+    userType: UserType
 }

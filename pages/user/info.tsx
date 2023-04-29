@@ -3,7 +3,7 @@ import Header from "@/components/dashboard/Header";
 import Info from "@/components/dashboard/Info";
 import Sidebar from "@/components/dashboard/Sidebar";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
-import { GetServerSideProps } from "next";
+import {GetServerSideProps} from "next";
 import React from "react";
 
 

@@ -1,10 +1,10 @@
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Table from "@/components/dashboard/Table";
-import { OrganizerConferenceInfo } from "@/interfaces/DashboardTypes";
-import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
-import { ColumnDef } from "@tanstack/react-table";
-import { GetServerSideProps } from "next";
+import {OrganizerConferenceInfo} from "@/interfaces/DashboardTypes";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import {ColumnDef} from "@tanstack/react-table";
+import {GetServerSideProps} from "next";
 
 const conferences: OrganizerConferenceInfo[] = [
     {

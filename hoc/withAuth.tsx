@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import Cookies from 'js-cookie';
 
 const withAuth = <P = {}>(WrappedComponent: React.ComponentType<P>) => {

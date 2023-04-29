@@ -1,6 +1,23 @@
-import { ColumnFiltersState, FilterFn, FilterFns, SortingFn, SortingState, createColumnHelper, flexRender, getCoreRowModel, getFacetedMinMaxValues, getFacetedRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, sortingFns, useReactTable, Column, Table, ColumnDef } from '@tanstack/react-table'
-import { RankingInfo, compareItems, rankItem } from '@tanstack/match-sorter-utils'
-import { useEffect, useMemo, useState } from 'react'
+import {
+    Column,
+    ColumnDef,
+    ColumnFiltersState,
+    FilterFn,
+    flexRender,
+    getCoreRowModel,
+    getFacetedMinMaxValues,
+    getFacetedRowModel,
+    getFacetedUniqueValues,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    SortingFn,
+    sortingFns,
+    Table,
+    useReactTable
+} from '@tanstack/react-table'
+import {compareItems, RankingInfo, rankItem} from '@tanstack/match-sorter-utils'
+import {useEffect, useMemo, useState} from 'react'
 
 type TableProps<T> = {
     data: T[]

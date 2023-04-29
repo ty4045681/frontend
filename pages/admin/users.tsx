@@ -1,65 +1,73 @@
-import AdminSideBar from "@/components/AdminSideBar";
-import {Box} from "@mui/system";
-import {
-    Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
-    IconButton, InputLabel, MenuItem, Pagination,
-    Select, SelectChangeEvent,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TextField,
-    Typography
-} from "@mui/material";
-import {Delete, Edit} from "@mui/icons-material";
-import React, {useEffect, useState} from "react";
-import {DataGrid, GridRenderCellParams, GridToolbar} from "@mui/x-data-grid";
-import AdminTable from "@/components/AdminTable";
+import Header from "@/components/dashboard/Header";
+import Sidebar from "@/components/dashboard/Sidebar";
+import Table from "@/components/dashboard/Table";
+import {AdminUsersInfo} from "@/interfaces/DashboardTypes";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import {ColumnDef} from "@tanstack/react-table";
+import {GetServerSideProps} from "next";
 
-interface User {
-    id: string
-    name: string
-    email: string
-    role: 'Admin' | 'Organizer' | 'Speaker' | 'Attendee' | 'User'
-}
-
-const sampleUsers: User[] = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', role: 'Attendee' },
-    { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'Speaker' },
-    { id: '3', name: 'Mike Johnson', email: 'mike@example.com', role: 'Admin' },
-    // ... more users
-];
-
-const AdminUsersPage = () => {
-    const [filteredUsers, setFilteredUsers] = useState([...sampleUsers]);
-
-    // useEffect(() => {
-    //     setFilteredUsers([...sampleUsers].slice((page - 1) * rowsPerPage, page * rowsPerPage));
-    // }, [page, rowsPerPage]);
+const users: AdminUsersInfo[] = [
+    {
+        name: "User 1",
+        username: "User1",
+        email: "User1@gmail.com",
+        userType: "admin"
+    },
+    {
+        name: "User 2",
+        username: "User2",
+        email: "User2@gmail.com",
+        userType: "admin"
+    }
+]
 
 
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 100 },
-        { field: 'name', headerName: 'Name', width: 200 },
-        { field: 'email', headerName: 'Email', width: 200 },
-        { field: 'role', headerName: 'Role', width: 150 },
-    ];
+const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const columns: ColumnDef<AdminUsersInfo>[] = [
+        {
+            id: 'adminUsers',
+            columns: [
+                {
+                    id: 'name',
+                    accessorKey: 'name',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'username',
+                    accessorKey: 'username',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'email',
+                    accessorKey: 'email',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'userType',
+                    accessorKey: 'userType',
+                    cell: info => info.getValue(),
+                }
+            ]
+        }
+    ]
 
     return (
-        <div className="min-h-screen flex">
-            <AdminSideBar />
-            {/* ... */}
+        <>
+            <Header userType="admin" isAuthenticated={isAuthenticated} userData={userData} />
 
-            {/* User Management */}
-            <div className="bg-gray-100 w-3/4 p-8">
-                <Box mb={4}>
-                    <Typography variant="h4">User Management</Typography>
-                </Box>
-                <AdminTable columns={columns} rows={sampleUsers} />
+            <div className="flex min-h-screen">
+                {/* Sidebar */}
+                <Sidebar userType="admin" isAuthenticated={isAuthenticated} userData={userData} />
+
+                {/* Content */}
+                <Table<AdminUsersInfo> data={users} columns={columns} />
             </div>
-        </div>
+        </>
     );
 };
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await getServerSideAuthProps(context)
+}
 
 export default AdminUsersPage;

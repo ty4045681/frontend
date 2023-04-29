@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import React from 'react';
+import {useRouter} from 'next/router';
 import authService from "@/services/authService";
-import SignIn from "@/components/SignIn";
-import {API_BASE_URL} from "@/config";
 import * as yup from 'yup'
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
 
 const schema = yup.object(
     {

@@ -2,7 +2,6 @@ import {PaperData} from "@/interfaces/Paper";
 import Cookies from "js-cookie";
 import {API_BASE_URL} from "@/config";
 import axios from "axios";
-import ConferenceService from "@/services/ConferenceService";
 
 interface UserPaper extends PaperData {
     status: ApplyStatus

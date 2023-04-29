@@ -2,8 +2,8 @@ import ChangePassword from "@/components/dashboard/ChangePassword"
 import Header from "@/components/dashboard/Header"
 import Info from "@/components/dashboard/Info"
 import Sidebar from "@/components/dashboard/Sidebar"
-import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth"
-import { GetServerSideProps } from "next"
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth"
+import {GetServerSideProps} from "next"
 
 const OrganizerInfoPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
     return (

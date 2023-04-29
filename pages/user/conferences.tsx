@@ -1,10 +1,10 @@
 import {UserConferenceInfo} from "@/interfaces/DashboardTypes";
 import Header from "@/components/dashboard/Header";
-import { GetServerSideProps } from "next";
-import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
+import {GetServerSideProps} from "next";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Table from "@/components/dashboard/Table";
-import { ColumnDef } from "@tanstack/react-table";
+import {ColumnDef} from "@tanstack/react-table";
 
 const conferences: UserConferenceInfo[] = [
     {

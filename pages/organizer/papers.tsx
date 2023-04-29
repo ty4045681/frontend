@@ -1,10 +1,10 @@
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Table from "@/components/dashboard/Table";
-import { OrganizerPaperInfo } from "@/interfaces/DashboardTypes";
-import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
-import { ColumnDef } from "@tanstack/react-table";
-import { GetServerSideProps } from "next";
+import {OrganizerPaperInfo} from "@/interfaces/DashboardTypes";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import {ColumnDef} from "@tanstack/react-table";
+import {GetServerSideProps} from "next";
 
 const papers: OrganizerPaperInfo[] = [
     {

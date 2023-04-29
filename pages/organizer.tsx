@@ -1,13 +1,7 @@
-import {AuthenticationProps, getServerSideAuthProps, UserData} from "@/services/auth";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {GetServerSideProps} from "next";
 import {useRouter} from "next/router";
-import React, {useState} from "react";
-import {HeaderNav} from "@/components/HeaderNav";
-import {Box} from "@mui/material";
-import OrganizerProfileSideBar from "@/components/OrganizerProfileSideBar";
-import OrganizerInfo from "@/components/OrganizerInfo";
-import OrganizerConference from "@/components/OrganizerConference";
-import OrganizerPaper from "@/components/OrganizerPaper";
+import React from "react";
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 

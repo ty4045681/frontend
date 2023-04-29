@@ -1,73 +1,74 @@
 import React from 'react';
-import AdminSideBar from "@/components/AdminSideBar";
-import AdminTable from "@/components/AdminTable";
-import { Box, Typography } from '@mui/material';
+import {ConferenceInfo} from '@/interfaces/DashboardTypes';
+import {ColumnDef} from '@tanstack/react-table';
+import {AuthenticationProps, getServerSideAuthProps} from '@/services/auth';
+import Header from '@/components/dashboard/Header';
+import Sidebar from '@/components/dashboard/Sidebar';
+import Table from '@/components/dashboard/Table';
+import {GetServerSideProps} from 'next';
 
-const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'name', headerName: 'Name', width: 200 },
-    { field: 'startDate', headerName: 'Start Date', width: 150 },
-    { field: 'endDate', headerName: 'End Date', width: 150 },
-    { field: 'location', headerName: 'Location', width: 200 },
-];
 
-const sampleConferences = [
+const conferences: ConferenceInfo[] = [
     {
-        id: 1,
-        name: 'International Conference on AI & ML',
-        startDate: '2023-07-12',
-        endDate: '2023-07-14',
-        location: 'New York, USA',
+        title: "Conference 1",
+        startDate: "2021-10-10",
+        endDate: "2021-10-12",
+        location: "Location 1",
     },
     {
-        id: 2,
-        name: 'Global Summit on Data Science',
-        startDate: '2023-08-24',
-        endDate: '2023-08-26',
-        location: 'London, UK',
-    },
-    {
-        id: 3,
-        name: 'Cybersecurity & Privacy Forum',
-        startDate: '2023-09-10',
-        endDate: '2023-09-12',
-        location: 'Sydney, Australia',
-    },
-    {
-        id: 4,
-        name: 'International Conference on AI & ML',
-        startDate: '2023-07-12',
-        endDate: '2023-07-14',
-        location: 'New York, USA',
-    },
-    {
-        id: 5,
-        name: 'Global Summit on Data Science',
-        startDate: '2023-08-24',
-        endDate: '2023-08-26',
-        location: 'London, UK',
-    },
-    {
-        id: 6,
-        name: 'Cybersecurity & Privacy Forum',
-        startDate: '2023-09-10',
-        endDate: '2023-09-12',
-        location: 'Sydney, Australia',
-    },
-];
+        title: "Conference 2",
+        startDate: "2021-10-10",
+        endDate: "2021-10-12",
+        location: "Location 2",
+    }
+]
 
-const ConferencesPage = () => {
+const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const columns: ColumnDef<ConferenceInfo>[] = [
+        {
+            id: 'adminConference',
+            columns: [
+                {
+                    id: 'title',
+                    accessorKey: 'title',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'startDate',
+                    accessorKey: 'startDate',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'endDate',
+                    accessorKey: 'endDate',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'location',
+                    accessorKey: 'location',
+                    cell: info => info.getValue(),
+                }
+            ]
+        }
+    ]
+
     return (
-        <div className="min-h-screen flex">
-            <AdminSideBar />
-            <div className="bg-gray-100 w-3/4 p-8">
-                <Box mb={4}>
-                    <Typography variant="h4">Conference Management</Typography>
-                </Box>
-                <AdminTable columns={columns} rows={sampleConferences} />
+        <>
+            <Header userType='admin' isAuthenticated={isAuthenticated} userData={userData} />
+
+            <div className='flex min-h-screen'>
+                {/* Sidebar */}
+                <Sidebar userType='admin' isAuthenticated={isAuthenticated} userData={userData} />
+
+                {/* Content */}
+                <Table<ConferenceInfo> data={conferences} columns={columns} />
             </div>
-        </div>
-    );
+        </>
+    )
 };
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await getServerSideAuthProps(context)
+}
 
 export default ConferencesPage;

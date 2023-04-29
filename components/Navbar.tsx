@@ -1,10 +1,8 @@
 import Link from "next/link";
 import {AuthenticationProps} from "@/services/auth";
 import React, {useEffect, useRef, useState} from "react";
-import {set} from "js-cookie";
 import Image from "next/image";
 import {HiOutlineChevronDown, HiOutlineChevronUp, HiOutlineLogout, HiOutlineUser} from "react-icons/hi";
-import {event} from "next/dist/build/output/log";
 
 const ConferenceNavbar: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false)

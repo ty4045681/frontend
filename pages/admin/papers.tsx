@@ -1,54 +1,96 @@
 import React from 'react';
-import AdminSideBar from "@/components/AdminSideBar";
-import AdminTable from "@/components/AdminTable";
-import { Box, Typography } from '@mui/material';
+import {AdminPapersInfo} from '@/interfaces/DashboardTypes';
+import {AuthenticationProps, getServerSideAuthProps} from '@/services/auth';
+import {ColumnDef} from '@tanstack/react-table';
+import Header from '@/components/dashboard/Header';
+import Sidebar from '@/components/dashboard/Sidebar';
+import {GetServerSideProps} from 'next';
+import Table from '@/components/dashboard/Table';
 
-const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'title', headerName: 'Title', width: 300 },
-    { field: 'author', headerName: 'Author', width: 200 },
-    { field: 'conference', headerName: 'Conference', width: 200 },
-    { field: 'status', headerName: 'Status', width: 150 },
-];
-
-const samplePapers = [
+const papers: AdminPapersInfo[] = [
     {
-        id: 1,
-        title: 'Deep Learning Techniques for Image Recognition',
-        author: 'John Doe',
-        conference: 'International Conference on AI & ML',
-        status: 'Accepted',
+        title: "Paper 1",
+        conferenceTitle: "Conference 1",
+        authors: ["Author 1", "Author 2"],
+        keywords: ["Keyword 1", "Keyword 2"],
+        abstract: "Abstract 1",
+        status: "accepted"
     },
     {
-        id: 2,
-        title: 'Data Visualization in Modern Web Applications',
-        author: 'Jane Smith',
-        conference: 'Global Summit on Data Science',
-        status: 'Under Review',
+        title: "Paper 2",
+        conferenceTitle: "Conference 2",
+        authors: ["Author 1", "Author 2"],
+        keywords: ["Keyword 1", "Keyword 2"],
+        abstract: "Abstract 2",
+        status: "pending"
     },
     {
-        id: 3,
-        title: 'Securing IoT Devices with Advanced Encryption',
-        author: 'Alice Brown',
-        conference: 'Cybersecurity & Privacy Forum',
-        status: 'Rejected',
+        title: "Paper 3",
+        conferenceTitle: "Conference 3",
+        authors: ["Author 1", "Author 2"],
+        keywords: ["Keyword 1", "Keyword 2"],
+        abstract: "Abstract 3",
+        status: "rejected"
     },
-];
+]
 
 
-const PapersPage = () => {
+const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const columns: ColumnDef<AdminPapersInfo>[] = [
+        {
+            id: 'adminPaper',
+            columns: [
+                {
+                    id: 'title',
+                    accessorKey: 'title',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'conferenceTitle',
+                    accessorKey: 'conferenceTitle',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'authors',
+                    accessorKey: 'authors',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'keywords',
+                    accessorKey: 'keywords',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'abstract',
+                    accessorKey: 'abstract',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'status',
+                    accessorKey: 'status',
+                    cell: info => info.getValue(),
+                },
+            ]
+        }
+    ]
+
     return (
-        <div className="min-h-screen flex">
-            <AdminSideBar />
-            <div className="bg-gray-100 w-3/4 p-8">
-                <Box mb={4}>
-                    <Typography variant="h4">Paper Management</Typography>
-                </Box>
-                <AdminTable columns={columns} rows={samplePapers}
-                />
+        <>
+            <Header userType='admin' isAuthenticated={isAuthenticated} userData={userData} />
+
+            <div className="flex min-h-screen">
+                {/* Sidebar */}
+                <Sidebar userType={"admin"} isAuthenticated={isAuthenticated} userData={userData} />
+
+                {/* Content */}
+                <Table<AdminPapersInfo> data={papers} columns={columns} />
             </div>
-        </div>
+        </>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return await getServerSideAuthProps(context)
 }
 
 export default PapersPage

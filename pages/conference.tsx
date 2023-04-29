@@ -1,6 +1,3 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
-import Link from "next/link";
 import ConferenceService, {AllUpcomingConferences} from "@/services/ConferenceService";
 import ConferenceList from "@/components/ConferenceList";
 import {GetStaticProps} from "next";
