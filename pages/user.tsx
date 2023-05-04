@@ -4,19 +4,58 @@ import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import React from "react";
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
+import AttendanceService from "@/services/AttendanceService";
+import PaperService from "@/services/PaperService";
 
 
 function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter();
 
-    if (!isAuthenticated) {
-        router.replace('/login')
-        return null
-    }
+    const [attendedConferences, setAttendedConferences] = React.useState(0);
+    const [upcomingConferences, setUpcomingConferences] = React.useState(0);
+    const [pendingReviewConferences, setPendingReviewConferences] = React.useState(0);
+    const [submittedPapers, setSubmittedPapers] = React.useState(0);
+    const [passedPapers, setPassedPapers] = React.useState(0);
+    const [pendingReviewPapers, setPendingReviewPapers] = React.useState(0);
+
+    React.useEffect(() => {
+        if (!isAuthenticated) {
+            router.replace('/login');
+        }
+    }, [isAuthenticated, router]);
 
     if (!userData) {
         return <div>Loading...</div>;
     }
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const [
+                attendedConferences,
+                upcomingConferences,
+                pendingReviewConferences,
+                submittedPapers,
+                passedPapers,
+                pendingReviewPapers,
+            ] = await Promise.all([
+                AttendanceService.getCountAttendanceByUserAndConferenceTimeAndStatus(false, 'APPROVED'),
+                AttendanceService.getCountAttendanceByUserAndConferenceTimeAndStatus(true, 'APPROVED'),
+                AttendanceService.getCountAttendanceByUserAndConferenceTimeAndStatus(true, 'PENDING'),
+                PaperService.getCountPaperByUser(),
+                PaperService.getCountPaperByUserAndConferenceTimeAndStatus(true, 'APPROVED'),
+                PaperService.getCountPaperByUserAndStatus('PENDING'),
+            ]);
+
+            setAttendedConferences(attendedConferences);
+            setUpcomingConferences(upcomingConferences);
+            setPendingReviewConferences(pendingReviewConferences);
+            setSubmittedPapers(submittedPapers);
+            setPassedPapers(passedPapers);
+            setPendingReviewPapers(pendingReviewPapers);
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -32,33 +71,33 @@ function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
                     <div className="flex justify-between">
                         <div className="bg-white shadow-md rounded p-6 w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Attended Conferences</h3>
-                            <p className="text-4xl">10</p>
+                            <p className="text-4xl">{attendedConferences}</p>
                         </div>
 
                         <div className="bg-white shadow-md rounded p-6 w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Upcoming Conferences</h3>
-                            <p className="text-4xl">5</p>
+                            <p className="text-4xl">{upcomingConferences}</p>
                         </div>
 
                         <div className="bg-white shadow-md rounded p-6 w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
-                            <p className="text-4xl">2</p>
+                            <p className="text-4xl">{pendingReviewConferences}</p>
                         </div>
                     </div>
                     <div className="flex justify-between mt-5">
                         <div className="bg-white shadow-md rounded p-6 w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Submitted Papers</h3>
-                            <p className="text-4xl">15</p>
+                            <p className="text-4xl">{submittedPapers}</p>
                         </div>
 
                         <div className="bg-white shadow-md rounded p-6 w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Passed Papers in Upcoming Conferences</h3>
-                            <p className="text-4xl">8</p>
+                            <p className="text-4xl">{passedPapers}</p>
                         </div>
 
                         <div className="bg-white shadow-md rounded p-6 w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Pending Review Papers</h3>
-                            <p className="text-4xl">3</p>
+                            <p className="text-4xl">{pendingReviewPapers}</p>
                         </div>
                     </div>
                 </div>
