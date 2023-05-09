@@ -1,12 +1,13 @@
 import * as yup from "yup";
 import axios from "axios";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {AuthenticationProps} from "@/services/auth";
 import {useRouter} from "next/router";
 import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {UserType} from "@/interfaces/UserType";
 import {API_BASE_URL} from "@/config";
+import UserService, {GetUserInfoInterface} from "@/services/UserService";
 
 const API_URL = `${API_BASE_URL}/user`
 
@@ -16,39 +17,37 @@ const schema = yup.object({
         .required("Name is required"),
     username: yup
         .string()
-        .required('Username is required')
-        .test('isUnique', 'Username is already used', async (value) => {
-            const formData = new FormData()
-            formData.append('username', value)
-            const response = await axios.post(`${API_URL}/check-username`, formData)
-            return !response.data.exists
-        })
-        .matches(
-            /^[a-zA-Z0-9]+$/,
-            'Username can only contain letters and numbers'
-        ),
+        .required(),
     email: yup
         .string()
         .required('Email is required')
         .email('Email is invalid')
-        .test('isUnique', 'Email is already used', async (value) => {
-            const formData = new FormData()
-            formData.append("email", value)
-            const response = await axios.post(`${API_URL}/check-email`, formData)
-            return !response.data.exists
+        .test('isUnique', 'Email is already used', async function (value) {
+            const { originalUser } = this.options.context as FormContext;
+            if (value === originalUser.email) {
+                return true;
+            }
+            const formData = new FormData();
+            formData.append("email", value);
+            const response = await axios.post(`${API_URL}/check-email`, formData);
+            return !response.data.exists;
         }),
-    address: yup.string().required('Address is required'),
+    address: yup.string().default("").nullable(),
     phoneNumber: yup
         .string()
-        .required('Phone number is required')
+        .default("")
         .matches(
-            /^[\d\s-.]+$/,
+            /^[\d\s-.]*$/,
             'Invalid phone number'
-        ),
-    bio: yup.string().required('Bio is required'),
-}).required()
+        ).nullable(),
+    bio: yup.string().default("").nullable(),
+}).required();
+
 
 type FormValues = yup.InferType<typeof schema>
+type FormContext = {
+    originalUser: FormValues;
+};
 
 const fields: {label: string, name: keyof FormValues, type: string}[] = [
     { label: 'Name', name: 'name', type: 'text' },
@@ -65,20 +64,40 @@ interface InfoProps extends AuthenticationProps {
 
 const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
     const router = useRouter()
-    const user: FormValues = {
-        name: 'Tom Smith',
-        username: 'USER11',
-        email: '112233@gmail.com',
-        address: '123 Main St',
-        phoneNumber: '1234567890',
-        bio: 'I am a software engineer',
-    }
 
-    const { control, register, handleSubmit, formState: { errors, isSubmitting, isValid } } = useForm<FormValues>({
+    const [user, setUser] = useState<FormValues>({
+        name: '',
+        username: '',
+        email: '',
+        address: '',
+        phoneNumber: '',
+        bio: '',
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const [
+                user
+            ] = await Promise.all([
+                UserService.getUserInfo()
+            ])
+
+            setUser(user)
+        }
+
+        fetchData()
+    }, [])
+
+    const { control, register, handleSubmit, formState: { errors, isSubmitting, isValid }, reset } = useForm<FormValues, FormContext>({
         defaultValues: user,
         resolver: yupResolver(schema),
         mode: "onBlur",
+        context: { originalUser: user },
     })
+
+    useEffect(() => {
+        reset(user);
+    }, [user, reset]);
 
     const [isEditing, setIsEditing] = React.useState(false)
     const toggleEditing = () => setIsEditing(!isEditing)
@@ -93,16 +112,26 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
                             <label className="block text-xl font-semibold mb-2" htmlFor={field.name}>
                                 {field.label}
                             </label>
-                            <p className="border rounded p-2 w-full mb-4">{user[field.name]}</p>
+                            <p className="border rounded p-2 w-full mb-4">
+                                {user[field.name] ? (
+                                    user[field.name]
+                                ) : (
+                                    <span className="text-gray-400">-- blank --</span>
+                                )}
+                            </p>
                         </div>
                     ))}
-                    <button onClick={toggleEditing} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                    <button
+                        onClick={toggleEditing}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    >
                         Edit
                     </button>
                 </div>
             </div>
-        )
-    }
+        );
+    };
+
 
     const UserInfoForm = () => {
         return (
@@ -114,17 +143,34 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
                             <label className="block text-xl font-semibold mb-2" htmlFor={field.name}>
                                 {field.label}
                             </label>
-                            <Controller
-                                name={field.name}
-                                control={control}
-                                render={({ field: inputField }) => (
-                                    <input {...inputField} type={field.type} className="border rounded p-2 w-full mb-4" />
-                                )}
-                            />
+                            {field.name === "bio" ? (
+                                <Controller
+                                    name={field.name}
+                                    control={control}
+                                    render={({ field: inputField }) => (
+                                        <textarea {...inputField}  value={inputField.value ?? ''} className="border rounded p-2 w-full mb-4" />
+                                    )}
+                                />
+                            ) : (
+                                <Controller
+                                    name={field.name}
+                                    control={control}
+                                    render={({ field: inputField }) => (
+                                        <input {...inputField} type={field.type} value={inputField.value ?? ''} disabled={field.name === "username"} className="border rounded p-2 w-full mb-4" />
+                                    )}
+                                />
+                            )}
                             {errors[field.name] && <p className="text-red-600">{errors[field.name]?.message}</p>}
                         </div>
                     ))}
-                    <button type="submit" disabled={!isValid || isSubmitting} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                    <button
+                        type="button"
+                        onClick={toggleEditing}
+                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
+                    >
+                        Cancel
+                    </button>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                         Save Changes
                     </button>
                 </form>
@@ -132,10 +178,35 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
         )
     }
 
+    const isDataChanged = (original: FormValues, newData: FormValues) => {
+        return fields.some((field) => original[field.name] !== newData[field.name]);
+    };
+
 
     const onSubmit = async (data: FormValues) => {
-        console.log("Updated data: ", data)
-        toggleEditing()
+        if (isDataChanged(user, data)) {
+            if (!window.confirm("Are you sure you want to make changes?")) {
+                return;
+            }
+            try {
+                const response = await UserService.updateUserInfo({
+                    id: userData?.id ?? "",
+                    ...data
+                } as GetUserInfoInterface)
+                if (response?.status === 200) {
+                    console.log("User data updated", response.data)
+                    setUser(response?.data)
+                } else {
+                    console.log("Register failed")
+                }
+            } catch (e) {
+                console.error("Error changing info: ", e)
+            }
+            toggleEditing()
+        } else {
+            window.alert("You didn't make any changes.");
+            toggleEditing();
+        }
     }
 
     return (
