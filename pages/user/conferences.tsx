@@ -11,7 +11,7 @@ import ConferenceService from "@/services/ConferenceService";
 import AttendanceService from "@/services/AttendanceService";
 
 
-const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated,userData }) => {
     const [conferences, setConferences] = useState<UserConferenceInfo[]>([])
 
     useEffect(() => {

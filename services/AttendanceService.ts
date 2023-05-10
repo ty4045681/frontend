@@ -34,8 +34,11 @@ class AttendanceService {
 
     async getConferencesByUserId(userId: string): Promise<UserConferenceInfo[]> {
         try {
-            const response = await axios.get(`${this.API_URL}/userId=${userId}`)
-            return response.data as UserConferenceInfo[]
+            if (this.token !== undefined) {
+                const response = await axios.get(`${this.API_URL}/userId=${userId}`)
+                return response.data as UserConferenceInfo[]
+            }
+            return []
         } catch (error) {
             console.error('Error fetching user conferences:', error);
             throw error;

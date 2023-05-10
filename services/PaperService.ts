@@ -2,6 +2,7 @@ import {PaperData} from "@/interfaces/Paper";
 import Cookies from "js-cookie";
 import {API_BASE_URL} from "@/config";
 import axios from "axios";
+import { UserPaperInfo } from "@/interfaces/DashboardTypes";
 
 interface UserPaper extends PaperData {
     status: ApplyStatus
@@ -24,27 +25,19 @@ class PaperService {
         this.token = Cookies.get("jwt")
     }
 
-    async getUserPaper() {
-        let userPaper: UserPaperTableData[] | null = null
+    async getPapersByUserId(userId: string): Promise<UserPaperInfo[]> {
         try {
             if (this.token !== undefined) {
-                const response = await axios.get(`${API_BASE_URL}/paper`, {
+                const response = await axios.get(`${this.API_URL}/userId=${userId}`, {
                     headers: {
                         "Authorization": `Bearer ${this.token}`,
                     }
                 })
-
-                userPaper = await Promise.all(response.data.map(async (paper: UserPaper) => {
-                    const conferenceTitle = paper.conferenceTitle
-                    return {
-                        ...paper,
-                        conferenceTitle: conferenceTitle
-                    }
-                }))
+                return response.data as UserPaperInfo[]
             }
-            return userPaper
+            return []
         } catch (e) {
-            console.error('Error fetching user paper: ', e)
+            console.error('Error fetching papers by user id: ', e)
             throw e
         }
     }

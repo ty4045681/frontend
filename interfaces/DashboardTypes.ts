@@ -17,6 +17,7 @@ export type ConferenceInfo = {
 }
 
 export type PaperInfo = {
+    id: string
     title: string
     conferenceTitle: string
     authors: string[]
