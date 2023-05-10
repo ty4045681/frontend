@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import {API_BASE_URL} from "@/config";
+import { UserConferenceInfo } from "@/interfaces/DashboardTypes";
 
 class AttendanceService {
     private readonly token: string | undefined
@@ -28,6 +29,16 @@ class AttendanceService {
         } catch (e) {
             console.error('Error fetching info: ', e)
             throw e
+        }
+    }
+
+    async getConferencesByUserId(userId: string): Promise<UserConferenceInfo[]> {
+        try {
+            const response = await axios.get(`${this.API_URL}/userId=${userId}`)
+            return response.data as UserConferenceInfo[]
+        } catch (error) {
+            console.error('Error fetching user conferences:', error);
+            throw error;
         }
     }
 }

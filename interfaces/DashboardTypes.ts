@@ -9,6 +9,7 @@ export type UserInfo = {
 }
 
 export type ConferenceInfo = {
+    id: string
     title: string
     startDate: string
     endDate: string

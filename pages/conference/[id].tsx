@@ -1,9 +1,10 @@
-import {useRouter} from 'next/router'
-import {useEffect, useState} from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
-import {Conference} from "@/interfaces/conference";
-import {API_BASE_URL} from "@/config";
+import { Conference } from "@/interfaces/conference";
+import { API_BASE_URL } from "@/config";
 import Link from "next/link";
+import ConferenceService from '@/services/ConferenceService';
 
 interface ConferenceInfoProps {
     conference: Conference
@@ -15,15 +16,19 @@ interface ConferenceInfoProps {
 function ConferenceDetails(): JSX.Element {
     const router = useRouter()
     const [conference, setConference] = useState<Conference>()
-    const API_URL = `${API_BASE_URL}/conference`
 
     const requestConferenceData = async () => {
         const { id } = router.query
-        const response = await axios.get(`${API_URL}/id=${id}`)
-        if (response.status !== 200) {
-            throw new Error('Network response was not ok')
+        if (typeof id === 'string') {
+            const response = await ConferenceService.getConferenceById(id);
+
+            if (response.status !== 200) {
+                throw new Error('Network response was not ok');
+            } else {
+                setConference(response.data);
+            }
         } else {
-            setConference(response.data)
+            console.error('Invalid conference ID');
         }
     }
 
