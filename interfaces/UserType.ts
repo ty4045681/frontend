@@ -1,1 +1,3 @@
-export type UserType = 'admin' | 'user' | 'organizer' | 'judge'
+type UserType = 'admin' | 'user' | 'organizer' | 'judge'
+
+export default UserType

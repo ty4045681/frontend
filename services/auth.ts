@@ -1,11 +1,13 @@
 import {ParsedUrlQuery} from "querystring";
 import {GetServerSidePropsContext, GetServerSidePropsResult} from "next";
 import {API_BASE_URL} from "@/config";
+import UserType from "@/interfaces/UserType"
 import axios from "axios";
 
 export interface UserData {
     id: string
     username: string
+    role: UserType
     // token: string
 }
 
@@ -35,10 +37,17 @@ export async function getServerSideAuthProps<P extends ParsedUrlQuery>(context: 
             },
         })
 
+        const userData = response.data as UserData
+        const userType = userData.role.toLowerCase()
+        const newUserData: UserData = {
+            ...userData,
+            role: userType as UserType
+        }
+
         return {
             props: {
                 isAuthenticated,
-                userData: response.data,
+                userData: newUserData,
             },
         }
     } catch (error) {

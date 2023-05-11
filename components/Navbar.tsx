@@ -53,7 +53,7 @@ const ConferenceNavbar: React.FC<AuthenticationProps> = ({ isAuthenticated, user
                                         <ul className={"absolute right-0 mt-2 bg-white text-black rounded shadow-md py-2 px-4"}>
                                             <li className={"flex items-center px-4 py-2 hover:bg-gray-200 cursor-pointer"}>
                                                 <HiOutlineUser className={"mr-2"} />
-                                                <Link href={"/user"}>
+                                                <Link href={`/${userData.role}`}>
                                                     <span>Profile</span>
                                                 </Link>
                                             </li>
