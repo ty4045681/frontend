@@ -1,7 +1,7 @@
 import {API_BASE_URL} from "@/config";
 import Cookies from "js-cookie";
 import axios from "axios";
-import {UserType} from "@/interfaces/UserType";
+import UserType from "@/interfaces/UserType";
 
 export interface GetUserInfoInterface {
     id: string

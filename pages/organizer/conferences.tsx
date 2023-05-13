@@ -5,38 +5,25 @@ import {OrganizerConferenceInfo} from "@/interfaces/DashboardTypes";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
-
-const conferences: OrganizerConferenceInfo[] = [
-    {
-        title: "Conference 1",
-        location: "Location 1",
-        startDate: "2021-01-01",
-        endDate: "2021-01-02",
-        acceptedUsersNumber: 10,
-        pendingUsersNumber: 10,
-        rejectedUsersNumber: 10,    
-    },
-    {
-        title: "Conference 2",
-        location: "Location 2",
-        startDate: "2022-01-01",
-        endDate: "2022-01-02",
-        acceptedUsersNumber: 10,
-        pendingUsersNumber: 10,
-        rejectedUsersNumber: 10,
-    },
-    {
-        title: "Conference 3",
-        location: "Location 3",
-        startDate: "2023-01-01",
-        endDate: "2023-01-02",
-        acceptedUsersNumber: 10,
-        pendingUsersNumber: 10,
-        rejectedUsersNumber: 10,
-    }
-]
+import React, {useEffect, useState} from "react";
+import ConferenceService from "@/services/ConferenceService";
+import Link from "next/link";
+import OrganizerService from "@/services/OrganizerService";
 
 const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const [conferences, setConferences] = useState<OrganizerConferenceInfo[]>([])
+
+    useEffect(() => {
+        const fetchConference = async () => {
+            if (userData) {
+                const organizerConference = await OrganizerService.getOrganizerConference(userData.id)
+                setConferences(organizerConference)
+            }
+        }
+
+        fetchConference()
+    }, [userData])
+
     const columns: ColumnDef<OrganizerConferenceInfo>[] = [
         {
             id: 'organizerConference',
@@ -44,7 +31,11 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
                 {
                     id: 'title',
                     accessorKey: 'title',
-                    cell: info => info.getValue(),
+                    cell: info => (
+                        <Link href={`/conference/${info.row.original.id}`}>
+                            <span className="text-blue-600 hover:text-blue-800 underline cursor-pointer">{info.getValue()}</span>
+                        </Link>
+                    ),
                 },
                 {
                     id: 'location',

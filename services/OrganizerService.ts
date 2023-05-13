@@ -2,6 +2,7 @@ import {GetUserInfoInterface} from "@/services/UserService";
 import {API_BASE_URL} from "@/config";
 import axios from "axios";
 import Cookies from "js-cookie";
+import {OrganizerConferenceInfo} from "@/interfaces/DashboardTypes";
 
 export interface GetOrganizerInfoInterface extends GetUserInfoInterface {}
 
@@ -27,6 +28,7 @@ export interface GetPaperByConferenceIdInterface {
 
 class OrganizerService {
     private readonly token: string | undefined
+    private readonly API_URL = `${API_BASE_URL}/organizer`
     constructor() {
         this.token = Cookies.get("jwt")
     }
@@ -49,16 +51,14 @@ class OrganizerService {
         }
     }
 
-    async getOrganizerConference() {
-        let organizerConference: OrganizerConferenceData[] | null = null
+    async getOrganizerConference(id: string) {
         try {
-            const response = await axios.get(`${API_BASE_URL}/conference`, {
+            const response = await axios.get(`${this.API_URL}/organizerId=${id}`, {
                 headers: {
                     "Authorization": `Bearer ${this.token}`,
                 }
             })
-            organizerConference = response.data as OrganizerConferenceData[]
-            return organizerConference
+            return response.data as OrganizerConferenceInfo[]
         } catch (e) {
             console.error('Error fetching organizer conference: ', e)
             throw e
@@ -97,6 +97,74 @@ class OrganizerService {
             return paperByConferenceId
         } catch (e) {
             console.error('Error fetching paper by conference id: ', e)
+            throw e
+        }
+    }
+
+    async getCountConferencesByOrganizer(id: string) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.get(`${this.API_URL}/id=${id}/conference/count`, {
+                    headers: {
+                        "Authorization": `Bearer ${this.token}`
+                    }
+                })
+                return response.data as number
+            }
+            return -1
+        } catch (e) {
+            console.error("Error fetching count of conferences by organizer: ", e)
+            throw e
+        }
+    }
+
+    async getCountPapersByOrganizer(id: string) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.get(`${this.API_URL}/id=${id}/paper/count`, {
+                    headers: {
+                        "Authorization": `Bearer ${this.token}`
+                    }
+                })
+                return response.data as number
+            }
+            return -1
+        } catch (e) {
+            console.error("Error fetching count of papers by organizer: ", e)
+            throw e
+        }
+    }
+
+    async getCountAllAttendeesByOrganizer(id: string) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.get(`${this.API_URL}/id=${id}/attendees/count=all`, {
+                    headers: {
+                        "Authorization": `Bearer ${this.token}`
+                    }
+                })
+                return response.data as number
+            }
+            return -1
+        } catch (e) {
+            console.error("Error fetching count of all attendees by organizer: ", e)
+            throw e
+        }
+    }
+
+    async getCountAllReviewersByOrganizer(id: string) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.get(`${this.API_URL}/id=${id}/reviewers/count=all`, {
+                    headers: {
+                        "Authorization": `Bearer ${this.token}`
+                    }
+                })
+                return response.data as number
+            }
+            return -1
+        } catch (e) {
+            console.error("Error fetching count of all reviewers by organizer: ", e)
             throw e
         }
     }

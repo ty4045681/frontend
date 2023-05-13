@@ -2,7 +2,7 @@ import { Conference } from "@/interfaces/conference";
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "@/config";
 import axios from "axios";
-import { UserConferenceInfo } from "@/interfaces/DashboardTypes";
+import {OrganizerConferenceInfo, UserConferenceInfo} from "@/interfaces/DashboardTypes";
 
 interface UserConference extends Conference {
     // TODO: Add this functionality in backend
@@ -61,8 +61,6 @@ class ConferenceService {
             throw e
         }
     }
-
-
 }
 
 export default new ConferenceService()
