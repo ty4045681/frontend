@@ -57,6 +57,11 @@ const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }
                     accessorKey: 'abstract',
                     cell: info => info.getValue(),
                 },
+                {
+                    id: 'status',
+                    accessorKey: 'status',
+                    cell: info => info.getValue(),
+                },
             ]
         }
     ]

@@ -5,53 +5,23 @@ import {OrganizerAttendeesInfo} from "@/interfaces/DashboardTypes";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
-
-const attendees: OrganizerAttendeesInfo[] = [
-    {
-        name: "Tom Smith",
-        username: "USER11",
-        email: "USER11@gmail.com",
-        conferenceTitle: "Conference 1",
-        status: 'accepted',
-    },
-    {
-        name: "John Smith",
-        username: "USER12",
-        email: "USER12@gmail.com",
-        conferenceTitle: "Conference 1",
-        status: 'pending',
-    },
-    {
-        name: "Jane Smith",
-        username: "USER13",
-        email: "USER13@gmail.com",
-        conferenceTitle: "Conference 1",
-        status: 'rejected',
-    },
-    {
-        name: "Tom Smith",
-        username: "USER11",
-        email: "USER11@gmail.com",
-        conferenceTitle: "Conference 2",
-        status: 'accepted',
-    },
-    {
-        name: "John Smith",
-        username: "USER12",
-        email: "USER12@gmail.com",
-        conferenceTitle: "Conference 2",
-        status: 'pending',
-    },
-    {
-        name: "Jane Smith",
-        username: "USER13",
-        email: "USER13@gmail.com",
-        conferenceTitle: "Conference 2",
-        status: 'rejected',
-    }
-]
+import {useEffect, useState} from "react";
+import OrganizerService from "@/services/OrganizerService";
 
 const AttendeesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const [attendees, setAttendees] = useState<OrganizerAttendeesInfo[]>([])
+
+    useEffect(() => {
+        const fetchAttendee = async () => {
+            if (userData) {
+                const organizerAttendee = await OrganizerService.getOrganizerAttendee(userData.id)
+                setAttendees(organizerAttendee)
+            }
+        }
+
+        fetchAttendee()
+    }, [userData])
+
     const columns: ColumnDef<OrganizerAttendeesInfo>[] = [
         {
             id: 'organizerAttendee',

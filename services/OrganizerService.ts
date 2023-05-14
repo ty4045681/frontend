@@ -2,7 +2,12 @@ import {GetUserInfoInterface} from "@/services/UserService";
 import {API_BASE_URL} from "@/config";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {OrganizerConferenceInfo} from "@/interfaces/DashboardTypes";
+import {
+    OrganizerAttendeesInfo,
+    OrganizerConferenceInfo,
+    OrganizerJudgesInfo,
+    OrganizerPaperInfo
+} from "@/interfaces/DashboardTypes";
 
 export interface GetOrganizerInfoInterface extends GetUserInfoInterface {}
 
@@ -53,7 +58,7 @@ class OrganizerService {
 
     async getOrganizerConference(id: string) {
         try {
-            const response = await axios.get(`${this.API_URL}/organizerId=${id}`, {
+            const response = await axios.get(`${this.API_URL}/organizerId=${id}/conference`, {
                 headers: {
                     "Authorization": `Bearer ${this.token}`,
                 }
@@ -65,38 +70,53 @@ class OrganizerService {
         }
     }
 
-    async getUserByConferenceId(id: string) {
-        let userByConferenceId: GetUserByConferenceIdInterface[] | null = null
+    async getOrganizerAttendee(id: string) {
         try {
             if (this.token !== undefined) {
-                const response = await axios.get(`${API_BASE_URL}/organizer/conference/${id}/user`, {
+                const response = await axios.get(`${this.API_URL}/organizerId=${id}/attendee`, {
                     headers: {
                         "Authorization": `Bearer ${this.token}`,
                     }
                 })
-                userByConferenceId = response.data as GetUserByConferenceIdInterface[]
+                return  response.data as OrganizerAttendeesInfo[]
             }
-            return userByConferenceId
+            return []
         } catch (e) {
-            console.error('Error fetching user by conference id: ', e)
+            console.error('Error fetching user by organizer id: ', e)
             throw e
         }
     }
 
-    async getPaperByConferenceId(id: string) {
-        let paperByConferenceId: GetPaperByConferenceIdInterface[] | null = null
+    async getOrganizerPaper(id: string) {
         try {
             if (this.token !== undefined) {
-                const response = await axios.get(`${API_BASE_URL}/organizer/conference/${id}/paper`, {
+                const response = await axios.get(`${this.API_URL}/organizerId=${id}/paper`, {
                     headers: {
                         "Authorization": `Bearer ${this.token}`,
                     }
                 })
-                paperByConferenceId = response.data as GetPaperByConferenceIdInterface[]
+                return response.data as OrganizerPaperInfo[]
             }
-            return paperByConferenceId
+            return []
         } catch (e) {
-            console.error('Error fetching paper by conference id: ', e)
+            console.error('Error fetching paper by organizer id: ', e)
+            throw e
+        }
+    }
+
+    async getOrganizerJudge(id: string) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.get(`${this.API_URL}/organizerId=${id}/judge`, {
+                    headers: {
+                        "Authorization": `Bearer ${this.token}`
+                    }
+                })
+                return response.data as OrganizerJudgesInfo[]
+            }
+            return []
+        } catch (e) {
+            console.error("Error fetching judge by organizer id", e)
             throw e
         }
     }

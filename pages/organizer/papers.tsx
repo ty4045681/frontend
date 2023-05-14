@@ -5,41 +5,23 @@ import {OrganizerPaperInfo} from "@/interfaces/DashboardTypes";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
-
-const papers: OrganizerPaperInfo[] = [
-    {
-        title: "Paper 1",
-        conferenceTitle: "Conference 1",
-        authors: ["Author 1", "Author 2"],
-        keywords: ["Keyword 1", "Keyword 2"],
-        abstract: "Abstract 1",
-        acceptedPapersNumber: 10,
-        pendingPapersNumber: 10,
-        rejectedPapersNumber: 10,
-    },
-    {
-        title: "Paper 2",
-        conferenceTitle: "Conference 2",
-        authors: ["Author 1", "Author 2"],
-        keywords: ["Keyword 1", "Keyword 2"],
-        abstract: "Abstract 2",
-        acceptedPapersNumber: 10,
-        pendingPapersNumber: 10,
-        rejectedPapersNumber: 10,
-    },
-    {
-        title: "Paper 3",
-        conferenceTitle: "Conference 3",
-        authors: ["Author 1", "Author 2"],
-        keywords: ["Keyword 1", "Keyword 2"],
-        abstract: "Abstract 3",
-        acceptedPapersNumber: 10,
-        pendingPapersNumber: 10,
-        rejectedPapersNumber: 10,
-    }
-]
+import React, {useEffect, useState} from "react";
+import OrganizerService from "@/services/OrganizerService";
 
 const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const [papers, setPapers] = useState<OrganizerPaperInfo[]>([])
+
+    useEffect(() => {
+        const fetchPaper = async () =>{
+            if (userData) {
+                const organizerPaper = await OrganizerService.getOrganizerPaper(userData.id)
+                setPapers(organizerPaper)
+            }
+        }
+
+        fetchPaper()
+    }, [userData])
+
     const columns: ColumnDef<OrganizerPaperInfo>[] = [
         {
             id: 'organizerPaper',
@@ -57,12 +39,18 @@ const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }
                 {
                     id: 'authors',
                     accessorKey: 'authors',
-                    cell: info => info.getValue(),
+                    cell: info => {
+                        const authors = info.getValue();
+                        return Array.isArray(authors) ? authors.join(', ') : authors;
+                    },
                 },
                 {
                     id: 'keywords',
                     accessorKey: 'keywords',
-                    cell: info => info.getValue(),
+                    cell: info => {
+                        const keywords = info.getValue();
+                        return Array.isArray(keywords) ? keywords.join(', ') : keywords;
+                    },
                 },
                 {
                     id: 'abstract',
@@ -70,18 +58,8 @@ const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }
                     cell: info => info.getValue(),
                 },
                 {
-                    id: 'acceptedPapersNumber',
-                    accessorKey: 'acceptedPapersNumber',
-                    cell: info => info.getValue(),
-                },
-                {
-                    id: 'pendingPapersNumber',
-                    accessorKey: 'pendingPapersNumber',
-                    cell: info => info.getValue(),
-                },
-                {
-                    id: 'rejectedPapersNumber',
-                    accessorKey: 'rejectedPapersNumber',
+                    id: 'status',
+                    accessorKey: 'status',
                     cell: info => info.getValue(),
                 },
             ]

@@ -40,9 +40,7 @@ export interface OrganizerConferenceInfo extends ConferenceInfo {
 }
 
 export interface OrganizerPaperInfo extends PaperInfo {
-    acceptedPapersNumber: number
-    rejectedPapersNumber: number
-    pendingPapersNumber: number
+    status: status
 }
 
 export interface OrganizerAttendeesInfo extends UserInfo {

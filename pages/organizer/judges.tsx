@@ -5,29 +5,24 @@ import {OrganizerJudgesInfo} from "@/interfaces/DashboardTypes";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
-
-const judges: OrganizerJudgesInfo[] = [
-    {
-        name: "Tom Harris",
-        username: "JUDGE1",
-        email: "JUDGE1@gmail.com",
-        conferenceTitle: "conference 1",
-    },
-    {
-        name: "John Harris",
-        username: "JUDGE2",
-        email: "JUDGE2@gmail.com",
-        conferenceTitle: "conference 1",
-    },
-    {
-        name: "Jane Harris",
-        username: "JUDGE3",
-        email: "JUDGE3@gmail.com",
-        conferenceTitle: "conference 1",
-    }
-]
+import {useEffect, useState} from "react";
+import user from "@/pages/user";
+import OrganizerService from "@/services/OrganizerService";
 
 const JudgesPage: React.FC<AuthenticationProps> = ( { isAuthenticated, userData } ) => {
+    const [judges, setJudges] = useState<OrganizerJudgesInfo[]>([])
+
+    useEffect(() => {
+        const fetchJudges = async () => {
+            if (userData) {
+                const organizerJudge = await OrganizerService.getOrganizerJudge(userData.id)
+                setJudges(organizerJudge)
+            }
+        }
+
+        fetchJudges()
+    }, [userData])
+
     const columns: ColumnDef<OrganizerJudgesInfo>[] = [
         {
             id: "organizerJudge",
