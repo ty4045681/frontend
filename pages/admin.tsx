@@ -65,35 +65,35 @@ function AdminPage({ isAuthenticated, userData }: AuthenticationProps) {
                 <Sidebar userType="admin" isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col m-10">
-                    <div className="flex justify-between">
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                <div className="flex-1 flex flex-col gap-10 p-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Approved Conferences</h3>
-                            <p className="text-4xl">{approvedConferences}</p>
+                            <p className="text-4xl self-end">{approvedConferences}</p>
                         </div>
 
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
-                            <p className="text-4xl">{pendingConferences}</p>
+                            <p className="text-4xl self-end">{pendingConferences}</p>
                         </div>
 
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Rejected Conferences</h3>
-                            <p className="text-4xl">{rejectedConferences}</p>
+                            <p className="text-4xl self-end">{rejectedConferences}</p>
                         </div>
                     </div>
-                    <div className="flex justify-between mt-5">
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Organizer</h3>
-                            <p className="text-4xl">{organizersCount}</p>
+                            <p className="text-4xl self-end">{organizersCount}</p>
                         </div>
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Judge</h3>
-                            <p className="text-4xl">{judgesCount}</p>
+                            <p className="text-4xl self-end">{judgesCount}</p>
                         </div>
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Attendee</h3>
-                            <p className="text-4xl">{attendeesCount}</p>
+                            <p className="text-4xl self-end">{attendeesCount}</p>
                         </div>
                     </div>
                 </div>

@@ -3,12 +3,12 @@ import Link from 'next/link';
 import React from "react";
 import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
 import { GetServerSideProps } from "next";
-import ConferenceService, { AllUpcomingConferences } from "@/services/ConferenceService";
+import ConferenceService, { AllConferencesByDateInfo } from "@/services/ConferenceService";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
-    const [conferences, setConferences] = React.useState<AllUpcomingConferences[]>([]);
+    const [conferences, setConferences] = React.useState<AllConferencesByDateInfo[]>([]);
 
     React.useEffect(() => {
         const fetchConferences = async () => {
@@ -41,7 +41,7 @@ const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
                     <p className="text-lg mb-10">
                         Discover, register, and manage your favorite conferences all in one place.
                     </p>
-                    <Link href="/register">
+                    <Link href={isAuthenticated ? "/conference" : "/register"}>
                         <span className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Get Started
                         </span>
@@ -53,26 +53,6 @@ const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
             <section className="container mx-auto px-4 py-20">
                 <h2 className="text-4xl font-bold mb-6">Upcoming Conferences</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {/* Loop through conference data */}
-                    {/*{Array.from({ length: 6 }).map((_, index) => (*/}
-                    {/*    <div*/}
-                    {/*        key={index}*/}
-                    {/*        className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between"*/}
-                    {/*    >*/}
-                    {/*      <div>*/}
-                    {/*        <h3 className="text-2xl font-bold mb-2">Conference #{index + 1}</h3>*/}
-                    {/*        <p className="text-gray-600 mb-4">Location - Date</p>*/}
-                    {/*        <p className="text-gray-800">*/}
-                    {/*          A brief description of the conference goes here.*/}
-                    {/*        </p>*/}
-                    {/*      </div>*/}
-                    {/*      <Link href={`/conference/${index + 1}`}>*/}
-                    {/*        <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">*/}
-                    {/*          Learn More*/}
-                    {/*        </span>*/}
-                    {/*      </Link>*/}
-                    {/*    </div>*/}
-                    {/*))}*/}
                     {conferences.map((conference) => (
                         <div
                             key={conference.id}
@@ -81,7 +61,8 @@ const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
                             <div>
                                 <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
                                 <p className="text-gray-600 mb-4">{conference.location}</p>
-                                <p className="text-gray-600 mb-4">{conference.startDate} - {conference.endDate}</p>
+                                <p className="text-gray-600 mb-4">From: {conference.startDate}</p>
+                                <p className="text-gray-600 mb-4">To: {conference.endDate}</p>
                                 <p className="text-gray-800">
                                     Focus: {conference.focus}
                                 </p>

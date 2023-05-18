@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import {useRouter} from "next/router";
 import axios from "axios";
 import {API_BASE_URL} from "@/config";
+import Link from "next/link";
 
 const API_URL = `${API_BASE_URL}/user`
 
@@ -242,7 +243,7 @@ const RegisterPage: React.FC = () => {
 
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
+                        className="w-full py-3 px-4 bg-indigo-600 text-white font-bold text-lg rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         disabled={!isValid || isSubmitting}
                         onClick={() => {
                             if (!isValid) {
@@ -259,6 +260,14 @@ const RegisterPage: React.FC = () => {
                         Please fix the error before submitting
                     </div>
                 </form>
+                <div className="mt-4 text-center">
+                    <span className="text-gray-600">Already have an account? </span>
+                    <Link href="/login">
+                        <span className="font-medium cursor-pointer text-indigo-600 hover:text-indigo-500">
+                            Sign in
+                        </span>
+                    </Link>
+                </div>
             </div>
         </div>
     );

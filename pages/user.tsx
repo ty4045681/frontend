@@ -61,49 +61,50 @@ function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
         <>
             {/* Header */}
             <Header userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
-
+    
             <div className="flex min-h-screen">
                 {/* Sidebar */}
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
-
+    
                 {/* Content */}
-                <div className="flex-1 flex flex-col m-10">
-                    <div className="flex justify-between">
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                <div className="flex-1 flex flex-col gap-10 p-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Attended Conferences</h3>
-                            <p className="text-4xl">{attendedConferences}</p>
+                            <p className="text-4xl self-end">{attendedConferences}</p>
                         </div>
-
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+    
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Upcoming Conferences</h3>
-                            <p className="text-4xl">{upcomingConferences}</p>
+                            <p className="text-4xl self-end">{upcomingConferences}</p>
                         </div>
-
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+    
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
-                            <p className="text-4xl">{pendingReviewConferences}</p>
+                            <p className="text-4xl self-end">{pendingReviewConferences}</p>
                         </div>
                     </div>
-                    <div className="flex justify-between mt-5">
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Submitted Papers</h3>
-                            <p className="text-4xl">{submittedPapers}</p>
+                            <p className="text-4xl self-end">{submittedPapers}</p>
                         </div>
-
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+    
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Passed Papers in Upcoming Conferences</h3>
-                            <p className="text-4xl">{passedPapers}</p>
+                            <p className="text-4xl self-end">{passedPapers}</p>
                         </div>
-
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+    
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Pending Review Papers</h3>
-                            <p className="text-4xl">{pendingReviewPapers}</p>
+                            <p className="text-4xl self-end">{pendingReviewPapers}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </>
     );
+    
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

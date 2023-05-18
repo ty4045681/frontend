@@ -53,21 +53,21 @@ function JudgePage({ userData, isAuthenticated }: AuthenticationProps) {
                 <Sidebar userType={"judge"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col m-10">
-                    <div className="flex justify-between">
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                <div className="flex-1 flex flex-col gap-10 p-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Approved Papers</h3>
-                            <p className="text-4xl">{approvedPapers}</p>
+                            <p className="text-4xl self-end">{approvedPapers}</p>
                         </div>
 
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Pending Review Papers</h3>
-                            <p className="text-4xl">{pendingPapers}</p>
+                            <p className="text-4xl self-end">{pendingPapers}</p>
                         </div>
 
-                        <div className="bg-white shadow-md rounded p-6 w-1/3">
+                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Rejected Conferences</h3>
-                            <p className="text-4xl">{rejectedPapers}</p>
+                            <p className="text-4xl self-end">{rejectedPapers}</p>
                         </div>
                     </div>
                 </div>

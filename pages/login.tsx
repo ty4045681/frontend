@@ -1,9 +1,10 @@
 import React from 'react';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import authService from "@/services/authService";
 import * as yup from 'yup'
-import {useForm} from "react-hook-form"
-import {yupResolver} from "@hookform/resolvers/yup"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import Link from 'next/link';
 
 const schema = yup.object(
     {
@@ -14,7 +15,7 @@ const schema = yup.object(
             .string()
             .required("Password is required")
     }
-) .required()
+).required()
 
 type FormValues = yup.InferType<typeof schema>
 
@@ -88,6 +89,14 @@ const LoginPage: React.FC = () => {
                         Sign in
                     </button>
                 </form>
+                <div className="mt-4 text-center">
+                    <span className="text-gray-600">Don't have an account? </span>
+                    <Link href="/register">
+                        <span className="font-medium cursor-pointer text-indigo-600 hover:text-indigo-500">
+                            Sign up
+                        </span>
+                    </Link>
+                </div>
             </div>
         </div>
     )

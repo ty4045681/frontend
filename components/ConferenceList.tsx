@@ -1,8 +1,8 @@
-import {AllUpcomingConferences} from "@/services/ConferenceService";
+import {AllConferencesByDateInfo} from "@/services/ConferenceService";
 import {Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 
 interface ConferenceListProps {
-    conferences: AllUpcomingConferences[]
+    conferences: AllConferencesByDateInfo[]
 }
 
 const ConferenceList = ({ conferences }: ConferenceListProps) => {

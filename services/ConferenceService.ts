@@ -17,7 +17,7 @@ export interface UserConferenceTableData {
     status: ApplyStatus
 }
 
-export interface AllUpcomingConferences {
+export interface AllConferencesByDateInfo {
     id: string
     title: string
     startDate: string
@@ -46,7 +46,7 @@ class ConferenceService {
     }
 
     async getAllUpcomingConference() {
-        let allUpcomingConference: AllUpcomingConferences[] | null = null
+        let allUpcomingConference: AllConferencesByDateInfo[] | null = null
         try {
             const response = await axios.get(`${API_BASE_URL}/conference`, {
                 headers: {
@@ -54,13 +54,76 @@ class ConferenceService {
                 }
             })
             allUpcomingConference = response.data as
-                AllUpcomingConferences[]
+                AllConferencesByDateInfo[]
+            allUpcomingConference = allUpcomingConference.map(conference => ({
+                ...conference,
+                startDate: this.formatDate(conference.startDate),
+                endDate: this.formatDate(conference.endDate),
+            }))
             return allUpcomingConference
         } catch (e) {
             console.error('Error fetching all upcoming conference: ', e)
             throw e
         }
     }
+
+    async getAllPastConference() {
+        let allPastConference: AllConferencesByDateInfo[] | null = null
+        try {
+            const response = await axios.get(`${API_BASE_URL}/conference`, {
+                headers: {
+                    "Past": "true"
+                }
+            })
+            allPastConference = response.data as
+                AllConferencesByDateInfo[]
+            allPastConference = allPastConference.map(conference => ({
+                ...conference,
+                startDate: this.formatDate(conference.startDate),
+                endDate: this.formatDate(conference.endDate),
+            }))
+            return allPastConference
+        } catch (e) {
+            console.error('Error fetching all past conference: ', e)
+            throw e
+        }
+    }
+
+    async getAllOngoingConference() {
+        let allOngoingConference: AllConferencesByDateInfo[] | null = null
+        try {
+            const response = await axios.get(`${API_BASE_URL}/conference`, {
+                headers: {
+                    "Ongoing": "true"
+                }
+            })
+            allOngoingConference = response.data as
+                AllConferencesByDateInfo[]
+            allOngoingConference = allOngoingConference.map(conference => ({
+                ...conference,
+                startDate: this.formatDate(conference.startDate),
+                endDate: this.formatDate(conference.endDate),
+            }))
+            return allOngoingConference
+        } catch (e) {
+            console.error('Error fetching all ongoing conference: ', e)
+            throw e
+        }
+    }
+
+    formatDate(isoDateString: string): string {
+        const date = new Date(isoDateString);
+        const options: Intl.DateTimeFormatOptions = { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit'
+        };
+        
+        return date.toLocaleString(undefined, options);
+      }
+      
 }
 
 export default new ConferenceService()
