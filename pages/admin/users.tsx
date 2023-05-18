@@ -5,24 +5,23 @@ import {AdminUsersInfo} from "@/interfaces/DashboardTypes";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
-
-const users: AdminUsersInfo[] = [
-    {
-        name: "User 1",
-        username: "User1",
-        email: "User1@gmail.com",
-        userType: "admin"
-    },
-    {
-        name: "User 2",
-        username: "User2",
-        email: "User2@gmail.com",
-        userType: "admin"
-    }
-]
-
+import AdminService from "@/services/AdminService";
+import React from "react";
 
 const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const [users, setUsers] = React.useState<AdminUsersInfo[]>([])
+
+    React.useEffect(() => {
+        const fetchUsers = async () => {
+            if (userData) {
+                const adminUsers = await AdminService.getUsersByAdminId(userData.id)
+                setUsers(adminUsers)
+            }
+        }
+
+        fetchUsers()
+    }, [userData])
+
     const columns: ColumnDef<AdminUsersInfo>[] = [
         {
             id: 'adminUsers',

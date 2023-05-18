@@ -6,36 +6,22 @@ import Header from '@/components/dashboard/Header';
 import Sidebar from '@/components/dashboard/Sidebar';
 import {GetServerSideProps} from 'next';
 import Table from '@/components/dashboard/Table';
-
-const papers: AdminPapersInfo[] = [
-    {
-        title: "Paper 1",
-        conferenceTitle: "Conference 1",
-        authors: ["Author 1", "Author 2"],
-        keywords: ["Keyword 1", "Keyword 2"],
-        abstract: "Abstract 1",
-        status: "accepted"
-    },
-    {
-        title: "Paper 2",
-        conferenceTitle: "Conference 2",
-        authors: ["Author 1", "Author 2"],
-        keywords: ["Keyword 1", "Keyword 2"],
-        abstract: "Abstract 2",
-        status: "pending"
-    },
-    {
-        title: "Paper 3",
-        conferenceTitle: "Conference 3",
-        authors: ["Author 1", "Author 2"],
-        keywords: ["Keyword 1", "Keyword 2"],
-        abstract: "Abstract 3",
-        status: "rejected"
-    },
-]
-
+import AdminService from "@/services/AdminService";
 
 const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const [papers, setPapers] = React.useState<AdminPapersInfo[]>([])
+
+    React.useEffect(() => {
+        const fetchPapers = async () => {
+            if (userData) {
+                const adminPapers = await AdminService.getPapersByAdminId(userData.id)
+                setPapers(adminPapers)
+            }
+        }
+
+        fetchPapers()
+    }, [userData])
+
     const columns: ColumnDef<AdminPapersInfo>[] = [
         {
             id: 'adminPaper',
@@ -53,12 +39,18 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'authors',
                     accessorKey: 'authors',
-                    cell: info => info.getValue(),
+                    cell: info => {
+                        const authors = info.getValue();
+                        return Array.isArray(authors) ? authors.join(', ') : authors;
+                    },
                 },
                 {
                     id: 'keywords',
                     accessorKey: 'keywords',
-                    cell: info => info.getValue(),
+                    cell: info => {
+                        const keywords = info.getValue();
+                        return Array.isArray(keywords) ? keywords.join(', ') : keywords;
+                    },
                 },
                 {
                     id: 'abstract',

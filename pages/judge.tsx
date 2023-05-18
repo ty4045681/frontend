@@ -24,7 +24,7 @@ function JudgePage({ userData, isAuthenticated }: AuthenticationProps) {
     }
 
     useEffect(() => {
-const fetchData = async () => {
+        const fetchData = async () => {
             const [
                 approvedPapers,
                 pendingPapers,

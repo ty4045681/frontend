@@ -1,29 +1,28 @@
 import React from 'react';
-import {ConferenceInfo} from '@/interfaces/DashboardTypes';
+import {AdminConferencesInfo, ConferenceInfo} from '@/interfaces/DashboardTypes';
 import {ColumnDef} from '@tanstack/react-table';
 import {AuthenticationProps, getServerSideAuthProps} from '@/services/auth';
 import Header from '@/components/dashboard/Header';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Table from '@/components/dashboard/Table';
 import {GetServerSideProps} from 'next';
-
-
-const conferences: ConferenceInfo[] = [
-    {
-        title: "Conference 1",
-        startDate: "2021-10-10",
-        endDate: "2021-10-12",
-        location: "Location 1",
-    },
-    {
-        title: "Conference 2",
-        startDate: "2021-10-10",
-        endDate: "2021-10-12",
-        location: "Location 2",
-    }
-]
+import AdminService from "@/services/AdminService";
+import Link from "next/link";
 
 const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const [conferences, setConferences] = React.useState<AdminConferencesInfo[]>([])
+
+    React.useEffect(() => {
+        const fetchConferences = async () => {
+            if (userData) {
+                const adminConference = await AdminService.getConferencesByAdminId(userData.id)
+                setConferences(adminConference)
+            }
+        }
+
+        fetchConferences()
+    }, [userData])
+
     const columns: ColumnDef<ConferenceInfo>[] = [
         {
             id: 'adminConference',
@@ -31,7 +30,11 @@ const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'title',
                     accessorKey: 'title',
-                    cell: info => info.getValue(),
+                    cell: info => (
+                        <Link href={`/conference/${info.row.original.id}`}>
+                            <span className="text-blue-600 hover:text-blue-800 underline cursor-pointer">{info.getValue()}</span>
+                        </Link>
+                    ),
                 },
                 {
                     id: 'startDate',
@@ -47,7 +50,17 @@ const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                     id: 'location',
                     accessorKey: 'location',
                     cell: info => info.getValue(),
-                }
+                },
+                {
+                    id: 'organizer',
+                    accessorKey: 'organizer',
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'status',
+                    accessorKey: 'status',
+                    cell: info => info.getValue(),
+                },
             ]
         }
     ]

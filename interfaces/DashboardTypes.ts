@@ -56,6 +56,11 @@ export interface JudgePapersInfo extends PaperInfo {
     status: status
 }
 
+export interface AdminConferencesInfo extends ConferenceInfo {
+    organizer: string
+    status: status
+}
+
 export interface AdminPapersInfo extends PaperInfo {
     status: status
 }
