@@ -44,6 +44,27 @@ class AttendanceService {
             throw error;
         }
     }
+
+    async deleteSelectedAttendancesOfUserId(userId: string, attendanceIds: string[]) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.delete(`${this.API_URL}/userId=${userId}/delete/attendance`, {
+                    data: {ids: attendanceIds},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.token}`,
+                    },
+                })
+
+                if (response.status !== 200) {
+                    console.error("Error deleting selected attendances of user id: ", response)
+                }
+            }
+        } catch (error) {
+            console.error('Error deleting selected attendances of user id: ', error)
+            throw error
+        }
+    }
 }
 
 export default new AttendanceService()

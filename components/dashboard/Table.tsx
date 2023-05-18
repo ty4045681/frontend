@@ -27,6 +27,8 @@ import { HiSearch, HiX, HiXCircle } from "react-icons/hi";
 type TableProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];
+  renderHeaderButton?: () => React.ReactNode;
+  onRowCheckboxChange?: (id: string, checked: boolean) => void;
 };
 
 declare module "@tanstack/table-core" {
@@ -66,7 +68,7 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
 
-const Table = <T extends Object>({ data, columns }: TableProps<T>) => {
+const Table = <T extends Object>({ data, columns, renderHeaderButton, onRowCheckboxChange }: TableProps<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -111,6 +113,9 @@ const Table = <T extends Object>({ data, columns }: TableProps<T>) => {
           placeholder="Search all columns..."
           hasClearButton
         />
+      </div>
+      <div className='flex justify-between items-center'>
+        {renderHeaderButton && renderHeaderButton()}
       </div>
       <table className="w-full table-fixed bg-white rounded-lg overflow-hidden shadow divide-y divide-gray-200">
         <thead className="bg-gray-50">

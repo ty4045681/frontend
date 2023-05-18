@@ -26,6 +26,7 @@ export type PaperInfo = {
 }
 
 export interface UserConferenceInfo extends ConferenceInfo {
+    attendanceId: string
     status: status
 }
 
