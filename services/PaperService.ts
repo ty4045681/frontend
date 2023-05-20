@@ -42,6 +42,28 @@ class PaperService {
         }
     }
 
+    async deleteSelectedPapersOfUserId(userId: string, paperIds: string[]) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.delete(`${this.API_URL}/userId=${userId}`, {
+                    data: {ids: paperIds},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.token}`,
+                    },
+                })
+
+                if (response.status !== 200) {
+                    console.error("Error deleting selected papers of user id: ", response)
+                    throw new Error("Error deleting selected papers of user id")
+                }
+            }
+        } catch (e) {
+            console.error("Error deleting selected papers of user id: ", e)
+            throw e
+        }
+    }
+
     async getCountPaperByUser(): Promise<number> {
         const isConferenceUpcomings: boolean[] = [true, false];
         let count: number = 0;

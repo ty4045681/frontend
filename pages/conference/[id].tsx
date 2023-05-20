@@ -1,17 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Conference } from "@/interfaces/conference";
-import { API_BASE_URL } from "@/config";
 import Link from "next/link";
 import ConferenceService from '@/services/ConferenceService';
-
-interface ConferenceInfoProps {
-    conference: Conference
-}
-
-
-
 
 function ConferenceDetails(): JSX.Element {
     const router = useRouter()

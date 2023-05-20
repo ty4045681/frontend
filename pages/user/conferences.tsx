@@ -7,7 +7,6 @@ import Table from "@/components/dashboard/Table";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ConferenceService from "@/services/ConferenceService";
 import AttendanceService from "@/services/AttendanceService";
 
 

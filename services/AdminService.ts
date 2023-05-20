@@ -80,6 +80,50 @@ class AdminService {
             throw e
         }
     }
+
+    async deleteSelectedConferencesOfAdminId(id: string, conferenceIds: string[]) {
+        try {
+            if(this.token !== undefined) {
+                const response = await axios.delete(`${this.API_URL}/adminId=${id}/conference`, {
+                    data: {ids: conferenceIds},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.token}`,
+                    },
+                })
+
+                if (response.status !== 200) {
+                    console.error("Error deleting selected conferences of admin id: ", response)
+                    throw new Error("Error deleting selected conferences of admin id")
+                }
+            }
+        } catch (e) {
+            console.error("Error deleting selected conferences of admin id: ", e)
+            throw e
+        }
+    }
+
+    async deleteSelectedUsersOfAdminId(id: string, userIds: string[]) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.delete(`${this.API_URL}/adminId=${id}/user`, {
+                    data: {ids: userIds},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.token}`,
+                    },
+                })
+
+                if (response.status !== 200) {
+                    console.error("Error deleting selected users of admin id: ", response)
+                    throw new Error("Error deleting selected users of admin id")
+                }
+            }
+        } catch (e) {
+            console.error("Error deleting selected users of admin id: ", e)
+            throw e
+        }
+    }
 }
 
 export default new AdminService()

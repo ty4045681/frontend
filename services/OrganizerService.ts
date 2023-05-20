@@ -188,6 +188,28 @@ class OrganizerService {
             throw e
         }
     }
+
+    async deleteSelectedConferencesOfOrganizerId(id: string, conferenceIds: string[]) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.delete(`${this.API_URL}/organizerId=${id}/conference`, {
+                    data: {ids: conferenceIds},
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.token}`,
+                    },
+                })
+
+                if (response.status !== 200) {
+                    console.error("Error deleting selected conferences of organizer id: ", response)
+                    throw new Error("Error deleting selected conferences of organizer id")
+                }
+            }
+        } catch (e) {
+            console.error("Error deleting selected conferences of organizer id: ", e)
+            throw e
+        }
+    }
 }
 
 export default new OrganizerService()

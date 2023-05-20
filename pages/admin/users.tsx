@@ -10,6 +10,42 @@ import React from "react";
 
 const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
     const [users, setUsers] = React.useState<AdminUsersInfo[]>([])
+    const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set())
+
+    const renderHeaderButton = () => (
+        <button
+            className={`bg-red-500 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none ${selectedRows.size === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-600'
+                }`}
+            disabled={selectedRows.size === 0}
+            onClick={handleDelete}
+        >
+            Delete Selected
+        </button>
+    )
+
+    const onRowCheckboxChange = (id: string, checked: boolean) => {
+        const updatedSelectedRows = new Set(selectedRows)
+        if (checked) {
+            updatedSelectedRows.add(id)
+        } else {
+            updatedSelectedRows.delete(id)
+        }
+        setSelectedRows(updatedSelectedRows)
+    }
+
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete the selected rows? This action cannot be undone.')) {
+            // Delete selected rows from the backend
+            await AdminService.deleteSelectedUsersOfAdminId(userData?.id ?? "", Array.from(selectedRows))
+
+            // Update the users state to remove the deleted rows
+            setUsers(users.filter(user => !selectedRows.has(user.id)))
+            
+            // Clear the selected rows state
+            setSelectedRows(new Set())
+        }
+    }
+
 
     React.useEffect(() => {
         const fetchUsers = async () => {

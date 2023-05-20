@@ -3,6 +3,7 @@ import UserType from "./UserType"
 type status = 'accepted' | 'rejected' | 'pending'
 
 export type UserInfo = {
+    id: string
     name: string
     username: string
     email: string
@@ -38,6 +39,7 @@ export interface OrganizerConferenceInfo extends ConferenceInfo {
     acceptedUsersNumber: number
     rejectedUsersNumber: number
     pendingUsersNumber: number
+    status: status
 }
 
 export interface OrganizerPaperInfo extends PaperInfo {

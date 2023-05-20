@@ -7,9 +7,46 @@ import Sidebar from '@/components/dashboard/Sidebar';
 import {GetServerSideProps} from 'next';
 import Table from '@/components/dashboard/Table';
 import AdminService from "@/services/AdminService";
+import PaperService from '@/services/PaperService';
 
 const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
     const [papers, setPapers] = React.useState<AdminPapersInfo[]>([])
+    const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set())
+
+    const renderHeaderButton = () => (
+        <button
+            className={`bg-red-500 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none ${selectedRows.size === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-600'
+                }`}
+            disabled={selectedRows.size === 0}
+            onClick={handleDelete}
+        >
+            Delete Selected
+        </button>
+    )
+
+    const onRowCheckboxChange = (id: string, checked: boolean) => {
+        const updatedSelectedRows = new Set(selectedRows)
+        if (checked) {
+            updatedSelectedRows.add(id)
+        } else {
+            updatedSelectedRows.delete(id)
+        }
+        setSelectedRows(updatedSelectedRows)
+    }
+
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete the selected rows? This action cannot be undone.')) {
+            // Delete selected rows from the backend
+            await PaperService.deleteSelectedPapersOfUserId(userData?.id ?? "", Array.from(selectedRows))
+
+            // Update the papers state to remove the deleted rows
+            setPapers(papers.filter(paper => !selectedRows.has(paper.id)))
+
+            // Clear the selected rows state
+            setSelectedRows(new Set())
+        }
+    }
+
 
     React.useEffect(() => {
         const fetchPapers = async () => {
@@ -26,6 +63,16 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
         {
             id: 'adminPaper',
             columns: [
+                {
+                    id: 'checkbox',
+                    cell: info => (
+                        <input
+                            type="checkbox"
+                            checked={selectedRows.has(info.row.id)}
+                            onChange={e => onRowCheckboxChange(info.row.id, e.target.checked)}
+                        />
+                    ),
+                },
                 {
                     id: 'title',
                     accessorKey: 'title',
@@ -75,7 +122,7 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 <Sidebar userType={"admin"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<AdminPapersInfo> data={papers} columns={columns} />
+                <Table<AdminPapersInfo> data={papers} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
             </div>
         </>
     )
