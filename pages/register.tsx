@@ -106,6 +106,9 @@ const RegisterPage: React.FC = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+                <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-6">
+                    Sign up
+                </h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4">
                         <label htmlFor="firstName" className="block mb-1">
@@ -229,7 +232,7 @@ const RegisterPage: React.FC = () => {
 
                     <div className="mb-4">
                         <label htmlFor="bio" className="block mb-1">
-                            Bio
+                            个人简介
                         </label>
                         <textarea
                             id="bio"

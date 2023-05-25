@@ -1,1 +1,2 @@
-type ApplyStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED' | 'EXPIRED'
+type ApplyStatus = 'PENDING' | 'APPROVED' | 'REJECTED' 
+// | 'CANCELLED' | 'EXPIRED'

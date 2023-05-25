@@ -67,7 +67,7 @@ function OrganizerPage({ userData, isAuthenticated }: AuthenticationProps) {
                         </div>
 
                         <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Papers</h3>
+                            <h3 className="text-xl font-semibold mb-4">论文</h3>
                             <p className="text-4xl self-end">{paperCount}</p>
                         </div>
                     </div>
@@ -79,7 +79,7 @@ function OrganizerPage({ userData, isAuthenticated }: AuthenticationProps) {
                         </div>
 
                         <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Reviewers</h3>
+                            <h3 className="text-xl font-semibold mb-4">评审员</h3>
                             <p className="text-4xl self-end">{reviewerCount}</p>
                         </div>
                     </div>

@@ -48,7 +48,7 @@ export interface OrganizerPaperInfo extends PaperInfo {
 
 export interface OrganizerAttendeesInfo extends UserInfo {
     conferenceTitle: string
-    status: status
+    status: ApplyStatus
 }
 
 export interface OrganizerJudgesInfo extends UserInfo {
