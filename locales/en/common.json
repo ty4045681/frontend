@@ -1,0 +1,12 @@
+{
+    "welcome_message": "Welcome to our Conference Management System",
+    "personalized_message": "Hi, {{name}}!",
+    "message": "Discover, register, and manage your favorite conferences all in one place.",
+    "get_started_button": "Get Started",
+    "upcoming_conferences": "Upcoming Conferences",
+    "time_from": "From",
+    "time_to": "To",
+    "focus": "focus",
+    "theme": "theme",
+    "learn_more_button": "Learn more"
+}

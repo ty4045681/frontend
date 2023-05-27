@@ -6,8 +6,11 @@ import { GetServerSideProps } from "next";
 import ConferenceService, { AllConferencesByDateInfo } from "@/services/ConferenceService";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import useTranslation from 'next-translate/useTranslation';
 
 const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const { t, lang } = useTranslation('common');
+
     const [conferences, setConferences] = React.useState<AllConferencesByDateInfo[]>([]);
 
     React.useEffect(() => {
@@ -19,7 +22,7 @@ const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
     }, []);
 
     return (
-        <div className="bg-gray-100 min-h-screen">
+        <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
             <Head>
                 <title>Conference Management System</title>
                 <meta name="description" content="A web-based conference management system" />
@@ -34,16 +37,16 @@ const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
                 <div className="text-center">
                     {isAuthenticated && userData && (
                         <p className="text-lg mb-10">
-                            Hi, {userData.username}!
+                            {t('personalized_message', { name: userData.username })}
                         </p>
                     )}
-                    <h1 className="text-5xl font-bold mb-6">Welcome to our Conference Management System</h1>
-                    <p className="text-lg mb-10">
-                        Discover, register, and manage your favorite conferences all in one place.
+                    <h1 className="text-5xl font-bold mb-6 text-black dark:text-white">{t('welcome_message')}</h1>
+                    <p className="text-lg mb-10 text-black dark:text-gray-300">
+                        {t('message')}
                     </p>
                     <Link href={isAuthenticated ? "/conference" : "/register"}>
                         <span className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Get Started
+                            {t('get_started_button')}
                         </span>
                     </Link>
                 </div>
@@ -51,28 +54,28 @@ const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
 
             {/* Upcoming conferences section */}
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">Upcoming Conferences</h2>
+                <h2 className="text-4xl font-bold mb-6">{t('upcoming_conferences')}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {conferences.map((conference) => (
                         <div
                             key={conference.id}
-                            className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between"
+                            className="bg-white dark:bg-slate-600 rounded-lg shadow-md p-6 flex flex-col justify-between"
                         >
                             <div>
                                 <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
                                 <p className="text-gray-600 mb-4">{conference.location}</p>
-                                <p className="text-gray-600 mb-4">From: {conference.startDate}</p>
-                                <p className="text-gray-600 mb-4">To: {conference.endDate}</p>
+                                <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
+                                <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
                                 <p className="text-gray-800">
-                                    Focus: {conference.focus}
+                                    {t('focus')}: {conference.focus}
                                 </p>
                                 <p className="text-gray-800">
-                                    Theme: {conference.theme}
+                                    {t('theme')}: {conference.theme}
                                 </p>
                             </div>
                             <Link href={`/conference/${conference.id}`}>
                                 <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Learn More
+                                    {t('learn_more_button')}
                                 </span>
                             </Link>
                         </div>

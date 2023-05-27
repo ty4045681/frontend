@@ -1,0 +1,12 @@
+{
+    "welcome_message": "欢迎来到会议管理系统",
+    "personalized_message": "欢迎回来，{{name}}",
+    "message": "在这里发现、注册和管理您喜爱的会议",
+    "get_started_button": "即刻开始",
+    "upcoming_conferences": "即将举行的会议",
+    "time_from": "开始时间",
+    "time_to": "结束时间",
+    "focus": "关注焦点",
+    "theme": "主题",
+    "learn_more_button": "了解更多"
+}

@@ -7,8 +7,10 @@ import { useEffect, useState } from "react";
 import { ConferenceInfo } from "@/interfaces/DashboardTypes";
 import axios from "axios";
 import ConferenceService, { AllConferencesByDateInfo } from "@/services/ConferenceService";
+import useTranslation from 'next-translate/useTranslation';
 
 const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => {
+    const { t, lang } = useTranslation('conference');
     const [upcomingConferences, setUpcomingConferences] = useState<AllConferencesByDateInfo[]>([])
     const [pastConferences, setPastConferences] = useState<AllConferencesByDateInfo[]>([])
     const [ongoingConferences, setOngoingConferences] = useState<AllConferencesByDateInfo[]>([])
@@ -39,9 +41,9 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
             <Navbar isAuthenticated={isAuthenticated} userData={userData} />
 
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">Ongoing Conferences</h2>
+                <h2 className="text-4xl font-bold mb-6">{t('ongoing_conference')}</h2>
                 {ongoingConferences.length === 0 ? (
-                    <p className="text-xl text-gray-600">Currently, there are no ongoing conferences. Please check back later.</p>
+                    <p className="text-xl text-gray-600">{t('error', { time: t('ongoing')})}</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {ongoingConferences.map((conference) => (
@@ -52,18 +54,18 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
                                 <div>
                                     <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
                                     <p className="text-gray-600 mb-4">{conference.location}</p>
-                                    <p className="text-gray-600 mb-4">From: {conference.startDate}</p>
-                                    <p className="text-gray-600 mb-4">To: {conference.endDate}</p>
+                                    <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
+                                    <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
                                     <p className="text-gray-800">
-                                        Focus: {conference.focus}
+                                        {t('focus')}: {conference.focus}
                                     </p>
                                     <p className="text-gray-800">
-                                        Theme: {conference.theme}
+                                        {t('theme')}: {conference.theme}
                                     </p>
                                 </div>
                                 <Link href={`/conference/${conference.id}`}>
                                     <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Learn More
+                                        {t('learn_more_button')}
                                     </span>
                                 </Link>
                             </div>
@@ -74,9 +76,9 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
 
 
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">Upcoming Conferences</h2>
+                <h2 className="text-4xl font-bold mb-6">{t('upcoming_conference')}</h2>
                 {upcomingConferences.length === 0 ? (
-                    <p className="text-xl text-gray-600">Currently, there are no upcoming conferences. Please check back later.</p>
+                    <p className="text-xl text-gray-600">{t('error', { time: t('upcoming') })}</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {upcomingConferences.map((conference) => (
@@ -87,18 +89,18 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
                                 <div>
                                     <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
                                     <p className="text-gray-600 mb-4">{conference.location}</p>
-                                    <p className="text-gray-600 mb-4">From: {conference.startDate}</p>
-                                    <p className="text-gray-600 mb-4">To: {conference.endDate}</p>
+                                    <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
+                                    <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
                                     <p className="text-gray-800">
-                                        Focus: {conference.focus}
+                                        {t('focus')}: {conference.focus}
                                     </p>
                                     <p className="text-gray-800">
-                                        Theme: {conference.theme}
+                                        {t('theme')}: {conference.theme}
                                     </p>
                                 </div>
                                 <Link href={`/conference/${conference.id}`}>
                                     <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Learn More
+                                        {t('learn_more_button')}
                                     </span>
                                 </Link>
                             </div>
@@ -108,9 +110,9 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
             </section>
 
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">Past Conferences</h2>
+                <h2 className="text-4xl font-bold mb-6">{t('past_conference')}</h2>
                 {pastConferences.length === 0 ? (
-                    <p className="text-xl text-gray-600">Currently, there are no past conferences. Please check back later.</p>
+                    <p className="text-xl text-gray-600">{t('error', { time: t('past') })}</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {pastConferences.map((conference) => (
@@ -121,18 +123,18 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
                                 <div>
                                     <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
                                     <p className="text-gray-600 mb-4">{conference.location}</p>
-                                    <p className="text-gray-600 mb-4">From: {conference.startDate}</p>
-                                    <p className="text-gray-600 mb-4">To: {conference.endDate}</p>
+                                    <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
+                                    <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
                                     <p className="text-gray-800">
-                                        Focus: {conference.focus}
+                                        {t('focus')}: {conference.focus}
                                     </p>
                                     <p className="text-gray-800">
-                                        Theme: {conference.theme}
+                                        {t('theme')}: {conference.theme}
                                     </p>
                                 </div>
                                 <Link href={`/conference/${conference.id}`}>
                                     <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Learn More
+                                        {t('learn_more_button'))}
                                     </span>
                                 </Link>
                             </div>

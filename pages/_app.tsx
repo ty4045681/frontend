@@ -1,19 +1,16 @@
 import '@/styles/globals.css'
 import type {AppProps} from 'next/app'
-import {createTheme, ThemeProvider} from "@mui/material";
+import {ThemeProvider} from "next-themes";
 import {DevSupport} from "@react-buddy/ide-toolbox-next";
 import {ComponentPreviews, useInitial} from "@/components/dev";
 
-const theme = createTheme()
 
 export default function App({Component, pageProps}: AppProps) {
     return (
-        <ThemeProvider theme={theme}>
-            <DevSupport ComponentPreviews={ComponentPreviews}
-                        useInitialHook={useInitial}
-            >
+        <ThemeProvider attribute='class'>
+            <div className='custom-scrollbar-wrapper'>
                 <Component {...pageProps} />
-            </DevSupport>
+            </div>
         </ThemeProvider>
     )
 }

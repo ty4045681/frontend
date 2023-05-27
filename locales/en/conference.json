@@ -1,0 +1,14 @@
+{
+    "ongoing_conference": "Ongoing Conference",
+    "upcoming_conference": "Upcoming Conference",
+    "past_conference": "Past Conference",
+    "error": "Currently, there are no {{time}} conferences. Please check back later.",
+    "ongoing": "ongoing",
+    "upcoming": "upcoming",
+    "past": "past",
+    "time_from": "From",
+    "time_to": "To",
+    "focus": "focus",
+    "theme": "theme",
+    "learn_more_button": "Learn more"
+}

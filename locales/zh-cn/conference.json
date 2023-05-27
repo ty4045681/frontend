@@ -1,0 +1,14 @@
+{
+    "ongoing_conference": "正在进行的会议",
+    "upcoming_conference": "即将举行的会议",
+    "past_conference": "已经结束的会议",
+    "error": "目前，没有{{time}}会议。请稍后再查看。",
+    "ongoing": "正在进行的",
+    "upcoming": "即将举行的",
+    "past": "已经结束的",
+    "time_from": "开始时间",
+    "time_to": "结束时间",
+    "focus": "关注焦点",
+    "theme": "主题",
+    "learn_more_button": "了解更多"
+}
