@@ -8,6 +8,7 @@ import { ConferenceInfo } from "@/interfaces/DashboardTypes";
 import axios from "axios";
 import ConferenceService, { AllConferencesByDateInfo } from "@/services/ConferenceService";
 import useTranslation from 'next-translate/useTranslation';
+import ConferenceCard from "@/components/ConferenceCard";
 
 const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => {
     const { t, lang } = useTranslation('conference');
@@ -47,28 +48,7 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {ongoingConferences.map((conference) => (
-                            <div
-                                key={conference.id}
-                                className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between"
-                            >
-                                <div>
-                                    <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
-                                    <p className="text-gray-600 mb-4">{conference.location}</p>
-                                    <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
-                                    <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
-                                    <p className="text-gray-800">
-                                        {t('focus')}: {conference.focus}
-                                    </p>
-                                    <p className="text-gray-800">
-                                        {t('theme')}: {conference.theme}
-                                    </p>
-                                </div>
-                                <Link href={`/conference/${conference.id}`}>
-                                    <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        {t('learn_more_button')}
-                                    </span>
-                                </Link>
-                            </div>
+                            <ConferenceCard conference={conference} />
                         ))}
                     </div>
                 )}
@@ -82,28 +62,7 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {upcomingConferences.map((conference) => (
-                            <div
-                                key={conference.id}
-                                className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between"
-                            >
-                                <div>
-                                    <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
-                                    <p className="text-gray-600 mb-4">{conference.location}</p>
-                                    <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
-                                    <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
-                                    <p className="text-gray-800">
-                                        {t('focus')}: {conference.focus}
-                                    </p>
-                                    <p className="text-gray-800">
-                                        {t('theme')}: {conference.theme}
-                                    </p>
-                                </div>
-                                <Link href={`/conference/${conference.id}`}>
-                                    <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        {t('learn_more_button')}
-                                    </span>
-                                </Link>
-                            </div>
+                            <ConferenceCard conference={conference} />
                         ))}
                     </div>
                 )}
@@ -116,28 +75,7 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {pastConferences.map((conference) => (
-                            <div
-                                key={conference.id}
-                                className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between"
-                            >
-                                <div>
-                                    <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
-                                    <p className="text-gray-600 mb-4">{conference.location}</p>
-                                    <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
-                                    <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
-                                    <p className="text-gray-800">
-                                        {t('focus')}: {conference.focus}
-                                    </p>
-                                    <p className="text-gray-800">
-                                        {t('theme')}: {conference.theme}
-                                    </p>
-                                </div>
-                                <Link href={`/conference/${conference.id}`}>
-                                    <span className="cursor-pointer mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        {t('learn_more_button'))}
-                                    </span>
-                                </Link>
-                            </div>
+                            <ConferenceCard conference={conference} />
                         ))}
                     </div>
                 )}

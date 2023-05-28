@@ -6,6 +6,7 @@ import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import AttendanceService from "@/services/AttendanceService";
 import PaperService from "@/services/PaperService";
+import DashboardCard from "@/components/dashboard/DashboardCard";
 
 
 function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
@@ -67,38 +68,20 @@ function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
     
                 {/* Content */}
-                <div className="flex-1 flex flex-col gap-10 p-10">
+                <div className="ml-[150px] mt-16 flex-1 flex flex-col gap-10 p-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Attended Conferences</h3>
-                            <p className="text-4xl self-end">{attendedConferences}</p>
-                        </div>
+                        <DashboardCard title={"Attended Conferences"} content={attendedConferences} />
     
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Upcoming Conferences</h3>
-                            <p className="text-4xl self-end">{upcomingConferences}</p>
-                        </div>
+                        <DashboardCard title={"Upcoming Conferences"} content={upcomingConferences} />
     
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
-                            <p className="text-4xl self-end">{pendingReviewConferences}</p>
-                        </div>
+                        <DashboardCard title={"Pending Review Conferences"} content={pendingReviewConferences} />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Submitted Papers</h3>
-                            <p className="text-4xl self-end">{submittedPapers}</p>
-                        </div>
+                        <DashboardCard title={"Submitted Papers"} content={submittedPapers} />
     
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Passed Papers in Upcoming Conferences</h3>
-                            <p className="text-4xl self-end">{passedPapers}</p>
-                        </div>
+                        <DashboardCard title={"Passed Papers in Upcoming Conferences"} content={passedPapers} />
     
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Pending Review Papers</h3>
-                            <p className="text-4xl self-end">{pendingReviewPapers}</p>
-                        </div>
+                        <DashboardCard title={"Pending Review Papers"} content={pendingReviewPapers} />
                     </div>
                 </div>
             </div>

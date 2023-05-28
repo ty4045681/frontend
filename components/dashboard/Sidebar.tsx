@@ -16,123 +16,51 @@ const Sidebar: React.FC<SidebarProps> = ({ userType, isAuthenticated }) => {
             )
         }
 
+        const NavLink = (link: string, content: string) => {
+            return (
+                <li className={"min-w-[130px] cursor-pointer hover:bg-sky-700 rounded-2xl px-4 py-2"}>
+                    <Link href={link}>
+                        <div className={"text-white"}>
+                            {content}
+                        </div>
+                    </Link>
+                </li>
+            )
+        }
+
         switch (userType) {
             case "user":
                 return (
                     <>
-                        <li>
-                            <Link href={"/user/info"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Personal Information
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/user/conferences"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Conferences
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/user/papers"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Papers
-                                </div>
-                            </Link>
-                        </li>
+                        {NavLink("/user/info", "Personal Info")}
+                        {NavLink("/user/conferences", "Conferences")}
+                        {NavLink("/user/papers", "Papers")}
                     </>
                 )
             case "organizer":
                 return (
                     <>
-                        <li>
-                            <Link href={"/organizer/info"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Personal Information
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/organizer/conferences"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Conferences
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/organizer/papers"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Papers
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/organizer/attendees"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Attendees
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/organizer/judges"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Judges
-                                </div>
-                            </Link>
-                        </li>
+                        {NavLink("/organizer/info", "Personal Info")}
+                        {NavLink("/organizer/conferences", "Conferences")}
+                        {NavLink("/organizer/papers", "Papers")}
+                        {NavLink("/organizer/attendees", "Attendees")}
+                        {NavLink("/organizer/judges", "Judges")}
                     </>
                 )
             case "admin":
                 return (
                     <>
-                        <li>
-                            <Link href={"/admin/info"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Personal Information
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/admin/conferences"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Conferences
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/admin/papers"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Papers
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/admin/users"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Users
-                                </div>
-                            </Link>
-                        </li>
+                        {NavLink("/admin/info", "Personal Info")}
+                        {NavLink("/admin/conferences", "Conferences")}
+                        {NavLink("/admin/papers", "Papers")}
+                        {NavLink("/admin/users", "Users")}
                     </>
                 )
             case "judge":
                 return (
                     <>
-                        <li>
-                            <Link href={"/judge/info"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Personal Information
-                                </div>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href={"/judge/papers"}>
-                                <div className={"text-white cursor-pointer"}>
-                                    Papers
-                                </div>
-                            </Link>
-                        </li>
+                        {NavLink("/judge/info", "Personal Info")}
+                        {NavLink("/judge/papers", "Papers")}
                     </>
                 )
             default:
@@ -144,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({ userType, isAuthenticated }) => {
     }
 
     return (
-        <div className={"flex flex-col w-1/6 h-screen bg-gray-800"}>
+        <div className={"flex flex-col fixed min-w-[150px] h-screen bg-gray-800 mt-16"}>
             <div className={"flex flex-col items-center justify-center"}>
                 <div className={"text-white text-xl font-bold"}>
                     {userType}

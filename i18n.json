@@ -6,6 +6,6 @@
     "defaultLocale": "en",
     "pages": {
         "/": ["common"],
-        "/conference": ["conference"]
+        "/conference": ["common", "conference"]
     }
 }

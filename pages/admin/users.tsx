@@ -95,7 +95,9 @@ const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 <Sidebar userType="admin" isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<AdminUsersInfo> data={users} columns={columns} />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<AdminUsersInfo> data={users} columns={columns} />
+                </div>
             </div>
         </>
     );

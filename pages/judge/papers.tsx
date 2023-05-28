@@ -69,7 +69,9 @@ const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }
                 <Sidebar userType="judge" isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<JudgePapersInfo> data={papers} columns={columns} />
+                <div className={"ml-[150px] mt-16"} >
+                    <Table<JudgePapersInfo> data={papers} columns={columns} />
+                </div>
             </div>
         </>
     );

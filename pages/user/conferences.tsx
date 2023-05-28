@@ -115,7 +115,9 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<UserConferenceInfo> data={conferences} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<UserConferenceInfo> data={conferences} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                </div>
             </div>
         </>
     )

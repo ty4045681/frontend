@@ -119,7 +119,9 @@ const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 <Sidebar userType='admin' isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<ConferenceInfo> data={conferences} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange } />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<ConferenceInfo> data={conferences} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange } />
+                </div>
             </div>
         </>
     )

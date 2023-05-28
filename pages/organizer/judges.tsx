@@ -60,7 +60,9 @@ const JudgesPage: React.FC<AuthenticationProps> = ( { isAuthenticated, userData 
                 <Sidebar userType="organizer" isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<OrganizerJudgesInfo> data={judges} columns={columns} />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<OrganizerJudgesInfo> data={judges} columns={columns} />
+                </div>
             </div>
         </>
     )

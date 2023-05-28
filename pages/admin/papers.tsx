@@ -122,7 +122,9 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 <Sidebar userType={"admin"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<AdminPapersInfo> data={papers} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<AdminPapersInfo> data={papers} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                </div>
             </div>
         </>
     )

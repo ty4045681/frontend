@@ -120,7 +120,9 @@ const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<UserPaperInfo> data={papers} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<UserPaperInfo> data={papers} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                </div>
             </div>
         </>
     )

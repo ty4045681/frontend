@@ -15,7 +15,7 @@ const OrganizerInfoPage: React.FC<AuthenticationProps> = ({ isAuthenticated, use
                 <Sidebar userType={"organizer"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col m-10">
+                <div className="ml-[150px] mt-16 flex-1 flex flex-col m-10">
                     <Info userType="organizer" isAuthenticated={isAuthenticated} userData={userData} />
 
                     <div className="divider mt-10 mb-10"></div>

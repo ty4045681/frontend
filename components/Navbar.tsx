@@ -15,6 +15,7 @@ import { BsDot } from "react-icons/bs"
 import { useTheme } from "next-themes";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import useTranslation from 'next-translate/useTranslation';
+import setLanguage from 'next-translate/setLanguage'
 import { useRouter } from "next/router";
 
 
@@ -23,7 +24,6 @@ const ConferenceNavbar: React.FC<AuthenticationProps> = ({
     userData,
 }) => {
     const router = useRouter()
-    const [mounted, setMounted] = useState(false);
     const { t, lang } = useTranslation('navbar')
     const { theme, setTheme } = useTheme();
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -35,17 +35,9 @@ const ConferenceNavbar: React.FC<AuthenticationProps> = ({
         setDropdownOpen(!dropdownOpen);
     };
 
-    const toggleLangDropdown = () => {
-        setLangDropdownOpen(!langDropdownOpen);
-    };
-
-    const handleLanguageChange = (lang: string) => {
-        router.push(`/${lang}`)
+    const handleLanguageChange = async (lang: string) => {
+        await setLanguage(lang)
     }
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     useEffect(() => {
         const handleClickOutside = (event: any) => {

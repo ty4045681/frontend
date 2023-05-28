@@ -53,7 +53,7 @@ function JudgePage({ userData, isAuthenticated }: AuthenticationProps) {
                 <Sidebar userType={"judge"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col gap-10 p-10">
+                <div className="ml-[150px] mt-16 flex-1 flex flex-col gap-10 p-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
                             <h3 className="text-xl font-semibold mb-4">Approved Papers</h3>

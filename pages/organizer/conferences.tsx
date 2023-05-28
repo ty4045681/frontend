@@ -173,12 +173,14 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                 />
 
                 {/* Content */}
-                <Table<OrganizerConferenceInfo>
-                    data={conferences}
-                    columns={columns}
-                    renderHeaderButton={renderHeaderButton}
-                    onRowCheckboxChange={onRowCheckboxChange}
-                />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<OrganizerConferenceInfo>
+                        data={conferences}
+                        columns={columns}
+                        renderHeaderButton={renderHeaderButton}
+                        onRowCheckboxChange={onRowCheckboxChange}
+                    />
+                </div>
             </div>
 
             <Modal

@@ -130,7 +130,9 @@ const AttendeesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userDat
                 <Sidebar userType="organizer" isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <Table<OrganizerAttendeesInfo> data={attendees} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                <div className={"ml-[150px] mt-16"}>
+                    <Table<OrganizerAttendeesInfo> data={attendees} columns={columns} renderHeaderButton={renderHeaderButton} onRowCheckboxChange={onRowCheckboxChange} />
+                </div>
             </div>
 
             <Modal
