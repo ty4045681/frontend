@@ -5,9 +5,12 @@ import {GetServerSideProps} from "next";
 import {useRouter} from "next/router";
 import React, {useEffect} from "react";
 import JudgeService from "@/services/JudgeService";
+import DashboardCard from "@/components/dashboard/DashboardCard";
+import useTranslation from "next-translate/useTranslation";
 
 function JudgePage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter();
+    const { t, lang } = useTranslation('judge')
 
     const [approvedPapers, setApprovedPapers] = React.useState(0);
     const [pendingPapers, setPendingPapers] = React.useState(0);
@@ -55,20 +58,11 @@ function JudgePage({ userData, isAuthenticated }: AuthenticationProps) {
                 {/* Content */}
                 <div className="ml-[150px] mt-16 flex-1 flex flex-col gap-10 p-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Approved Papers</h3>
-                            <p className="text-4xl self-end">{approvedPapers}</p>
-                        </div>
+                        <DashboardCard title={t('approved_papers')} content={approvedPapers} />
 
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Pending Review Papers</h3>
-                            <p className="text-4xl self-end">{pendingPapers}</p>
-                        </div>
+                        <DashboardCard title={t('pending_papers')} content={pendingPapers} />
 
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Rejected Conferences</h3>
-                            <p className="text-4xl self-end">{rejectedPapers}</p>
-                        </div>
+                        <DashboardCard title={t('rejected_papers')} content={rejectedPapers} />
                     </div>
                 </div>
             </div>

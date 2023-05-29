@@ -8,10 +8,12 @@ import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import OrganizerService from "@/services/OrganizerService";
 import Modal from "react-modal";
+import useTranslation from "next-translate/useTranslation";
 
 Modal.setAppElement("#__next");
 
 const AttendeesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const { t, lang } = useTranslation('table')
     const [attendees, setAttendees] = useState<OrganizerAttendeesInfo[]>([])
     const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set())
     const [selectedStatuses, setSelectedStatuses] = useState<Record<string, ApplyStatus>>({})
@@ -21,7 +23,7 @@ const AttendeesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userDat
     const closeModal = () => setIsOpen(false)
 
     const handleStatusChange = () => {
-        if (window.confirm('Are you sure you want to change the status of the selected rows? This action cannot be undone.')) {
+        if (window.confirm(t('confirm_message'))) {
             // Change the status of the selected rows in the backend
             const updatedAttendees = attendees.map(attendee => {
                 if (selectedRows.has(attendee.id)) {
@@ -51,7 +53,7 @@ const AttendeesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userDat
             className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none hover:bg-blue-600"
             onClick={openModal}
         >
-            Change Status
+            {t('change_status')}
         </button>
     )
 
@@ -95,26 +97,31 @@ const AttendeesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userDat
                 {
                     id: 'name',
                     accessorKey: 'name',
+                    header: t('name'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'username',
                     accessorKey: 'username',
+                    header: t('username'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'email',
                     accessorKey: 'email',
+                    header: t('email'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'conferenceTitle',
                     accessorKey: 'conferenceTitle',
+                    header: t('conference_title'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'status',
                     accessorKey: 'status',
+                    header: t('status'),
                     cell: info => info.getValue(),
                 },
             ]
@@ -138,11 +145,11 @@ const AttendeesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userDat
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
-                contentLabel="Change Status"
+                contentLabel={t('change_status')}
                 className="fixed inset-0 flex items-center justify-center z-50 outline-none focus:outline-none"
             >
                 <div className="bg-white rounded-lg px-4 pt-5 pb-4 shadow-xl sm:max-w-md sm:w-full sm:p-6">
-                    <h2 className="text-lg leading-6 font-medium text-gray-900 mb-4 flex justify-between">Change Status</h2>
+                    <h2 className="text-lg leading-6 font-medium text-gray-900 mb-4 flex justify-between">{t('change_status')}</h2>
 
                     {/* Display a line for each selected row */}
                     {Array.from(selectedRows).map(id => {

@@ -6,11 +6,11 @@ import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
 import { ColumnDef } from "@tanstack/react-table";
 import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from "react";
-import ConferenceService from "@/services/ConferenceService";
 import Link from "next/link";
 import OrganizerService from "@/services/OrganizerService";
 import NewConferenceForm from "@/components/dashboard/NewConferenceForm";
 import Modal from "react-modal";
+import useTranslation from "next-translate/useTranslation";
 
 Modal.setAppElement("#__next");
 
@@ -18,6 +18,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
     isAuthenticated,
     userData,
 }) => {
+    const { t, lang } = useTranslation("table");
     const [conferences, setConferences] = useState<OrganizerConferenceInfo[]>([]);
     const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
     const [modalIsOpen, setIsOpen] = useState(false)
@@ -32,7 +33,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                 className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none hover:bg-blue-600"
                 onClick={openModal}
             >
-                Add Conference
+                {t("add_conference")}
             </button>
 
             <button
@@ -43,7 +44,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                 disabled={selectedRows.size === 0}
                 onClick={handleDelete}
             >
-                Delete Selected
+                {t("delete_selected")}
             </button>
         </div>
     );
@@ -61,7 +62,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
     const handleDelete = async () => {
         if (
             window.confirm(
-                "Are you sure you want to delete the selected rows? This action cannot be undone."
+                t("confirm_message")
             )
         ) {
             // Delete selected rows from the backend
@@ -111,6 +112,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                 {
                     id: "title",
                     accessorKey: "title",
+                    header: t("title"),
                     cell: (info) => (
                         <Link href={`/conference/${info.row.original.id}`}>
                             <span className="text-blue-600 hover:text-blue-800 underline cursor-pointer">
@@ -122,34 +124,37 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                 {
                     id: "location",
                     accessorKey: "location",
+                    header: t("location"),
                     cell: (info) => info.getValue(),
                 },
                 {
                     id: "startDate",
                     accessorKey: "startDate",
+                    header: t("start_date"),
                     cell: (info) => info.getValue(),
                 },
                 {
                     id: "endDate",
                     accessorKey: "endDate",
+                    header: t("end_date"),
                     cell: (info) => info.getValue(),
                 },
                 {
                     id: "acceptedUsersNumber",
                     accessorKey: "acceptedUsersNumber",
-                    header: "Accepted Users",
+                    header: t("accepted_users"),
                     cell: (info) => info.getValue(),
                 },
                 {
                     id: "pendingUsersNumber",
                     accessorKey: "pendingUsersNumber",
-                    header: "Pending Users",
+                    header: t("pending_users"),
                     cell: (info) => info.getValue(),
                 },
                 {
                     id: "rejectedUsersNumber",
                     accessorKey: "rejectedUsersNumber",
-                    header: "Rejected Users",
+                    header: t("rejected_users"),
                     cell: (info) => info.getValue(),
                 },
             ],

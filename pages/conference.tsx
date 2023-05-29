@@ -1,11 +1,8 @@
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
 import { useEffect, useState } from "react";
-import { ConferenceInfo } from "@/interfaces/DashboardTypes";
-import axios from "axios";
 import ConferenceService, { AllConferencesByDateInfo } from "@/services/ConferenceService";
 import useTranslation from 'next-translate/useTranslation';
 import ConferenceCard from "@/components/ConferenceCard";
@@ -37,12 +34,12 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
     }, [])
 
     return (
-        <div className="bg-gray-100 min-h-screen">
+        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen">
             {/* Header */}
             <Navbar isAuthenticated={isAuthenticated} userData={userData} />
 
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">{t('ongoing_conference')}</h2>
+                <h2 className="text-black dark:text-white text-4xl font-bold mb-6">{t('ongoing_conference')}</h2>
                 {ongoingConferences.length === 0 ? (
                     <p className="text-xl text-gray-600">{t('error', { time: t('ongoing')})}</p>
                 ) : (
@@ -56,7 +53,7 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
 
 
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">{t('upcoming_conference')}</h2>
+                <h2 className="text-black dark:text-white text-4xl font-bold mb-6">{t('upcoming_conference')}</h2>
                 {upcomingConferences.length === 0 ? (
                     <p className="text-xl text-gray-600">{t('error', { time: t('upcoming') })}</p>
                 ) : (
@@ -69,7 +66,7 @@ const ConferencesPage = ({ isAuthenticated, userData }: AuthenticationProps) => 
             </section>
 
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">{t('past_conference')}</h2>
+                <h2 className="text-black dark:text-white text-4xl font-bold mb-6">{t('past_conference')}</h2>
                 {pastConferences.length === 0 ? (
                     <p className="text-xl text-gray-600">{t('error', { time: t('past') })}</p>
                 ) : (

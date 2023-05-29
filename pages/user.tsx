@@ -7,10 +7,12 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import AttendanceService from "@/services/AttendanceService";
 import PaperService from "@/services/PaperService";
 import DashboardCard from "@/components/dashboard/DashboardCard";
+import useTranslation from "next-translate/useTranslation";
 
 
 function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter();
+    const { t, lang } = useTranslation('user')
 
     const [attendedConferences, setAttendedConferences] = React.useState(0);
     const [upcomingConferences, setUpcomingConferences] = React.useState(0);
@@ -68,20 +70,20 @@ function UserPage({ userData, isAuthenticated }: AuthenticationProps) {
                 <Sidebar userType={"user"} isAuthenticated={isAuthenticated} userData={userData} />
     
                 {/* Content */}
-                <div className="ml-[150px] mt-16 flex-1 flex flex-col gap-10 p-10">
+                <div className="ml-[150px] mt-16 bg-gray-200 dark:bg-gray-900 flex-1 flex flex-col gap-10 p-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <DashboardCard title={"Attended Conferences"} content={attendedConferences} />
+                        <DashboardCard title={t('attended_conferences')} content={attendedConferences} />
     
-                        <DashboardCard title={"Upcoming Conferences"} content={upcomingConferences} />
+                        <DashboardCard title={t('upcoming_conferences')} content={upcomingConferences} />
     
-                        <DashboardCard title={"Pending Review Conferences"} content={pendingReviewConferences} />
+                        <DashboardCard title={t('pending_conferences')} content={pendingReviewConferences} />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <DashboardCard title={"Submitted Papers"} content={submittedPapers} />
+                        <DashboardCard title={t('submitted_papers')} content={submittedPapers} />
     
-                        <DashboardCard title={"Passed Papers in Upcoming Conferences"} content={passedPapers} />
+                        <DashboardCard title={t('passed_papers')} content={passedPapers} />
     
-                        <DashboardCard title={"Pending Review Papers"} content={pendingReviewPapers} />
+                        <DashboardCard title={t('pending_papers')} content={pendingReviewPapers} />
                     </div>
                 </div>
             </div>

@@ -5,9 +5,10 @@ import {AuthenticationProps} from "@/services/auth";
 import {useRouter} from "next/router";
 import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {UserType} from "@/interfaces/UserType";
+import UserType from "@/interfaces/UserType";
 import {API_BASE_URL} from "@/config";
 import UserService, {GetUserInfoInterface} from "@/services/UserService";
+import useTranslation from "next-translate/useTranslation";
 
 const API_URL = `${API_BASE_URL}/user`
 
@@ -64,6 +65,7 @@ interface InfoProps extends AuthenticationProps {
 
 const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
     const router = useRouter()
+    const { t, lang } = useTranslation('info_change')
 
     const [user, setUser] = useState<FormValues>({
         name: '',
@@ -105,18 +107,18 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
     const UserInfoDisplay = () => {
         return (
             <div className={"container mx-auto px-4"}>
-                <h2 className={"text-2xl font-semibold mb-6"}>User Information</h2>
-                <div className={"bg-white shadow-md rounded p-6"}>
+                <h2 className={"text-black dark:text-white text-2xl font-semibold mb-6"}>{t('user_info')}</h2>
+                <div className={"bg-white dark:bg-gray-800 shadow-md rounded p-6"}>
                     {fields.map((field) => (
                         <div key={field.name}>
-                            <label className="block text-xl font-semibold mb-2" htmlFor={field.name}>
-                                {field.label}
+                            <label className="text-black dark:text-white block text-xl font-semibold mb-2" htmlFor={field.name}>
+                                {t(field.name)}
                             </label>
                             <p className="border rounded p-2 w-full mb-4">
                                 {user[field.name] ? (
-                                    user[field.name]
+                                    <p className={"text-black dark:text-white"}>{user[field.name]}</p>
                                 ) : (
-                                    <span className="text-gray-400">-- blank --</span>
+                                    <span className="text-gray-400">{t('blank')}</span>
                                 )}
                             </p>
                         </div>
@@ -125,7 +127,7 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
                         onClick={toggleEditing}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
                     >
-                        Edit
+                        {t('edit_button')}
                     </button>
                 </div>
             </div>
@@ -136,19 +138,19 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
     const UserInfoForm = () => {
         return (
             <div className={"container mx-auto px-4"}>
-                <h2 className={"text-2xl font-semibold mb-6"}>User Information</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className={"bg-white shadow-md rounded p-6"}>
+                <h2 className={"text-black dark:text-white text-2xl font-semibold mb-6"}>User Information</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className={"bg-white dark:bg-gray-800 shadow-md rounded p-6"}>
                     {fields.map((field) => (
                         <div key={field.name}>
-                            <label className="block text-xl font-semibold mb-2" htmlFor={field.name}>
-                                {field.label}
+                            <label className="text-black dark:text-white block text-xl font-semibold mb-2" htmlFor={field.name}>
+                                {t(field.name)}
                             </label>
                             {field.name === "bio" ? (
                                 <Controller
                                     name={field.name}
                                     control={control}
                                     render={({ field: inputField }) => (
-                                        <textarea {...inputField}  value={inputField.value ?? ''} className="border rounded p-2 w-full mb-4" />
+                                        <textarea {...inputField}  value={inputField.value ?? ''} className="text-black dark:text-white border rounded p-2 w-full mb-4" />
                                     )}
                                 />
                             ) : (
@@ -156,7 +158,7 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
                                     name={field.name}
                                     control={control}
                                     render={({ field: inputField }) => (
-                                        <input {...inputField} type={field.type} value={inputField.value ?? ''} disabled={field.name === "username"} className="border rounded p-2 w-full mb-4" />
+                                        <input {...inputField} type={field.type} value={inputField.value ?? ''} disabled={field.name === "username"} className="text-black dark:text-white border rounded p-2 w-full mb-4" />
                                     )}
                                 />
                             )}
@@ -168,10 +170,10 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
                         onClick={toggleEditing}
                         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4 mt-4"
                     >
-                        Cancel
+                        {t('cancel')}
                     </button>
                     <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                        Save Changes
+                        {t('save_changes')}
                     </button>
                 </form>
             </div>
@@ -185,7 +187,7 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
 
     const onSubmit = async (data: FormValues) => {
         if (isDataChanged(user, data)) {
-            if (!window.confirm("Are you sure you want to make changes?")) {
+            if (!window.confirm(t('confirm_message'))) {
                 return;
             }
             try {

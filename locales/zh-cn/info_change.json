@@ -1,0 +1,19 @@
+{
+  "user_info": "用户信息",
+  "name": "姓名",
+  "username": "用户名",
+  "email": "电子邮件",
+  "address": "地址",
+  "phoneNumber": "电话号码",
+  "bio": "个人简介",
+  "edit_button": "编辑",
+  "cancel": "取消",
+  "save_changes": "保存更改",
+  "change_password": "修改密码",
+  "currentPassword": "当前密码",
+  "newPassword": "新密码",
+  "confirmPassword": "确认密码",
+  "change_password_button": "修改密码",
+  "blank": "-- 空白 --",
+  "confirm_message": "您确定要进行修改吗？"
+}

@@ -1,0 +1,8 @@
+{
+  "attended_conferences": "Attended Conferences",
+  "upcoming_conferences": "Upcoming Conferences",
+  "pending_conferences": "Pending Review Conferences",
+  "submitted_papers": "Submitted Papers",
+  "passed_papers": "Passed Papers in Upcoming Conferences",
+  "pending_papers": "Pending Review Papers"
+}

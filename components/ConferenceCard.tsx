@@ -15,14 +15,14 @@ const ConferenceCard = ({ conference }: ConferenceCardProps) => {
             className="bg-white dark:bg-slate-600 rounded-lg shadow-md p-6 flex flex-col justify-between"
         >
             <div>
-                <h3 className="text-2xl font-bold mb-2">{conference.title}</h3>
-                <p className="text-gray-600 mb-4">{conference.location}</p>
-                <p className="text-gray-600 mb-4">{t('time_from')}: {conference.startDate}</p>
-                <p className="text-gray-600 mb-4">{t('time_to')}: {conference.endDate}</p>
-                <p className="text-gray-800">
+                <h3 className="text-black dark:text-white text-2xl font-bold mb-2">{conference.title}</h3>
+                <p className="text-gray-600 dark:text-mauve7 mb-4">{conference.location}</p>
+                <p className="text-gray-600 dark:text-mauve8 mb-4">{t('time_from')}: {conference.startDate}</p>
+                <p className="text-gray-600 dark:text-mauve8 mb-4">{t('time_to')}: {conference.endDate}</p>
+                <p className="text-gray-600 dark:text-mauve8 ">
                     {t('focus')}: {conference.focus}
                 </p>
-                <p className="text-gray-800">
+                <p className="text-gray-600 dark:text-mauve8">
                     {t('theme')}: {conference.theme}
                 </p>
             </div>

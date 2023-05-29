@@ -55,7 +55,7 @@ const Home: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
 
             {/* Upcoming conferences section */}
             <section className="container mx-auto px-4 py-20">
-                <h2 className="text-4xl font-bold mb-6">{t('upcoming_conferences')}</h2>
+                <h2 className="text-black dark:text-white text-4xl font-bold mb-6">{t('upcoming_conferences')}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {conferences.map((conference) => (
                         <ConferenceCard conference={conference} />

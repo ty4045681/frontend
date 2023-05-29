@@ -8,9 +8,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AttendanceService from "@/services/AttendanceService";
+import useTranslation from "next-translate/useTranslation";
 
 
 const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const { t, lang } = useTranslation('table')
     const [conferences, setConferences] = useState<UserConferenceInfo[]>([])
     const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set())
 
@@ -21,7 +23,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
             disabled={selectedRows.size === 0}
             onClick={handleDelete}
         >
-            Delete Selected
+            {t('delete_selected')}
         </button>
     );
 
@@ -36,7 +38,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
     };
 
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete the selected rows? This action cannot be undone.')) {
+        if (window.confirm(t('confirm_message'))) {
             // Delete selected rows from the backend
             await AttendanceService.deleteSelectedAttendancesOfUserId(userData?.id ?? "", Array.from(selectedRows));
 
@@ -76,6 +78,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
                 {
                     id: 'title',
                     accessorKey: 'title',
+                    header: t('title'),
                     cell: info => (
                         <Link href={`/conference/${info.row.original.id}`}>
                             <span className="text-blue-600 hover:text-blue-800 underline cursor-pointer">{info.getValue()}</span>
@@ -85,21 +88,25 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userD
                 {
                     id: 'location',
                     accessorKey: 'location',
+                    header: t('location'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'startDate',
                     accessorKey: 'startDate',
+                    header: t('start_date'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'endDate',
                     accessorKey: 'endDate',
+                    header: t('end_date'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'status',
                     accessorKey: 'status',
+                    header: t('status'),
                     cell: info => info.getValue(),
                 }
             ]

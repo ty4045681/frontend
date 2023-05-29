@@ -8,8 +8,10 @@ import {GetServerSideProps} from 'next';
 import Table from '@/components/dashboard/Table';
 import AdminService from "@/services/AdminService";
 import PaperService from '@/services/PaperService';
+import useTranslation from "next-translate/useTranslation";
 
 const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const { t, lang } = useTranslation('table')
     const [papers, setPapers] = React.useState<AdminPapersInfo[]>([])
     const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set())
 
@@ -20,7 +22,7 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
             disabled={selectedRows.size === 0}
             onClick={handleDelete}
         >
-            Delete Selected
+            {t('delete_selected')}
         </button>
     )
 
@@ -35,7 +37,7 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
     }
 
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete the selected rows? This action cannot be undone.')) {
+        if (window.confirm(t('confirm_message'))) {
             // Delete selected rows from the backend
             await PaperService.deleteSelectedPapersOfUserId(userData?.id ?? "", Array.from(selectedRows))
 
@@ -76,16 +78,19 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'title',
                     accessorKey: 'title',
+                    header: t('title'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'conferenceTitle',
                     accessorKey: 'conferenceTitle',
+                    header: t('conference_title'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'authors',
                     accessorKey: 'authors',
+                    header: t('authors'),
                     cell: info => {
                         const authors = info.getValue();
                         return Array.isArray(authors) ? authors.join(', ') : authors;
@@ -94,6 +99,7 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'keywords',
                     accessorKey: 'keywords',
+                    header: t('keywords'),
                     cell: info => {
                         const keywords = info.getValue();
                         return Array.isArray(keywords) ? keywords.join(', ') : keywords;
@@ -102,11 +108,13 @@ const PapersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'abstract',
                     accessorKey: 'abstract',
+                    header: t('abstract'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'status',
                     accessorKey: 'status',
+                    header: t('status'),
                     cell: info => info.getValue(),
                 },
             ]

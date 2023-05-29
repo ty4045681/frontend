@@ -1,0 +1,8 @@
+{
+  "attended_conferences": "参加的会议",
+  "upcoming_conferences": "即将召开的会议",
+  "pending_conferences": "申请待审核的会议",
+  "submitted_papers": "提交的论文",
+  "passed_papers": "未来会议中采纳的论文",
+  "pending_papers": "等待审核的论文"
+}

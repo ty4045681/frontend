@@ -8,8 +8,10 @@ import Table from '@/components/dashboard/Table';
 import {GetServerSideProps} from 'next';
 import AdminService from "@/services/AdminService";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const { t, lang } = useTranslation('table')
     const [conferences, setConferences] = React.useState<AdminConferencesInfo[]>([])
     const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set())
 
@@ -20,7 +22,7 @@ const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
             disabled={selectedRows.size === 0}
             onClick={handleDelete}
         >
-            Delete Selected
+            {t('delete_selected')}
         </button>
     )
 
@@ -35,7 +37,7 @@ const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
     }
 
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete the selected rows? This action cannot be undone.')) {
+        if (window.confirm(t('confirm_message'))) {
             // Delete selected rows from the backend
             await AdminService.deleteSelectedConferencesOfAdminId(userData?.id ?? "", Array.from(selectedRows))
 
@@ -75,6 +77,7 @@ const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'title',
                     accessorKey: 'title',
+                    header: t('title'),
                     cell: info => (
                         <Link href={`/conference/${info.row.original.id}`}>
                             <span className="text-blue-600 hover:text-blue-800 underline cursor-pointer">{info.getValue()}</span>
@@ -84,26 +87,31 @@ const ConferencesPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'startDate',
                     accessorKey: 'startDate',
+                    header: t('start_date'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'endDate',
                     accessorKey: 'endDate',
+                    header: t('end_date'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'location',
                     accessorKey: 'location',
+                    header: t('location'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'organizer',
                     accessorKey: 'organizer',
+                    header: t('organizer'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'status',
                     accessorKey: 'status',
+                    header: t('status'),
                     cell: info => info.getValue(),
                 },
             ]

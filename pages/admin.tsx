@@ -5,9 +5,12 @@ import {GetServerSideProps} from "next";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import AdminService from "@/services/AdminService";
+import DashboardCard from "@/components/dashboard/DashboardCard";
+import useTranslation from "next-translate/useTranslation";
 
 function AdminPage({ isAuthenticated, userData }: AuthenticationProps) {
     const router = useRouter();
+    const { t, lang } = useTranslation('admin')
 
     const [approvedConferences, setApprovedConferences] = useState(0);
     const [pendingConferences, setPendingConferences] = useState(0);
@@ -67,34 +70,18 @@ function AdminPage({ isAuthenticated, userData }: AuthenticationProps) {
                 {/* Content */}
                 <div className="ml-[150px] mt-16 flex-1 flex flex-col gap-10 p-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Approved Conferences</h3>
-                            <p className="text-4xl self-end">{approvedConferences}</p>
-                        </div>
+                        <DashboardCard title={t('approved_conferences')} content={approvedConferences} />
 
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Pending Review Conferences</h3>
-                            <p className="text-4xl self-end">{pendingConferences}</p>
-                        </div>
+                        <DashboardCard title={t('pending_conferences')} content={pendingConferences} />
 
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Rejected Conferences</h3>
-                            <p className="text-4xl self-end">{rejectedConferences}</p>
-                        </div>
+                        <DashboardCard title={t('rejected_conferences')} content={rejectedConferences} />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Organizer</h3>
-                            <p className="text-4xl self-end">{organizersCount}</p>
-                        </div>
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Judge</h3>
-                            <p className="text-4xl self-end">{judgesCount}</p>
-                        </div>
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Attendee</h3>
-                            <p className="text-4xl self-end">{attendeesCount}</p>
-                        </div>
+                        <DashboardCard title={t('organizer')} content={organizersCount} />
+
+                        <DashboardCard title={t('judge')} content={judgesCount} />
+
+                        <DashboardCard title={t('attendee')} content={attendeesCount} />
                     </div>
                 </div>
             </div>

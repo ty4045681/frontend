@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import Link from 'next/link';
+import {useTheme} from "next-themes";
 
 const schema = yup.object(
     {
@@ -21,6 +22,7 @@ type FormValues = yup.InferType<typeof schema>
 
 const LoginPage: React.FC = () => {
     const router = useRouter()
+    const { theme, setTheme } = useTheme()
 
     const { register, handleSubmit, formState: { errors, isSubmitting, isValid } } = useForm<FormValues>({
         resolver: yupResolver(schema),
@@ -45,9 +47,9 @@ const LoginPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="bg-white p-8 rounded shadow-md w-full sm:max-w-md">
-                <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-6">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="bg-white dark:bg-gray-900 p-8 rounded shadow-md w-full sm:max-w-md">
+                <h2 className="dark:text-mauve5 text-center text-3xl font-extrabold text-gray-900 mb-6">
                     Sign in
                 </h2>
                 <form onSubmit={handleSubmit(onSubmit)}>

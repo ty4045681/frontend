@@ -1,0 +1,23 @@
+{
+  "delete_selected": "Delete Selected",
+  "add_conference": "Add Conference",
+  "title": "Title",
+  "location": "Location",
+  "start_date": "Start date",
+  "end_date": "End date",
+  "status": "Status",
+  "conference_title": "Conference title",
+  "authors": "Authors",
+  "keywords": "Keywords",
+  "abstract": "Abstract",
+  "change_status": "Change Status",
+  "name": "Name",
+  "email": "Email",
+  "username": "Username",
+  "confirm_message": "Are you sure you want to delete the selected rows? This action cannot be undone.",
+  "accepted_users": "Accepted Users",
+  "pending_users": "Pending Users",
+  "rejected_users": "Rejected Users",
+  "organizer": "Organizer",
+  "user_type": "User Type"
+}

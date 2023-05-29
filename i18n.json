@@ -5,7 +5,11 @@
     ],
     "defaultLocale": "en",
     "pages": {
-        "/": ["common"],
-        "/conference": ["common", "conference"]
+        "/": ["common", "navbar", "setting_menu", "user_menu"],
+        "/conference": ["common", "conference", "navbar", "setting_menu", "user_menu"],
+        "rgx:^/user/*": ["header", "user", "setting_menu", "user_menu", "info_change", "sidebar", "table"],
+        "rgx:^/organizer/*": ["header", "organizer", "setting_menu", "user_menu", "info_change", "sidebar", "table"],
+        "rgx:^/judge/*": ["header", "judge", "setting_menu", "user_menu", "info_change", "sidebar", "table"],
+        "rgx:^/admin/*": ["header", "admin", "setting_menu", "user_menu", "info_change", "sidebar", "table"]
     }
 }

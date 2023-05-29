@@ -1,0 +1,8 @@
+{
+  "approved_conferences": "已批准的会议",
+  "pending_conferences": "待审查的会议",
+  "rejected_conferences": "已拒绝的会议",
+  "organizer": "组织者",
+  "judge": "评审员",
+  "attendee": "参会者"
+}

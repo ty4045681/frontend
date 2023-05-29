@@ -1,0 +1,8 @@
+{
+  "approved_conferences": "Approved Conferences",
+  "pending_conferences": "Pending Review Conferences",
+  "rejected_conferences": "Rejected Conferences",
+  "organizer": "Organizer",
+  "judge": "Judge",
+  "attendee": "Attendee"
+}

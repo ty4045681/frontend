@@ -7,8 +7,10 @@ import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
 import {useEffect, useState} from "react";
 import JudgeService from "@/services/JudgeService";
+import useTranslation from "next-translate/useTranslation";
 
 const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }) => {
+    const { t, lang } = useTranslation('table')
     const [papers, setPapers] = useState<JudgePapersInfo[]>([]);
 
     useEffect(() => {
@@ -29,31 +31,37 @@ const PapersPage: React.FC<AuthenticationProps> = ({ isAuthenticated, userData }
                 {
                     id: "title",
                     accessorKey: "title",
+                    header: t('title'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "conferenceTitle",
                     accessorKey: "conferenceTitle",
+                    header: t('conference_title'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "authors",
                     accessorKey: "authors",
+                    header: t('authors'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "keywords",
                     accessorKey: "keywords",
+                    header: t('keywords'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "abstract",
                     accessorKey: "abstract",
+                    header: t('abstract'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "status",
                     accessorKey: "status",
+                    header: t('status'),
                     cell: info => info.getValue()
                 }
             ]

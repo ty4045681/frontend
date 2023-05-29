@@ -5,10 +5,13 @@ import React from "react";
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import OrganizerService from "@/services/OrganizerService";
+import DashboardCard from "@/components/dashboard/DashboardCard";
+import useTranslation from "next-translate/useTranslation";
 
 
 function OrganizerPage({ userData, isAuthenticated }: AuthenticationProps) {
     const router = useRouter();
+    const { t, lang } = useTranslation('organizer')
 
     const [conferenceCount, setConferenceCount] = React.useState(0)
     const [paperCount, setPaperCount] = React.useState(0)
@@ -61,27 +64,15 @@ function OrganizerPage({ userData, isAuthenticated }: AuthenticationProps) {
                 {/* Content */}
                 <div className="ml-[150px] mt-16 flex-1 flex flex-col gap-10 p-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Conferences</h3>
-                            <p className="text-4xl self-end">{conferenceCount}</p>
-                        </div>
+                        <DashboardCard title={t('conferences')} content={conferenceCount} />
 
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">论文</h3>
-                            <p className="text-4xl self-end">{paperCount}</p>
-                        </div>
+                        <DashboardCard title={t('papers')} content={paperCount} />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">Attendees</h3>
-                            <p className="text-4xl self-end">{attendeeCount}</p>
-                        </div>
+                        <DashboardCard title={t('attendees')} content={attendeeCount} />
 
-                        <div className="bg-white shadow-md rounded p-6 flex flex-col justify-between">
-                            <h3 className="text-xl font-semibold mb-4">评审员</h3>
-                            <p className="text-4xl self-end">{reviewerCount}</p>
-                        </div>
+                        <DashboardCard title={t('reviewers')} content={reviewerCount} />
                     </div>
                 </div>
             </div>

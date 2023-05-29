@@ -7,8 +7,10 @@ import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
 import AdminService from "@/services/AdminService";
 import React from "react";
+import useTranslation from "next-translate/useTranslation";
 
 const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
+    const { t, lang } = useTranslation('table')
     const [users, setUsers] = React.useState<AdminUsersInfo[]>([])
     const [selectedRows, setSelectedRows] = React.useState<Set<string>>(new Set())
 
@@ -19,7 +21,7 @@ const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
             disabled={selectedRows.size === 0}
             onClick={handleDelete}
         >
-            Delete Selected
+            {t('delete_selected')}
         </button>
     )
 
@@ -34,7 +36,7 @@ const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
     }
 
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete the selected rows? This action cannot be undone.')) {
+        if (window.confirm(t('confirm_message'))) {
             // Delete selected rows from the backend
             await AdminService.deleteSelectedUsersOfAdminId(userData?.id ?? "", Array.from(selectedRows))
 
@@ -65,21 +67,25 @@ const AdminUsersPage = ({isAuthenticated, userData}: AuthenticationProps) => {
                 {
                     id: 'name',
                     accessorKey: 'name',
+                    header: t('name'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'username',
                     accessorKey: 'username',
+                    header: t('username'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'email',
                     accessorKey: 'email',
+                    header: t('email'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: 'userType',
                     accessorKey: 'userType',
+                    header: t('user_type'),
                     cell: info => info.getValue(),
                 }
             ]

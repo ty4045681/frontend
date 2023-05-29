@@ -1,0 +1,23 @@
+{
+  "delete_selected": "删除所选",
+  "add_conference": "添加会议",
+  "title": "标题",
+  "location": "地点",
+  "start_date": "开始日期",
+  "end_date": "结束日期",
+  "status": "状态",
+  "conference_title": "会议标题",
+  "authors": "作者",
+  "keywords": "关键词",
+  "abstract": "摘要",
+  "change_status": "更改状态",
+  "name": "姓名",
+  "email": "电子邮件",
+  "username": "用户名",
+  "confirm_message": "您确定要删除所选行吗？该操作无法撤消。",
+  "accepted_users": "已接受的用户",
+  "pending_users": "待处理的用户",
+  "rejected_users": "已拒绝的用户",
+  "organizer": "组织者",
+  "user_type": "用户类型"
+}

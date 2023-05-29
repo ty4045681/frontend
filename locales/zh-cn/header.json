@@ -1,0 +1,7 @@
+{
+  "dashboard_title": "{{usertype}}个人主页",
+  "user": "参会者",
+  "organizer": "会议组织者",
+  "judge": "评审员",
+  "admin": "管理员"
+}

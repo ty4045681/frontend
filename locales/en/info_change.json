@@ -1,0 +1,19 @@
+{
+  "user_info": "User Information",
+  "name": "Name",
+  "username": "Username",
+  "email": "Email",
+  "address": "Address",
+  "phoneNumber": "Phone Number",
+  "bio": "Bio",
+  "edit_button": "Edit",
+  "cancel": "Cancel",
+  "save_changes": "Save Changes",
+  "change_password": "Change Password",
+  "currentPassword": "Current Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
+  "change_password_button": "Change Password",
+  "blank": "-- blank --",
+  "confirm_message": "Are you sure you want to make changes?"
+}

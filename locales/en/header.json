@@ -1,0 +1,7 @@
+{
+  "dashboard_title": "{{usertype}} Dashboard",
+  "user": "Attendee",
+  "organizer": "Organizer",
+  "judge": "Judge",
+  "admin": "Admin"
+}

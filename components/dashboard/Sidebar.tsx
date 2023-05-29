@@ -1,13 +1,15 @@
 import {AuthenticationProps} from "@/services/auth";
-import {UserType} from "@/interfaces/UserType";
+import UserType from "@/interfaces/UserType";
 import React from "react";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 interface SidebarProps extends AuthenticationProps {
     userType: UserType
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ userType, isAuthenticated }) => {
+    const { t, lang } = useTranslation('sidebar')
     const renderNavLinks = () => {
         if (!isAuthenticated) {
             return (
@@ -32,35 +34,35 @@ const Sidebar: React.FC<SidebarProps> = ({ userType, isAuthenticated }) => {
             case "user":
                 return (
                     <>
-                        {NavLink("/user/info", "Personal Info")}
-                        {NavLink("/user/conferences", "Conferences")}
-                        {NavLink("/user/papers", "Papers")}
+                        {NavLink("/user/info", t('personal_info'))}
+                        {NavLink("/user/conferences", t('conferences'))}
+                        {NavLink("/user/papers", t('papers'))}
                     </>
                 )
             case "organizer":
                 return (
                     <>
-                        {NavLink("/organizer/info", "Personal Info")}
-                        {NavLink("/organizer/conferences", "Conferences")}
-                        {NavLink("/organizer/papers", "Papers")}
-                        {NavLink("/organizer/attendees", "Attendees")}
-                        {NavLink("/organizer/judges", "Judges")}
+                        {NavLink("/organizer/info", t('personal_info'))}
+                        {NavLink("/organizer/conferences", t('conferences'))}
+                        {NavLink("/organizer/papers", t('papers'))}
+                        {NavLink("/organizer/attendees", t('attendees'))}
+                        {NavLink("/organizer/judges", t('judges'))}
                     </>
                 )
             case "admin":
                 return (
                     <>
-                        {NavLink("/admin/info", "Personal Info")}
-                        {NavLink("/admin/conferences", "Conferences")}
-                        {NavLink("/admin/papers", "Papers")}
-                        {NavLink("/admin/users", "Users")}
+                        {NavLink("/admin/info", t('personal_info'))}
+                        {NavLink("/admin/conferences", t('conferences'))}
+                        {NavLink("/admin/papers", t('papers'))}
+                        {NavLink("/admin/users", t('users'))}
                     </>
                 )
             case "judge":
                 return (
                     <>
-                        {NavLink("/judge/info", "Personal Info")}
-                        {NavLink("/judge/papers", "Papers")}
+                        {NavLink("/judge/info", t('personal_info'))}
+                        {NavLink("/judge/papers", t('papers'))}
                     </>
                 )
             default:
@@ -72,10 +74,10 @@ const Sidebar: React.FC<SidebarProps> = ({ userType, isAuthenticated }) => {
     }
 
     return (
-        <div className={"flex flex-col fixed min-w-[150px] h-screen bg-gray-800 mt-16"}>
+        <div className={"flex flex-col fixed min-w-[150px] h-screen bg-gray-800 mt-[72px]"}>
             <div className={"flex flex-col items-center justify-center"}>
                 <div className={"text-white text-xl font-bold"}>
-                    {userType}
+                    {t(userType)}
                 </div>
             </div>
             <div className={"flex flex-col items-center justify-center mt-10"}>

@@ -6,10 +6,12 @@ import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {ColumnDef} from "@tanstack/react-table";
 import {GetServerSideProps} from "next";
 import {useEffect, useState} from "react";
-import user from "@/pages/user";
 import OrganizerService from "@/services/OrganizerService";
+import useTranslation from "next-translate/useTranslation";
 
 const JudgesPage: React.FC<AuthenticationProps> = ( { isAuthenticated, userData } ) => {
+    const { t, lang } = useTranslation('table')
+
     const [judges, setJudges] = useState<OrganizerJudgesInfo[]>([])
 
     useEffect(() => {
@@ -30,21 +32,25 @@ const JudgesPage: React.FC<AuthenticationProps> = ( { isAuthenticated, userData 
                 {
                     id: "name",
                     accessorKey: "name",
+                    header: t('name'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "username",
                     accessorKey: "username",
+                    header: t('username'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "email",
                     accessorKey: "email",
+                    header: t('email'),
                     cell: info => info.getValue(),
                 },
                 {
                     id: "conferenceTitle",
                     accessorKey: "conferenceTitle",
+                    header: t('conference_title'),
                     cell: info => info.getValue(),
                 }
             ]
