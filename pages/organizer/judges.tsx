@@ -8,11 +8,28 @@ import {GetServerSideProps} from "next";
 import {useEffect, useState} from "react";
 import OrganizerService from "@/services/OrganizerService";
 import useTranslation from "next-translate/useTranslation";
+import ReviewButton from "@/components/dashboard/ReviewButton";
 
 const JudgesPage: React.FC<AuthenticationProps> = ( { isAuthenticated, userData } ) => {
     const { t, lang } = useTranslation('table')
 
     const [judges, setJudges] = useState<OrganizerJudgesInfo[]>([])
+
+    const renderActionButton = (id: string, status: ApplyStatus) => {
+        const handleChangeStatus = async (newStatus: ApplyStatus) => {
+            await OrganizerService.changeAttendanceStatusByOrganizerId(userData?.id ?? "", id, newStatus)
+            setJudges(judges.map(judge => {
+                if (judge.id === id) {
+                    judge.status = newStatus
+                }
+                return judge
+            }))
+        }
+
+        return (
+            <ReviewButton status={status} handleStatusChange={handleChangeStatus} />
+        )
+    }
 
     useEffect(() => {
         const fetchJudges = async () => {
@@ -52,6 +69,17 @@ const JudgesPage: React.FC<AuthenticationProps> = ( { isAuthenticated, userData 
                     accessorKey: "conferenceTitle",
                     header: t('conference_title'),
                     cell: info => info.getValue(),
+                },
+                {
+                    id: 'status',
+                    accessorKey: 'status',
+                    header: t('status'),
+                    cell: info => info.getValue(),
+                },
+                {
+                    id: 'actions',
+                    header: t('actions'),
+                    cell: info => renderActionButton(info.row.original.attendanceId, info.row.original.status)
                 }
             ]
         }
@@ -61,12 +89,12 @@ const JudgesPage: React.FC<AuthenticationProps> = ( { isAuthenticated, userData 
         <>
             <Header userType="organizer" isAuthenticated={isAuthenticated} userData={userData} />
 
-            <div className="flex min-h-screen">
+            <div className="flex min-h-screen bg-gray-200 dark:bg-gray-900">
                 {/* Sidebar */}
                 <Sidebar userType="organizer" isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className={"ml-[150px] mt-16"}>
+                <div className={"ml-[150px] mt-16 overflow-x-hidden"}>
                     <Table<OrganizerJudgesInfo> data={judges} columns={columns} />
                 </div>
             </div>

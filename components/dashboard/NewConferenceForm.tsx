@@ -1,7 +1,7 @@
 import React from 'react';
-import { useForm } from "react-hook-form"
+import {useForm} from "react-hook-form"
 import * as yup from 'yup'
-import { yupResolver } from "@hookform/resolvers/yup"
+import {yupResolver} from "@hookform/resolvers/yup"
 
 
 const schema = yup.object(
@@ -19,7 +19,6 @@ const schema = yup.object(
             .date()
             .required("End Date is required")
             .min(yup.ref('startDate'), "End Date should be later than Start Date")
-        // ... Add more fields as needed
     }
 ).required()
 
@@ -33,7 +32,7 @@ const NewConferenceForm: React.FC = () => {
 
     const onSubmit = async (data: FormValues) => {
         try {
-            // const response = await Organ.createConference(data)  // assuming that your service has a `createConference` method
+            // const response = await Organ.createConference(data)  
             console.log('Create conference succeeded', data)
             // Add code here to redirect or update the UI
         } catch (e) {

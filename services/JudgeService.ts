@@ -37,6 +37,24 @@ class JudgeService {
             throw e
         }
     }
+
+    async changePaperStatusByJudgeId(id: string, paperId: string, newStatus: ApplyStatus) {
+        try {
+            const response = await axios.post(`${this.API_URL}/judgeId=${id}/reviewId=${paperId}/status=${newStatus.toUpperCase()}`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })
+
+            if (response.status !== 200) {
+                console.error("Error changing paper status by judge id: ", response)
+                throw new Error("Error changing paper status by judge id")
+            }
+        } catch (e) {
+            console.error("Error changing paper status by judge id: ", e)
+            throw e
+        }
+    }
 }
 
 export default new JudgeService()

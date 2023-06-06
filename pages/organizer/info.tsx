@@ -15,10 +15,10 @@ const OrganizerInfoPage: React.FC<AuthenticationProps> = ({ isAuthenticated, use
                 <Sidebar userType={"organizer"} isAuthenticated={isAuthenticated} userData={userData} />
 
                 {/* Content */}
-                <div className="ml-[150px] mt-[72px] flex-1 flex flex-col">
+                <div className="ml-[150px] mt-[72px] bg-gray-200 dark:bg-gray-900 flex-1 flex flex-col space-y-4">
                     <Info userType="organizer" isAuthenticated={isAuthenticated} userData={userData} />
 
-                    <div className="divider mt-10 mb-10"></div>
+                    {/*<div className="divider mt-10 mb-10"></div>*/}
 
                     <ChangePassword userType="organizer" isAuthenticated={isAuthenticated} userData={userData} />
                 </div>

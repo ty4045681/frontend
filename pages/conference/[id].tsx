@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { Conference } from "@/interfaces/conference";
+import {useRouter} from 'next/router'
+import {useEffect, useState} from 'react'
+import {Conference} from "@/interfaces/conference";
 import Link from "next/link";
 import ConferenceService from '@/services/ConferenceService';
 
@@ -47,7 +47,7 @@ function ConferenceDetails(): JSX.Element {
                 {/* Conference Details */}
                 <div className="bg-white p-8 rounded-md shadow-md mt-6 mx-auto max-w-7xl">
                     <h2 className="text-4xl font-bold mb-6">{conference.title}</h2>
-                    <h3 className="text-xl mb-2">Date: {conference.startDate} - {conference.endDate}</h3>
+                    <h3 className="text-xl mb-2">Date: {ConferenceService.formatDate(conference.startDate)} - {ConferenceService.formatDate(conference.endDate)}</h3>
                     <h3 className="text-xl mb-6">Location: {conference.location}</h3>
                     <h3 className="text-xl mb-6">Theme: {conference.theme}</h3>
                     <h3 className="text-xl mb-6">Focus: {conference.focus}</h3>
@@ -73,7 +73,7 @@ function ConferenceDetails(): JSX.Element {
                     <div className="space-y-6">
                         {Object.entries(conference.agenda).map(([key, value]) => (
                             <div key={key} className="border-b border-gray-300 pb-4">
-                                <h3 className="text-xl font-bold mb-2">{key}</h3>
+                                <h3 className="text-xl font-bold mb-2">{ConferenceService.formatDate(key)}</h3>
                                 <p className="text-gray-700">{value}</p>
                             </div>
                         ))}
@@ -140,58 +140,96 @@ function ConferenceDetails(): JSX.Element {
                         <div className="bg-gray-100 p-4 rounded shadow">
                             <h3 className="text-xl font-bold mb-4">Paper Submission</h3>
                             <p className="text-gray-700">
-                                {conference.startCallingDateForPapers} - {conference.endCallingDateForPapers}
+                                {ConferenceService.formatDate(conference.startCallingDateForPapers)} - {ConferenceService.formatDate(conference.endCallingDateForPapers)}
                             </p>
                             <p className="text-gray-700 mt-4">{conference.guidelineForPaperSubmission}</p>
                         </div>
-                        <div className="bg-gray-100 p-4 rounded shadow">
-                            <h3 className="text-xl font-bold mb-4">Presentation Submission</h3>
-                            <p className="text-gray-700">
-                                {conference.startCallingDateForPresentations} - {conference.endCallingDateForPresentations}
-                            </p>
-                            <p className="text-gray-700 mt-4">{conference.guidelineForPresentationSubmission}</p>
-                        </div>
+                        {/*<div className="bg-gray-100 p-4 rounded shadow">*/}
+                        {/*    <h3 className="text-xl font-bold mb-4">Presentation Submission</h3>*/}
+                        {/*    <p className="text-gray-700">*/}
+                        {/*        {conference.startCallingDateForPresentations} - {conference.endCallingDateForPresentations}*/}
+                        {/*    </p>*/}
+                        {/*    <p className="text-gray-700 mt-4">{conference.guidelineForPresentationSubmission}</p>*/}
+                        {/*</div>*/}
                     </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mt-8 py-2 px-10">
+                    <button
+                        type="button"
+                        onClick={() =>
+                            router.push(`/conference/submit/paper?defaultConferenceId=${router.query.id}`)
+                        }
+                        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"
+                    >
+                        Submit Paper
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() =>
+                            router.push(`/conference/download/paper?conferenceId=${router.query.id}`)
+                        }
+                        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"
+                    >
+                        Download Paper
+                    </button>
+                    {/*<button*/}
+                    {/*    type="button"*/}
+                    {/*    onClick={() =>*/}
+                    {/*        router.push(`/conference/submit/presentation?defaultConferenceId=${router.query.id}`)*/}
+                    {/*    }*/}
+                    {/*    className="bg-purple-500 text-white font-bold py-2 px-4 rounded hover:bg-purple-400"*/}
+                    {/*>*/}
+                    {/*    Submit Presentation*/}
+                    {/*</button>*/}
+                    {/*<button*/}
+                    {/*    type="button"*/}
+                    {/*    onClick={() =>*/}
+                    {/*        router.push(`/conference/download/presentation?conferenceId=${router.query.id}`)*/}
+                    {/*    }*/}
+                    {/*    className="bg-purple-400 text-white font-bold py-2 px-4 rounded hover:bg-purple-300"*/}
+                    {/*>*/}
+                    {/*    Download Presentation*/}
+                    {/*</button>*/}
                 </div>
             </main>
 
-            <div className="grid grid-cols-2 gap-4 mt-8">
-                <button
-                    type="button"
-                    onClick={() =>
-                        router.push(`/conference/submit/paper?defaultConferenceId=${router.query.id}`)
-                    }
-                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"
-                >
-                    Submit Paper
-                </button>
-                <button
-                    type="button"
-                    onClick={() =>
-                        router.push(`/conference/download/paper?conferenceId=${router.query.id}`)
-                    }
-                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"
-                >
-                    Download Paper
-                </button>
-                <button
-                    type="button"
-                    onClick={() =>
-                        router.push(`/conference/submit/presentation?defaultConferenceId=${router.query.id}`)
-                    }
-                    className="bg-purple-500 text-white font-bold py-2 px-4 rounded hover:bg-purple-400"
-                >
-                    Submit Presentation
-                </button>
-                <button
-                    type="button"
-                    onClick={() =>
-                        router.push(`/conference/download/presentation?conferenceId=${router.query.id}`)
-                    }
-                    className="bg-purple-400 text-white font-bold py-2 px-4 rounded hover:bg-purple-300"
-                >
-                    Download Presentation
-                </button>
+            <div className="grid grid-cols-2 gap-4 mt-8 py-2 px-10">
+                {/*<button*/}
+                {/*    type="button"*/}
+                {/*    onClick={() =>*/}
+                {/*        router.push(`/conference/submit/paper?defaultConferenceId=${router.query.id}`)*/}
+                {/*    }*/}
+                {/*    className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"*/}
+                {/*>*/}
+                {/*    Submit Paper*/}
+                {/*</button>*/}
+                {/*<button*/}
+                {/*    type="button"*/}
+                {/*    onClick={() =>*/}
+                {/*        router.push(`/conference/download/paper?conferenceId=${router.query.id}`)*/}
+                {/*    }*/}
+                {/*    className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"*/}
+                {/*>*/}
+                {/*    Download Paper*/}
+                {/*</button>*/}
+                {/*<button*/}
+                {/*    type="button"*/}
+                {/*    onClick={() =>*/}
+                {/*        router.push(`/conference/submit/presentation?defaultConferenceId=${router.query.id}`)*/}
+                {/*    }*/}
+                {/*    className="bg-purple-500 text-white font-bold py-2 px-4 rounded hover:bg-purple-400"*/}
+                {/*>*/}
+                {/*    Submit Presentation*/}
+                {/*</button>*/}
+                {/*<button*/}
+                {/*    type="button"*/}
+                {/*    onClick={() =>*/}
+                {/*        router.push(`/conference/download/presentation?conferenceId=${router.query.id}`)*/}
+                {/*    }*/}
+                {/*    className="bg-purple-400 text-white font-bold py-2 px-4 rounded hover:bg-purple-300"*/}
+                {/*>*/}
+                {/*    Download Presentation*/}
+                {/*</button>*/}
             </div>
         </div>
     )

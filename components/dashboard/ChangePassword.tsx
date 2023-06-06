@@ -74,7 +74,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ userType, isAuthenticat
 
     return (
         <div className={"container mx-auto px-4"}>
-            <h2 className={"text-black dark:text-white text-2xl font-bold mb-6"}>{t('change_password')}</h2>
+            <h2 className={"text-black dark:text-white text-2xl font-bold m-6"}>{t('change_password')}</h2>
             <form onSubmit={handleSubmit(onSubmit)} className={"bg-white dark:bg-gray-800 shadow-md rounded p-6"}>
                 {fields.map(field => (
                     <div key={field.name}>

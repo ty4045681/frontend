@@ -2,7 +2,7 @@ import {PaperData} from "@/interfaces/Paper";
 import Cookies from "js-cookie";
 import {API_BASE_URL} from "@/config";
 import axios from "axios";
-import { UserPaperInfo } from "@/interfaces/DashboardTypes";
+import {UserPaperInfo} from "@/interfaces/DashboardTypes";
 
 interface UserPaper extends PaperData {
     status: ApplyStatus
@@ -133,6 +133,34 @@ class PaperService {
         return 0;
     }
 
+    async downloadPaper(paperId: string) {
+        try {
+            const response = await fetch(`${this.API_URL}/${paperId}/download`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/octet-stream',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error downloading paper: ${response.statusText}`);
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', response.headers.get('Content-Disposition')?.split('filename=')[1] || 'paper.pdf');
+
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading paper:', error);
+        }
+    }
 }
 
 export default new PaperService()

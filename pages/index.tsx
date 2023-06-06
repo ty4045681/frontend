@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import React from "react";
-import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
-import { GetServerSideProps } from "next";
-import ConferenceService, { AllConferencesByDateInfo } from "@/services/ConferenceService";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import {GetServerSideProps} from "next";
+import ConferenceService, {AllConferencesByDateInfo} from "@/services/ConferenceService";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import useTranslation from 'next-translate/useTranslation';

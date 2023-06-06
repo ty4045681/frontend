@@ -124,6 +124,26 @@ class AdminService {
             throw e
         }
     }
+
+    async changeUserStatus(id: string, attendanceId: string, newStatus: ApplyStatus) {
+         try {
+             if (this.token !== undefined) {
+                 const response = await axios.post(`${this.API_URL}/adminId=${id}/attendanceId=${attendanceId}/status=${newStatus}`, {}, {
+                     headers: {
+                         'Authorization': `Bearer ${this.token}`,
+                     }
+                 })
+
+                 if (response.status !== 200) {
+                     console.error("Error changing user status: ", response)
+                     throw new Error("Error changing user status")
+                 }
+             }
+         } catch (e) {
+             console.error("Error changing user status: ", e)
+             throw e
+         }
+    }
 }
 
 export default new AdminService()

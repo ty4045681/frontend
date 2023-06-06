@@ -107,7 +107,7 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
     const UserInfoDisplay = () => {
         return (
             <div className={"container mx-auto px-4"}>
-                <h2 className={"text-black dark:text-white text-2xl font-semibold mb-6"}>{t('user_info')}</h2>
+                <h2 className={"text-black dark:text-white text-2xl font-semibold m-6"}>{t('user_info')}</h2>
                 <div className={"bg-white dark:bg-gray-800 shadow-md rounded p-6"}>
                     {fields.map((field) => (
                         <div key={field.name}>
@@ -138,7 +138,7 @@ const Info: React.FC<InfoProps> = ({ userType, isAuthenticated, userData }) => {
     const UserInfoForm = () => {
         return (
             <div className={"container mx-auto px-4"}>
-                <h2 className={"text-black dark:text-white text-2xl font-semibold mb-6"}>User Information</h2>
+                <h2 className={"text-black dark:text-white text-2xl font-semibold m-6"}>User Information</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className={"bg-white dark:bg-gray-800 shadow-md rounded p-6"}>
                     {fields.map((field) => (
                         <div key={field.name}>

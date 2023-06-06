@@ -1,6 +1,6 @@
-import { ParsedUrlQuery } from "querystring";
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { API_BASE_URL } from "@/config";
+import {ParsedUrlQuery} from "querystring";
+import {GetServerSidePropsContext, GetServerSidePropsResult} from "next";
+import {API_BASE_URL} from "@/config";
 import UserType from "@/interfaces/UserType"
 import axios from "axios";
 

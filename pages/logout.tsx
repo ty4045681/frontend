@@ -23,9 +23,9 @@ const Logout: React.FC = () => {
 
     return (
         <>
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-                    <h1 className="text-2xl font-bold mb-4">Logging out...</h1>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-700">
+                <div className="bg-white dark:bg-gray-800 p-8 rounded shadow-md w-full max-w-md">
+                    <h1 className="text-2xl font-bold mb-4 text-black dark:text-white">Logging out...</h1>
                     {/* Add any additional content related to logout functionality here */}
                 </div>
             </div>

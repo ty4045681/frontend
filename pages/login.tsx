@@ -1,9 +1,9 @@
 import React from 'react';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import authService from "@/services/authService";
 import * as yup from 'yup'
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
+import {useForm} from "react-hook-form"
+import {yupResolver} from "@hookform/resolvers/yup"
 import Link from 'next/link';
 import {useTheme} from "next-themes";
 

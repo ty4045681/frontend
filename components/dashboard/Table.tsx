@@ -16,19 +16,14 @@ import {
   Table,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  compareItems,
-  RankingInfo,
-  rankItem,
-} from "@tanstack/match-sorter-utils";
-import { useEffect, useMemo, useState } from "react";
-import { HiSearch, HiX, HiXCircle } from "react-icons/hi";
+import {compareItems, RankingInfo, rankItem,} from "@tanstack/match-sorter-utils";
+import {useEffect, useMemo, useState} from "react";
+import {HiSearch, HiX} from "react-icons/hi";
 
 type TableProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];
   renderHeaderButton?: () => React.ReactNode;
-  onRowCheckboxChange?: (id: string, checked: boolean) => void;
 };
 
 declare module "@tanstack/table-core" {
@@ -68,7 +63,7 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
 
-const Table = <T extends Object>({ data, columns, renderHeaderButton, onRowCheckboxChange }: TableProps<T>) => {
+const Table = <T extends Object>({ data, columns, renderHeaderButton }: TableProps<T>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -104,7 +99,7 @@ const Table = <T extends Object>({ data, columns, renderHeaderButton, onRowCheck
   }, [table.getState().columnFilters[0]?.id]);
 
   return (
-    <div className="m-10 ov">
+    <div className="m-10">
       <div className="mb-4">
         <DebouncedInput
           value={globalFilter ?? ""}
@@ -114,62 +109,64 @@ const Table = <T extends Object>({ data, columns, renderHeaderButton, onRowCheck
           hasClearButton
         />
       </div>
-      <div className='flex justify-between items-center'>
+      <div className='flex space-x-4 items-center py-4 px-2'>
         {renderHeaderButton && renderHeaderButton()}
       </div>
-      <table className="w-full table-fixed bg-white rounded-lg overflow-hidden shadow divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <div className={"max-w-screen overflow-x-auto"}>
+        <table className="w-full table-auto rounded-lg overflow-hidden shadow divide-y divide-gray-200">
+          <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  colSpan={header.colSpan}
-                  className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider min-w-min"
-                >
-                  {header.isPlaceholder ? null : (
-                    <>
-                      <div
-                        {...{
-                          className: header.column.getCanSort()
-                            ? "cursor-pointer select-none"
-                            : "",
-                          onClick: header.column.getToggleSortingHandler(),
-                        }}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                        {{
-                          asc: " 🔼",
-                          desc: " 🔽",
-                        }[header.column.getIsSorted() as string] ?? null}
-                      </div>
-                      {header.column.getCanFilter() ? (
-                        <div>
-                          <Filter column={header.column} table={table} />
-                        </div>
-                      ) : null}
-                    </>
-                  )}
-                </th>
-              ))}
-            </tr>
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                    <th
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        className={`bg-white dark:bg-gray-800 px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider ${header.id === 'checkbox' ? '' : 'min-w-[220px]'}`}
+                    >
+                      {header.isPlaceholder ? null : (
+                          <>
+                            <div
+                                {...{
+                                  className: header.column.getCanSort()
+                                      ? "cursor-pointer select-none"
+                                      : "",
+                                  onClick: header.column.getToggleSortingHandler(),
+                                }}
+                            >
+                              {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                              )}
+                              {{
+                                asc: " 🔼",
+                                desc: " 🔽",
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </div>
+                            {header.column.getCanFilter() ? (
+                                <div>
+                                  <Filter column={header.column} table={table} />
+                                </div>
+                            ) : null}
+                          </>
+                      )}
+                    </th>
+                ))}
+              </tr>
           ))}
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+          </thead>
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200">
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="px-6 py-4 whitespace-nowrap overflow-auto overflow-wrap break-word word-wrap">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className="px-6 py-4 text-black dark:text-white whitespace-normal break-word">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                ))}
+              </tr>
           ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <div className="h-2" />
       <div className="flex items-center gap-2 mt-4">
         <button
@@ -349,13 +346,13 @@ function DebouncedInput({
   return (
     <div className="relative flex-1">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <HiSearch />
+        <HiSearch className={"text-black dark:text-white"}/>
       </div>
       <input
         {...props}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="pl-7 pr-7 pt-2 pb-2 w-full" // add padding to avoid overlap with the icon
+        className="pl-8 pr-7 pt-2 pb-2 w-full" // add padding to avoid overlap with the icon
       />
       {hasClearButton && value !== "" && (
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -365,7 +362,7 @@ function DebouncedInput({
               onChange("");
             }}
           >
-            <HiX />
+            <HiX className={"text-black dark:text-white"}/>
           </button>
         </div>
       )}

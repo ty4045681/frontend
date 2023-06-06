@@ -1,53 +1,101 @@
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Table from "@/components/dashboard/Table";
-import { OrganizerConferenceInfo } from "@/interfaces/DashboardTypes";
-import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
-import { ColumnDef } from "@tanstack/react-table";
-import { GetServerSideProps } from "next";
-import React, { useEffect, useState } from "react";
+import {OrganizerConferenceInfo} from "@/interfaces/DashboardTypes";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import OrganizerService from "@/services/OrganizerService";
 import NewConferenceForm from "@/components/dashboard/NewConferenceForm";
-import Modal from "react-modal";
 import useTranslation from "next-translate/useTranslation";
-
-Modal.setAppElement("#__next");
+import Modal from "@/components/dashboard/Modal";
+import OrganizerService from "@/services/OrganizerService";
+import {ColumnDef} from "@tanstack/react-table";
+import {GetServerSideProps} from "next";
+import AttendanceService from "@/services/AttendanceService";
 
 const ConferencesPage: React.FC<AuthenticationProps> = ({
     isAuthenticated,
     userData,
 }) => {
-    const { t, lang } = useTranslation("table");
+    const {t, lang} = useTranslation("table");
     const [conferences, setConferences] = useState<OrganizerConferenceInfo[]>([]);
     const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
-    const [modalIsOpen, setIsOpen] = useState(false)
+    const [headerCheckboxSelected, setHeaderCheckboxSelected] = useState(false)
 
-    const openModal = () => setIsOpen(true)
-    const closeModal = () => setIsOpen(false)
-    
+    const renderHeaderButton = () => {
+        const handleDelete = async () => {
+            if (
+                window.confirm(
+                    t("confirm_message")
+                )
+            ) {
+                // Delete selected rows from the backend
+                await OrganizerService.deleteSelectedConferencesOfOrganizerId(
+                    userData?.id ?? "",
+                    Array.from(selectedRows)
+                );
 
-    const renderHeaderButton = () => (
-        <div>
-            <button
-                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none hover:bg-blue-600"
-                onClick={openModal}
-            >
-                {t("add_conference")}
-            </button>
+                // Update the conferences state to remove the deleted rows
+                setConferences(
+                    conferences.filter((conference) => !selectedRows.has(conference.id))
+                );
 
-            <button
-                className={`bg-red-500 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none ${selectedRows.size === 0
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-red-600"
-                    }`}
-                disabled={selectedRows.size === 0}
-                onClick={handleDelete}
-            >
-                {t("delete_selected")}
-            </button>
-        </div>
-    );
+                // Clear the selected rows state
+                setSelectedRows(new Set());
+            }
+        };
+        return (
+            <>
+                <Modal
+                    type={"primary"}
+                    triggerTitle={"Add conference"}
+                    title={"Add conference"}
+                    content={<NewConferenceForm/>}
+                />
+                <Modal type={'warning'}
+                       disabled={selectedRows.size === 0}
+                       triggerTitle={t('delete_selected')}
+                       title={"Warning"}
+                       description={t('confirm_message')}
+                       confirmTitle={t('delete_selected')}
+                       onClickConfirm={handleDelete}
+                />
+            </>
+        )
+    }
+
+    const renderActionButton = (id: string) => {
+        const handleDelete = async () => {
+            if (window.confirm(t('confirm_message'))) {
+                await OrganizerService.deleteSelectedConferencesOfOrganizerId(userData?.id ?? "", [id])
+
+                setConferences(conferences.filter(conference => conference.id !== id))
+
+                setSelectedRows(new Set())
+            }
+        }
+
+        return (
+            <Modal type={'warning'}
+                   triggerTitle={t('delete_selected')}
+                   title={"Warning"}
+                   description={t('confirm_message')}
+                   confirmTitle={t('delete_selected')}
+                   onClickConfirm={handleDelete}
+            />
+        )
+    }
+
+    const onHeaderCheckboxChange = (checked: boolean) => {
+        setHeaderCheckboxSelected(checked);
+        if (checked) {
+            const newSelectedRows = new Set(selectedRows);
+            conferences.forEach((row) => newSelectedRows.add(row.id));
+            setSelectedRows(newSelectedRows);
+        } else {
+            setSelectedRows(new Set());
+        }
+    };
 
     const onRowCheckboxChange = (id: string, checked: boolean) => {
         const updatedSelectedRows = new Set(selectedRows);
@@ -59,27 +107,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
         setSelectedRows(updatedSelectedRows);
     };
 
-    const handleDelete = async () => {
-        if (
-            window.confirm(
-                t("confirm_message")
-            )
-        ) {
-            // Delete selected rows from the backend
-            await OrganizerService.deleteSelectedConferencesOfOrganizerId(
-                userData?.id ?? "",
-                Array.from(selectedRows)
-            );
 
-            // Update the conferences state to remove the deleted rows
-            setConferences(
-                conferences.filter((conference) => !selectedRows.has(conference.id))
-            );
-
-            // Clear the selected rows state
-            setSelectedRows(new Set());
-        }
-    };
 
     useEffect(() => {
         const fetchConference = async () => {
@@ -99,6 +127,13 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
             columns: [
                 {
                     id: "checkbox",
+                    header: () => (
+                        <input
+                            type="checkbox"
+                            checked={headerCheckboxSelected}
+                            onChange={(e) => onHeaderCheckboxChange(e.target.checked)}
+                        />
+                    ),
                     cell: (info) => (
                         <input
                             type="checkbox"
@@ -157,6 +192,15 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                     header: t("rejected_users"),
                     cell: (info) => info.getValue(),
                 },
+                {
+                    id: 'actions',
+                    header: t('actions'),
+                    cell: info => (
+                        <div>
+                            {renderActionButton(info.row.original.id)}
+                        </div>
+                    )
+                }
             ],
         },
     ];
@@ -169,7 +213,7 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                 userData={userData}
             />
 
-            <div className="flex min-h-screen">
+            <div className="flex min-h-screen bg-gray-200 dark:bg-gray-900">
                 {/* Sidebar */}
                 <Sidebar
                     userType={"organizer"}
@@ -178,36 +222,14 @@ const ConferencesPage: React.FC<AuthenticationProps> = ({
                 />
 
                 {/* Content */}
-                <div className={"ml-[150px] mt-16"}>
+                <div className={"ml-[150px] mt-16 overflow-x-hidden"}>
                     <Table<OrganizerConferenceInfo>
                         data={conferences}
                         columns={columns}
                         renderHeaderButton={renderHeaderButton}
-                        onRowCheckboxChange={onRowCheckboxChange}
                     />
                 </div>
             </div>
-
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="New Conference Modal"
-                className="fixed inset-0 flex items-center justify-center z-50 outline-none focus:outline-none"
-                // overlayClassName="fixed inset-0 bg-black opacity-100"
-            >
-                <div className="bg-white rounded-lg px-4 pt-5 pb-4 shadow-xl sm:max-w-md sm:w-full sm:p-6">
-                    <h2 className="text-lg leading-6 font-medium text-gray-900 mb-4 flex justify-between">
-                        New Conference
-                        <button
-                            onClick={closeModal}
-                            className="bg-transparent border-none cursor-pointer text-gray-500 text-2xl leading-none px-2 py-1"
-                        >
-                            &times;
-                        </button>
-                    </h2>
-                    <NewConferenceForm />
-                </div>
-            </Modal>
         </>
     );
 };

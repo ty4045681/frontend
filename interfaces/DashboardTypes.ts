@@ -47,16 +47,19 @@ export interface OrganizerPaperInfo extends PaperInfo {
 }
 
 export interface OrganizerAttendeesInfo extends UserInfo {
+    attendanceId: string
     conferenceTitle: string
     status: ApplyStatus
 }
 
 export interface OrganizerJudgesInfo extends UserInfo {
     conferenceTitle: string
+    attendanceId: string
+    status: ApplyStatus
 }
 
 export interface JudgePapersInfo extends PaperInfo {
-    status: status
+    status: ApplyStatus
 }
 
 export interface AdminConferencesInfo extends ConferenceInfo {
@@ -69,5 +72,7 @@ export interface AdminPapersInfo extends PaperInfo {
 }
 
 export interface AdminUsersInfo extends UserInfo {
+    attendanceId: string
+    status: ApplyStatus
     userType: UserType
 }

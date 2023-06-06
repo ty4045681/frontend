@@ -210,6 +210,26 @@ class OrganizerService {
             throw e
         }
     }
+
+    async changeAttendanceStatusByOrganizerId(id: string, attendanceId: string, status: ApplyStatus) {
+        try {
+            if (this.token !== undefined) {
+                const response = await axios.post(`${this.API_URL}/organizerId=${id}/attendanceId=${attendanceId}/status=${status.toUpperCase()}`, {},{
+                    headers: {
+                        'Authorization': `Bearer ${this.token}`,
+                    }
+                })
+
+                if (response.status !== 200) {
+                    console.error("Error changing attendee status of organizer id: ", response)
+                    throw new Error("Error changing attendee status of organizer id")
+                }
+            }
+        } catch (e) {
+            console.error("Error changing attendee status of organizer id: ", e)
+            throw e
+        }
+    }
 }
 
 export default new OrganizerService()

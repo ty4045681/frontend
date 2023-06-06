@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { AuthenticationProps } from "@/services/auth";
-import React, { useEffect, useRef, useState } from "react";
+import {AuthenticationProps} from "@/services/auth";
+import React from "react";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 import useTranslation from 'next-translate/useTranslation';
-import { useRouter } from "next/router";
 import SettingMenu from "@/components/SettingMenu";
 import UserMenu from "@/components/UserMenu";
 

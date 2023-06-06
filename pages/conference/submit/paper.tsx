@@ -6,6 +6,7 @@ import {GetServerSideProps} from "next";
 import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
 import {API_BASE_URL} from "@/config";
 import Head from "next/head";
+import {ConferenceInfo} from "@/interfaces/DashboardTypes";
 
 interface Conference {
     // List of conference ids
@@ -29,7 +30,7 @@ const PaperSubmit = ( { isAuthenticated, userData, defaultConferenceId}: PaperSu
     const [file, setFile] = useState<File | null>();
     const [formStatus, setFormStatus] = React.useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
-    const [conference, setConference] = useState<Conference>()
+    const [conference, setConference] = useState<ConferenceInfo[]>()
 
     const token = Cookies.get("jwt");
 
@@ -65,7 +66,11 @@ const PaperSubmit = ( { isAuthenticated, userData, defaultConferenceId}: PaperSu
     const removeKeyword = (index: number) => setKeywords(keywords.filter((_, i) => i !== index));
 
     const requestConferenceData = async () => {
-        const response = await axios.get(`${API_BASE_URL}/conference`)
+        const response = await axios.get(`${API_BASE_URL}/conference`, {
+            headers: {
+                "Upcoming": "true"
+            }
+        })
         if (response.status !== 200) {
             throw new Error('Network response was not ok')
         } else {
@@ -135,18 +140,18 @@ const PaperSubmit = ( { isAuthenticated, userData, defaultConferenceId}: PaperSu
                                 className="block w-full p-2 border border-gray-300 rounded"
                             >
                                 <option value="">Select...</option>
-                                {conference?.id.map((id, index) => (
-                                    <option key={index} value={id} selected={conferenceId === id}>
-                                        {conference.title[index]}
+                                {conference?.map((conference, index) => (
+                                    <option key={index} value={conference.id} selected={conferenceId === conference.id}>
+                                        {conference.title}
                                     </option>
                                 ))}
                             </select>
                             {conferenceId && (
                                 <p className="mt-4 text-lg">
                                     You selected:{" "}
-                                    {conference?.id.map((id, index) => {
-                                        if (id === conferenceId) {
-                                            return conference.title[index];
+                                    {conference?.map((conference, index) => {
+                                        if (conference.id === conferenceId) {
+                                            return conference.title;
                                         }
                                     })}
                                 </p>

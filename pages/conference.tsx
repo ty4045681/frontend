@@ -1,9 +1,9 @@
-import { GetServerSideProps } from "next";
+import {GetServerSideProps} from "next";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { AuthenticationProps, getServerSideAuthProps } from "@/services/auth";
-import { useEffect, useState } from "react";
-import ConferenceService, { AllConferencesByDateInfo } from "@/services/ConferenceService";
+import {AuthenticationProps, getServerSideAuthProps} from "@/services/auth";
+import {useEffect, useState} from "react";
+import ConferenceService, {AllConferencesByDateInfo} from "@/services/ConferenceService";
 import useTranslation from 'next-translate/useTranslation';
 import ConferenceCard from "@/components/ConferenceCard";
 

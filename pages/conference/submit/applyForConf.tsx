@@ -5,7 +5,6 @@ import * as yup from 'yup'
 import {useRouter} from "next/router";
 import axios from "axios";
 import {API_BASE_URL} from "@/config";
-import Link from "next/link";
 
 const API_URL = `${API_BASE_URL}/conference`
 
@@ -28,14 +27,11 @@ const ApplyForConferencePage: React.FC = () => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
 
     const onSubmit = async (data: FormValues) => {
-        const { email, phoneNumber, reason } = data
+        const { reason } = data
         const name = data.firstName + " " + data.lastName
 
         try {
             const response = await axios.post(`${API_URL}/apply`, {
-                name,
-                email,
-                phoneNumber,
                 reason,
             })
 
@@ -57,68 +53,68 @@ const ApplyForConferencePage: React.FC = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
                 <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-6">
-                    Apply for Conference: Tech Summit 2023
+                    Apply for Conference
                 </h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-4">
-                        <label htmlFor="firstName" className="block mb-1">
-                            姓名
-                        </label>
-                        <input
-                            id="firstName"
-                            type="text"
-                            className="w-full border border-gray-300 px-3 py-2 rounded"
-                            {...register('firstName')}
-                        />
-                        {errors.firstName && (
-                            <p className="text-red-500 text-sm">{errors.firstName.message}</p>
-                        )}
-                    </div>
+                    {/*<div className="mb-4">*/}
+                    {/*    <label htmlFor="firstName" className="block mb-1">*/}
+                    {/*        First Name*/}
+                    {/*    </label>*/}
+                    {/*    <input*/}
+                    {/*        id="firstName"*/}
+                    {/*        type="text"*/}
+                    {/*        className="w-full border border-gray-300 px-3 py-2 rounded"*/}
+                    {/*        {...register('firstName')}*/}
+                    {/*    />*/}
+                    {/*    {errors.firstName && (*/}
+                    {/*        <p className="text-red-500 text-sm">{errors.firstName.message}</p>*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
 
-                    <div className="mb-4">
-                        <label htmlFor="lastName" className="block mb-1">
-                            性别
-                        </label>
-                        <input
-                            id="lastName"
-                            type="text"
-                            className="w-full border border-gray-300 px-3 py-2 rounded"
-                            {...register('lastName')}
-                        />
-                        {errors.lastName && (
-                            <p className="text-red-500 text-sm">{errors.lastName.message as string}</p>
-                        )}
-                    </div>
+                    {/*<div className="mb-4">*/}
+                    {/*    <label htmlFor="lastName" className="block mb-1">*/}
+                    {/*        Last Name*/}
+                    {/*    </label>*/}
+                    {/*    <input*/}
+                    {/*        id="lastName"*/}
+                    {/*        type="text"*/}
+                    {/*        className="w-full border border-gray-300 px-3 py-2 rounded"*/}
+                    {/*        {...register('lastName')}*/}
+                    {/*    />*/}
+                    {/*    {errors.lastName && (*/}
+                    {/*        <p className="text-red-500 text-sm">{errors.lastName.message as string}</p>*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
 
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block mb-1">
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            className="w-full border border-gray-300 px-3 py-2 rounded"
-                            {...register('email')}
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-sm">{errors.email.message as string}</p>
-                        )}
-                    </div>
+                    {/*<div className="mb-4">*/}
+                    {/*    <label htmlFor="email" className="block mb-1">*/}
+                    {/*        Email*/}
+                    {/*    </label>*/}
+                    {/*    <input*/}
+                    {/*        id="email"*/}
+                    {/*        type="email"*/}
+                    {/*        className="w-full border border-gray-300 px-3 py-2 rounded"*/}
+                    {/*        {...register('email')}*/}
+                    {/*    />*/}
+                    {/*    {errors.email && (*/}
+                    {/*        <p className="text-red-500 text-sm">{errors.email.message as string}</p>*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
 
-                    <div className="mb-4">
-                        <label htmlFor="phoneNumber" className="block mb-1">
-                            Phone Number
-                        </label>
-                        <input
-                            id="phoneNumber"
-                            type="text"
-                            className="w-full border border-gray-300 px-3 py-2 rounded"
-                            {...register('phoneNumber')}
-                        />
-                        {errors.phoneNumber && (
-                            <p className="text-red-500 text-sm">{errors.phoneNumber.message as string}</p>
-                        )}
-                    </div>
+                    {/*<div className="mb-4">*/}
+                    {/*    <label htmlFor="phoneNumber" className="block mb-1">*/}
+                    {/*        Phone Number*/}
+                    {/*    </label>*/}
+                    {/*    <input*/}
+                    {/*        id="phoneNumber"*/}
+                    {/*        type="text"*/}
+                    {/*        className="w-full border border-gray-300 px-3 py-2 rounded"*/}
+                    {/*        {...register('phoneNumber')}*/}
+                    {/*    />*/}
+                    {/*    {errors.phoneNumber && (*/}
+                    {/*        <p className="text-red-500 text-sm">{errors.phoneNumber.message as string}</p>*/}
+                    {/*    )}*/}
+                    {/*</div>*/}
 
                     <div className="mb-4">
                         <label htmlFor="bio" className="block mb-1">
@@ -145,7 +141,7 @@ const ApplyForConferencePage: React.FC = () => {
                             }
                         }}
                     >
-                        申请
+                        Apply
                     </button>
                     <div
                         className={`speech-balloon \${showErrorMessage ? 'show-balloon' : ''}`}

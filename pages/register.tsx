@@ -104,14 +104,14 @@ const RegisterPage: React.FC = () => {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-                <h2 className="text-center text-3xl font-extrabold text-gray-900 mb-6">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-700">
+            <div className="bg-white dark:bg-gray-800 p-8 rounded shadow-md w-full max-w-md">
+                <h2 className="text-center text-3xl font-extrabold text-gray-900 dark:text-white mb-6">
                     Sign up
                 </h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4">
-                        <label htmlFor="firstName" className="block mb-1">
+                        <label htmlFor="firstName" className="block mb-1 text-black dark:text-white">
                             First Name
                         </label>
                         <input
@@ -126,7 +126,7 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="lastName" className="block mb-1">
+                        <label htmlFor="lastName" className="block mb-1 text-black dark:text-white">
                             Last Name
                         </label>
                         <input
@@ -141,7 +141,7 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="username" className="block mb-1">
+                        <label htmlFor="username" className="block mb-1 text-black dark:text-white">
                             Username
                         </label>
                         <input
@@ -156,7 +156,7 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="email" className="block mb-1">
+                        <label htmlFor="email" className="block mb-1 text-black dark:text-white">
                             Email
                         </label>
                         <input
@@ -171,7 +171,7 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="password" className="block mb-1">
+                        <label htmlFor="password" className="block mb-1 text-black dark:text-white">
                             Password
                         </label>
                         <input
@@ -186,7 +186,7 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="confirmPassword" className="block mb-1">
+                        <label htmlFor="confirmPassword" className="block mb-1 text-black dark:text-white">
                             Confirm Password
                         </label>
                         <input
@@ -201,7 +201,7 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="address" className="block mb-1">
+                        <label htmlFor="address" className="block mb-1 text-black dark:text-white">
                             Address
                         </label>
                         <input
@@ -216,7 +216,7 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="phoneNumber" className="block mb-1">
+                        <label htmlFor="phoneNumber" className="block mb-1 text-black dark:text-white">
                             Phone Number
                         </label>
                         <input
@@ -231,8 +231,8 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="bio" className="block mb-1">
-                            个人简介
+                        <label htmlFor="bio" className="block mb-1 text-black dark:text-white">
+                            Bio
                         </label>
                         <textarea
                             id="bio"

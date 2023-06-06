@@ -17,12 +17,15 @@ const Header: React.FC<HeaderProps> = ({ userType, isAuthenticated, userData }) 
 
     const renderTitle = () => {
         return (
-            <Link href={`/${userType}`}>
                 <div className={"flex items-center space-x-4 cursor-pointer"}>
-                    <Image src={"/favicon.ico"} alt={"ConfMan Logo"} className={"h-8 w-auto"} width={100} height={100} />
-                    <span className={"text-white text-xl font-bold"}>{t('dashboard_title', { usertype: t(userType)})}</span>
+                    <Link href={"/"}>
+                        <Image src={"/favicon.ico"} alt={"ConfMan Logo"} className={"h-8 w-auto"} width={100} height={100} />
+                    </Link>
+
+                    <Link href={`/${userType}`}>
+                        <span className={"text-white text-xl font-bold"}>{t('dashboard_title', { usertype: t(userType)})}</span>
+                    </Link>
                 </div>
-            </Link>
         )
     }
 
